@@ -36,17 +36,58 @@ public class Jogo {
 
     private void executarTurno(Jogador jogador) {
         System.out.println("É a vez de " + jogador.getNome());
-
-
+        System.out.println("Fase de Compra: ");
         jogador.comprarCartas();
 
+        System.out.println("Fase de mana");
+        jogador.reiniciarMana();
 
-        jogador.reiniciarMana(); //
+        System.out.println("Fase Principal");
+        jogarCartas(jogador);
 
 
+        System.out.println("Fase de Combate");
+        combate(jogador);
 
+        // Fase Final
         System.out.println(jogador.getNome() + " terminou seu turno.");
+
+
     }
+
+//
+    private void jogarCartas(Jogador jogador) {
+        System.out.println(jogador.getNome() + ", suas cartas na mão:");
+        for (Carta carta : jogador.getMao().getCartas()) {
+            System.out.println(carta.getNome() + " - Custo de Mana: " + carta.getCustoMana());
+        }
+
+        for (Carta carta : jogador.getMao().getCartas()) {
+            if (carta.getCustoMana() <= jogador.getManaAtual()) {
+                campoDeBatalha.adicionarCartasAoCampo(carta);
+                jogador.usarMana(carta.getCustoMana());
+                break;
+            }
+        }
+    }
+
+
+
+    private void combate(Jogador jogador) {
+        System.out.println(jogador.getNome() + ", declare suas criaturas para atacar:");
+
+        // Supondo que o oponente é o jogador alternativo
+        Jogador oponente = (jogador == jogador1) ? jogador2 : jogador1;
+
+        for (Carta carta : campoDeBatalha.getCampo()) {
+            if (carta instanceof Criatura) {
+                System.out.println(carta.getNome() + " ataca!");
+                // Aqui, o oponente deve defender
+                oponente.defender(carta);
+            }
+        }
+    }
+
 
     private boolean verificarVitoria(Jogador jogador) {
         if (jogador.getVida() <= 0) {

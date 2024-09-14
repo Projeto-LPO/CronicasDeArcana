@@ -72,23 +72,40 @@ public class Jogador {
         return vida;
     }
 
-    public int getMana() {
-        return mana;
-    }
+    public int getMana() {return mana;}
 
     public int getManaAtual() {
         return manaAtual;
     }
 
-    public void reduzirVida(int dano) {
-        vida -= dano;
-        if (vida <= 0) {
+    public void receberDano(int dano) {
+        this.vida -= dano;
+        if (this.vida <= 0) {
+            this.vida = 0;
             System.out.println(nome + " foi derrotado!");
+        } else {
+            System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
         }
+    }
+
+    public void receberCura(int cura) {
+        this.vida += cura;
+        System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
     }
 
 
     public void reiniciarMana() {
         this.manaAtual = mana;
     }
+
+    public void usarMana(int quantidade) {
+        this.manaAtual -= quantidade;
+    }
+
+    public void defender(Carta atacante) {
+        // Aqui, você pode implementar a lógica de defesa.
+        System.out.println(getNome() + " defende com " + atacante.getNome());
+        // Lógica de dano, destruição de criaturas, etc.
+    }
+
 }

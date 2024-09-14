@@ -16,4 +16,9 @@ public class Encantamento extends Carta {
     public void jogar() {
         System.out.println(getNome() + " foi colocado no campo de batalha");
     }
+
+    public String getEfeitoContínuo(){
+        return efeitoContínuo;
+    }
+
 }

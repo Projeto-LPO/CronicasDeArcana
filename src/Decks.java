@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Decks {
-    private List<Carta> cartas;
+    private  List<Carta> cartas;
 
 
     public Decks(List<Carta> cartas) {
@@ -13,7 +13,9 @@ public class Decks {
         this.cartas = new ArrayList<>(cartas);
         Collections.shuffle(this.cartas);
     }
-
+public Decks(){
+        this.cartas = cartas;
+}
 
     public Carta comprarCarta() {
         if (cartas.isEmpty()) {
