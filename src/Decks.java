@@ -10,10 +10,7 @@ public class Decks {
         if (cartas.size() < 30) {
             throw new IllegalArgumentException("O deck deve ter no mínimo 30 cartas");
         }
-        this.cartas = new ArrayList<>(cartas); // Cópia da lista de cartas
-        Collections.shuffle(this.cartas);      // Embaralha o deck ao ser criado
-    }
-
+        this.cartas = new ArrayList<>(cartas); }
     // Construtor sem parâmetros, inicializa lista vazia
     public Decks() {
         this.cartas = new ArrayList<>();  // Inicializa a lista de cartas

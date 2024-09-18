@@ -52,4 +52,17 @@ public class Feitiço extends Carta {
             System.out.println("Efeito especial do feitiço " + getNome() + " foi ativado.");
         }
     }
+
+    public  int getValorDano(){
+        return  valorDano;
+    }
+
+
+    public int getValorCura() {
+        return valorCura;
+    }
+
+    public String getEfeito(){
+        return  efeito;
+    }
 }

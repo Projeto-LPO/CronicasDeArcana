@@ -17,7 +17,7 @@ public class Jogo {
         jogador1.getDeck().embaralhar();
         jogador2.getDeck().embaralhar();
 
-        // Compra Inicial
+
         for (int i = 0; i < 5; i++) {
             jogador1.comprarCartas();
             jogador2.comprarCartas();
