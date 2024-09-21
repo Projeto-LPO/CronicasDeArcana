@@ -97,4 +97,8 @@ public class Jogo {
 
         return false;
     }
+
+    public void criarAreaJogo(){
+
+    }
 }

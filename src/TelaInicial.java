@@ -6,11 +6,24 @@ import javax.swing.*;
 public class TelaInicial extends JPanel {
     private JButton iniciarJogoButton;
     private JButton sairButton;
+    private JPanel tituloJogo;
+    private JLabel tituloJogoLabel;
+
 
     public TelaInicial() {
         setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
         setLayout(new GridBagLayout());
         setBackground(Color.DARK_GRAY);
+
+        //titulo do jogo
+        tituloJogo = new JPanel();
+        tituloJogo.setBackground(Color.BLUE);
+        tituloJogo.setBounds(100, 100, GamePanel.WIDTH, GamePanel.HEIGHT);
+        tituloJogo.setLayout(null);
+        tituloJogoLabel = new JLabel("Cronicas de Arcana");
+        tituloJogoLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        tituloJogoLabel.setForeground(Color.WHITE);
+        tituloJogo.add(tituloJogoLabel);
 
         // Inicializa os botões
         iniciarJogoButton = new JButton("Iniciar Jogo");
@@ -49,6 +62,9 @@ public class TelaInicial extends JPanel {
                 janela.revalidate();
             }
         });
+
+
+
 
         // Ação do botão de Sair
         sairButton.addActionListener(new ActionListener() {

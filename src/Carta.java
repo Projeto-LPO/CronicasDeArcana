@@ -1,6 +1,10 @@
+import java.awt.image.BufferedImage;
+
 public abstract class Carta {
     private String nome;
     private int custoMana;
+
+
 
     public Carta(String nome, int custoMana) {
         this.nome = nome;

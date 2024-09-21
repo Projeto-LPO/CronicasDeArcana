@@ -2,12 +2,13 @@ import java.awt.*;
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable {
-    public static final int WIDTH = 1500;
-    public static final int HEIGHT = 1000;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 700;
 
     private Thread gameThread;
     private boolean running;
     private final int FPS = 60;
+
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
