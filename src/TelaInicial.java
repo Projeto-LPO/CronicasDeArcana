@@ -56,14 +56,15 @@ public class TelaInicial extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Código para iniciar o jogo
+
                 System.out.println("Iniciando o jogo...");
                 JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(TelaInicial.this);
-                janela.setContentPane(new GamePanel());
+                TelaJogo telaJogo = new TelaJogo();
+                janela.setContentPane(telaJogo);
                 janela.revalidate();
+
             }
         });
-
-
 
 
         // Ação do botão de Sair
