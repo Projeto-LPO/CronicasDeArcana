@@ -1,3 +1,5 @@
+package Personagens;
+
 public class Dragão extends Criatura {
 
     public Dragão(String nome, int custoMana, int poder, int resistencia) {

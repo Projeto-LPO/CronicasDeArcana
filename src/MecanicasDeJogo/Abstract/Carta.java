@@ -1,4 +1,4 @@
-import java.awt.image.BufferedImage;
+package MecanicasDeJogo.Abstract;
 
 public abstract class Carta {
     private String nome;

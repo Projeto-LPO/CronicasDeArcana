@@ -1,3 +1,7 @@
+package MecanicasDeJogo;
+
+import MecanicasDeJogo.Abstract.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class CampodeBatalha {
         Carta cartaComprada = deck.comprarCarta();
         if (cartaComprada != null) {
             mao.adicionarCartas(cartaComprada);
-            System.out.println("Carta comprada do deck: " + cartaComprada.getNome());
+            System.out.println("MecanicasDeJogo.Interfaces.Carta comprada do deck: " + cartaComprada.getNome());
         }
     }
 

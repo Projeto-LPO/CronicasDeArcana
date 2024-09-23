@@ -1,8 +1,12 @@
-public class Feitiço extends Carta {
+package Feiticos;
+
+import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Jogador;
+
+public abstract class Feitiço extends Carta {
     private String efeito;
     private int valorCura;
     private int valorDano;
-
 
     public Feitiço(String nome, int custoMana, String efeito, int valorDano) {
         super(nome, custoMana);
@@ -11,14 +15,12 @@ public class Feitiço extends Carta {
         this.valorCura = 0; // Sem cura para feitiços de dano
     }
 
-
     public Feitiço(String nome, int custoMana, String efeito, int valorCura, boolean cura) {
         super(nome, custoMana);
         this.efeito = efeito;
         this.valorCura = valorCura;
         this.valorDano = 0; // Sem dano para feitiços de cura
     }
-
 
     public void lançarFeitiçoDano(Jogador alvo) {
         System.out.println(getNome() + " foi lançado e causou " + valorDano + " de dano a " + alvo.getNome());
@@ -56,7 +58,6 @@ public class Feitiço extends Carta {
     public  int getValorDano(){
         return  valorDano;
     }
-
 
     public int getValorCura() {
         return valorCura;

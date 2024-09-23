@@ -1,3 +1,7 @@
+package MecanicasDeJogo;
+
+import MecanicasDeJogo.Abstract.Carta;
+
 public class Encantamento extends Carta {
     private String efeitoContínuo;
 

@@ -1,3 +1,5 @@
+package Personagens;
+
 public class Guerreiro extends Criatura {
     private double furia;  // Atributo para definir o aumento de dano
     private boolean furiaAtivada;

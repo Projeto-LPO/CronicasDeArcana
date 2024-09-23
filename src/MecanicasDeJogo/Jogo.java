@@ -1,3 +1,8 @@
+package MecanicasDeJogo;
+
+import MecanicasDeJogo.Abstract.Carta;
+import Personagens.Criatura;
+
 import java.util.Random;
 
 public class Jogo {

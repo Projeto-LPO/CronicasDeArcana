@@ -1,4 +1,8 @@
-public class Criatura extends Carta {
+package Personagens;
+
+import MecanicasDeJogo.Abstract.Carta;
+
+public abstract class Criatura extends Carta {
     private int poder;
     private int resistencia;
     private int resistenciaInicial; // Atributo para armazenar a resistência inicial

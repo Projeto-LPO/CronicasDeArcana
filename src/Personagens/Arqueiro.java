@@ -1,3 +1,5 @@
+package Personagens;
+
 public class Arqueiro extends Criatura {
 
     public Arqueiro(String nome, int custoMana, int poder, int resistencia) {

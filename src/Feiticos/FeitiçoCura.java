@@ -1,7 +1,11 @@
+package Feiticos;
+
+import Personagens.Criatura;
+
 public class FeitiçoCura extends Feitiço {
 
     public FeitiçoCura(String nome, int custoMana, String efeito, int valorCura) {
-        super(nome, custoMana, efeito, valorCura, true);  // Chama o construtor da classe Feitiço com cura
+        super(nome, custoMana, efeito, valorCura, true);  // Chama o construtor da classe Feiticos.Feitiço com cura
     }
 
     // Método para lançar o feitiço e curar uma criatura
@@ -12,7 +16,7 @@ public class FeitiçoCura extends Feitiço {
 
     @Override
     public void efeito() {
-        System.out.println("Feitiço de cura " + getNome() + " tem o efeito: " + getEfeito());
+        System.out.println("Feiticos.Feitiço de cura " + getNome() + " tem o efeito: " + getEfeito());
     }
 
 

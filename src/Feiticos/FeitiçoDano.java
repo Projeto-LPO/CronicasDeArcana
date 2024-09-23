@@ -1,7 +1,11 @@
+package Feiticos;
+
+import Personagens.Criatura;
+
 public class FeitiçoDano extends Feitiço {
 
     public FeitiçoDano(String nome, int custoMana, String efeito, int valorDano) {
-        super(nome, custoMana, efeito, valorDano);  // Chama o construtor da classe Feitiço
+        super(nome, custoMana, efeito, valorDano);  // Chama o construtor da classe Feiticos.Feitiço
     }
 
     // Método para lançar o feitiço e causar dano a uma criatura
@@ -12,7 +16,7 @@ public class FeitiçoDano extends Feitiço {
 
     @Override
     public void efeito() {
-        System.out.println("Feitiço de dano " + getNome() + " tem o efeito: " + getEfeito());
+        System.out.println("Feiticos.Feitiço de dano " + getNome() + " tem o efeito: " + getEfeito());
     }
 
     @Override

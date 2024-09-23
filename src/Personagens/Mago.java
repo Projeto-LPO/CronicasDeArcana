@@ -1,8 +1,10 @@
+package Personagens;
+
 public class Mago extends Criatura {
     private boolean escudoMagicoAtivo;
 
     public Mago(String nome, int custoMana, int poder, int resistencia) {
-        super(nome, custoMana, poder, resistencia, "Escudo Mágico", false); // Mago não voa
+        super(nome, custoMana, poder, resistencia, "Escudo Mágico", false); // Personagens.Mago não voa
         this.escudoMagicoAtivo = false;
     }
 

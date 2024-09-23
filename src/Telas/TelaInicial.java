@@ -1,3 +1,5 @@
+package Telas;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +28,7 @@ public class TelaInicial extends JPanel {
         tituloJogo.add(tituloJogoLabel);
 
         // Inicializa os botões
-        iniciarJogoButton = new JButton("Iniciar Jogo");
+        iniciarJogoButton = new JButton("Iniciar MecanicasDeJogo.Jogo");
         sairButton = new JButton("Sair");
 
         // Aumenta o tamanho da fonte dos botões
@@ -51,7 +53,7 @@ public class TelaInicial extends JPanel {
         gbc.gridy = 1;
         add(sairButton, gbc);
 
-        // Ação do botão de Iniciar Jogo
+        // Ação do botão de Iniciar MecanicasDeJogo.Jogo
         iniciarJogoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

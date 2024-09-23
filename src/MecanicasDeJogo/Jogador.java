@@ -1,3 +1,7 @@
+package MecanicasDeJogo;
+
+import MecanicasDeJogo.Abstract.*;
+
 public class Jogador {
     private String nome;
     private Decks deck;
