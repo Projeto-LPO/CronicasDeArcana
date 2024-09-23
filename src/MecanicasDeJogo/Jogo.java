@@ -22,8 +22,7 @@ public class Jogo {
         jogador1.getDeck().embaralhar();
         jogador2.getDeck().embaralhar();
 
-
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             jogador1.comprarCartas();
             jogador2.comprarCartas();
         }
@@ -36,7 +35,9 @@ public class Jogo {
             }
             // Troca o jogador ativo
             jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
+                break;
         }
+
     }
 
     private void executarTurno(Jogador jogador) {
@@ -50,17 +51,13 @@ public class Jogo {
         System.out.println("Fase Principal");
         jogarCartas(jogador);
 
-
         System.out.println("Fase de Combate");
         combate(jogador);
 
         // Fase Final
         System.out.println(jogador.getNome() + " terminou seu turno.");
-
-
     }
 
-//
     private void jogarCartas(Jogador jogador) {
         System.out.println(jogador.getNome() + ", suas cartas na mão:");
         for (Carta carta : jogador.getMao().getCartas()) {
@@ -76,8 +73,6 @@ public class Jogo {
         }
     }
 
-
-
     private void combate(Jogador jogador) {
         System.out.println(jogador.getNome() + ", declare suas criaturas para atacar:");
 
@@ -90,9 +85,9 @@ public class Jogo {
                 // Aqui, o oponente deve defender
                 oponente.defender(carta);
             }
+            break;
         }
     }
-
 
     private boolean verificarVitoria(Jogador jogador) {
         if (jogador.getVida() <= 0) {

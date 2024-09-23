@@ -1,8 +1,8 @@
 package Personagens;
 
-public class Dragão extends Criatura {
+public class Dragao extends Criatura {
 
-    public Dragão(String nome, int custoMana, int poder, int resistencia) {
+    public Dragao(String nome, int custoMana, int poder, int resistencia) {
         super(nome, custoMana, poder, resistencia, "Voar", true);  // A habilidade especial é "Voar"
     }
 

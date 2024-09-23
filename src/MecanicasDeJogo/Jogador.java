@@ -24,7 +24,7 @@ public class Jogador {
 
         for (int i = 0; i < 5; i++) {
             Carta cartaComprada = deck.comprarCarta();
-            mao.adicionarCartas(cartaComprada);
+            mao.adicionarCartasMao(cartaComprada);
         }
     }
 
@@ -37,17 +37,16 @@ public class Jogador {
         }
     }
 
-
     public void comprarCartas() {
         Carta cartaComprada = deck.comprarCarta();
         if (cartaComprada != null) {
-            mao.adicionarCartas(cartaComprada);
+            mao.adicionarCartasMao(cartaComprada);
             System.out.println(nome + " comprou a carta: " + cartaComprada.getNome());
         }
     }
 
     public void jogarCarta(Carta carta) {
-        mao.removerCarta(carta);
+        mao.removerCartaMao(carta);
         System.out.println(nome + " jogou a carta: " + carta.getNome());
     }
 
@@ -96,7 +95,6 @@ public class Jogador {
         this.vida += cura;
         System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
     }
-
 
     public void reiniciarMana() {
         this.manaAtual = mana;

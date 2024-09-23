@@ -11,8 +11,8 @@ public class Decks {
 
     // Construtor com lista de cartas
     public Decks(List<Carta> cartas) {
-        if (cartas.size() < 30) {
-            throw new IllegalArgumentException("O deck deve ter no mínimo 30 cartas");
+        if (cartas.size() < 8) {
+            throw new IllegalArgumentException("O deck deve ter no mínimo 8 cartas");
         }
         this.cartas = new ArrayList<>(cartas); }
     // Construtor sem parâmetros, inicializa lista vazia
@@ -22,11 +22,13 @@ public class Decks {
 
     // Método para comprar carta do topo do deck
     public Carta comprarCarta() {
-        if (cartas.isEmpty()) {
-            System.out.println("O deck está vazio");
-            return null;
+        if (!cartas.isEmpty()) {
+           Carta cartaComprada = cartas.get(0);
+           System.out.println(cartaComprada.getNome()+"teste");
+           //cartas.remove(0);
+           return cartaComprada; // Remove a primeira carta do deck
         }
-        return cartas.remove(0);
+        return null; // Certifique-se de que o retorno não seja null quando o deck estiver vazio
     }
 
     // Retorna o tamanho do deck

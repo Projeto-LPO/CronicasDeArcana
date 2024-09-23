@@ -20,7 +20,7 @@ public class CampodeBatalha {
 
     public void adicionarCartasAoCampo(Carta carta) {
         campo.add(carta);
-        mao.removerCarta(carta);
+        mao.removerCartaMao(carta);
         System.out.println(carta.getNome() + " foi colocada no campo de batalha.");
     }
 
@@ -36,7 +36,7 @@ public class CampodeBatalha {
     public void comprarCarta() {
         Carta cartaComprada = deck.comprarCarta();
         if (cartaComprada != null) {
-            mao.adicionarCartas(cartaComprada);
+            mao.adicionarCartasMao(cartaComprada);
             System.out.println("MecanicasDeJogo.Interfaces.Carta comprada do deck: " + cartaComprada.getNome());
         }
     }

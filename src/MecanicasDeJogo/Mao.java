@@ -12,12 +12,16 @@ public class Mao {
         this.cartas = new ArrayList<>();
     }
 
-    public void adicionarCartas(Carta carta) {
-        cartas.add(carta);
-        System.out.println(carta.getNome() + " foi adicionada à mão.");
+    public void adicionarCartasMao(Carta carta) {
+        if (carta != null) {
+            cartas.add(carta);
+            System.out.println(carta.getNome() + " foi adicionada à mão.");
+        } else {
+            System.out.println("Tentou adicionar uma carta nula à mão.");
+        }
     }
 
-    public void removerCarta(Carta carta) {
+    public void removerCartaMao(Carta carta) {
         if (cartas.remove(carta)) {
             System.out.println(carta.getNome() + " foi removida da mão.");
         } else {
