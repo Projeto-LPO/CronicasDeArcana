@@ -30,8 +30,8 @@ public class CronicasDeArcanaTerminal {
         Mao maoJogador2 = new Mao();
 
         // Cria os jogadores com os nomes, decks, pontos de vida e mana
-        Jogador jogador1 = new Jogador(nomeJogador1, deck1, 10, 20);
-        Jogador jogador2 = new Jogador(nomeJogador2, deck2, 10, 20);
+        Jogador jogador1 = new Jogador(nomeJogador1, deck1, 50, 20);
+        Jogador jogador2 = new Jogador(nomeJogador2, deck2, 50, 20);
 
         // Cria o campo de batalha para cada jogador
         CampodeBatalha campoJogador1 = new CampodeBatalha(maoJogador1, jogador1.getCemiterio(), deck1);
@@ -39,12 +39,12 @@ public class CronicasDeArcanaTerminal {
 
         // Adiciona 3 cartas do deck à mão do Jogador 1
         for (int i = 0; i < 3; i++) {
-            campoJogador1.comprarCarta();
+            campoJogador1.comprarCartaCampo();
         }
 
         // Adiciona 3 cartas do deck à mão do Jogador 2
         for (int i = 0; i < 3; i++) {
-            campoJogador2.comprarCarta();
+            campoJogador2.comprarCartaCampo();
         }
 
         // Exibe as cartas na mão de cada jogador

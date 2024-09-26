@@ -34,7 +34,7 @@ public class CampodeBatalha {
         }
     }
 
-    public void comprarCarta() {
+    public void comprarCartaCampo() {
         if (!deck.isEmpty()) {
             Carta cartaComprada = deck.comprarCarta(); // Supondo que você tenha esse método no Deck
             mao.adicionarCartasMao(cartaComprada);

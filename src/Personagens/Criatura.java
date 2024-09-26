@@ -9,6 +9,7 @@ public abstract class Criatura extends Carta {
     private int resistenciaInicial; // Atributo para armazenar a resistência inicial
     private String habilidadeEspecial;
     private boolean voa;
+    private String tipo;
 
     public Criatura(String nome, int custoMana, int poder, int resistencia, String habilidadeEspecial, boolean voa) {
         super(nome, custoMana);

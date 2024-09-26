@@ -11,6 +11,8 @@ public class Jogador {
     private int vida;
     private int mana;
     private int manaAtual;
+    private Nivel nivel;
+
 
     public Jogador(String nome, Decks deck, int vida, int mana) {
         this.nome = nome;
@@ -21,6 +23,7 @@ public class Jogador {
         this.vida = vida;
         this.mana = mana;
         this.manaAtual = mana;
+        this.nivel = new Nivel();
 
         // Comprando 3 cartas no início
         System.out.println(nome + " está comprando cartas iniciais...");
@@ -55,6 +58,18 @@ public class Jogador {
         } else {
             System.out.println("A carta " + carta.getNome() + " não está na mão de " + nome + ".");
         }
+    }
+
+    public void subirNivel(){
+        nivel.ganharNivel();
+    }
+
+    public int getNivel(){
+        return nivel.getNivelAtual();
+    }
+
+    public void mostrarNivel(){
+        nivel.mostrarNivel();
     }
 
     public String getNome() {
