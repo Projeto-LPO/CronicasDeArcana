@@ -37,9 +37,13 @@ public class Jogo {
         while (true) {
             executarTurno(jogadorAtivo);
             // Verifica condições de vitória
-            if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
-                break; // Termina o jogo se alguém vencer
+            if(verificarVitoria(jogadorAtivo)){
+                System.out.println("Parabens " +jogador1.getNome() + "Vc venceu");
+                return ;
             }
+
+
+
             // Troca o jogador ativo
             jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
         }
@@ -190,12 +194,12 @@ public class Jogo {
 
     private boolean verificarVitoria(Jogador jogador) {
         if (jogador.getVida() <= 0) {
-            System.out.println(jogador.getNome() + " foi derrotado!");
+          System.out.println(jogador.getNome() +" Ficou sem vida");
             return true;
         }
 
         if (jogador.getDeck().isEmpty()) {
-            System.out.println(jogador.getNome() + " foi derrotado por ficar sem cartas no deck!");
+            System.out.println(jogador.getNome() + "Ficou sem cartas");
             return true;
         }
 
