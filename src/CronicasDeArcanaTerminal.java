@@ -4,6 +4,7 @@ import MecanicasDeJogo.Decks;
 import MecanicasDeJogo.Jogador;
 import MecanicasDeJogo.Jogo;
 import MecanicasDeJogo.Mao;
+import MecanicasDeJogo.CampodeBatalha;
 import Personagens.*;
 
 import java.util.Scanner;
@@ -24,33 +25,37 @@ public class CronicasDeArcanaTerminal {
         Decks deck1 = criarDeck1();
         Decks deck2 = criarDeck2();
 
-        // Cria os jogadores com os nomes, decks e pontos de vida e mana
-        Jogador jogador1 = new Jogador(nomeJogador1, deck1, 100, 20);
-        Jogador jogador2 = new Jogador(nomeJogador2, deck2, 100, 20);
-
-        // Cria a mão de cada jogador com as primeiras 3 cartas do deck
+        // Cria as mãos de cada jogador
         Mao maoJogador1 = new Mao();
         Mao maoJogador2 = new Mao();
 
+        // Cria os jogadores com os nomes, decks, pontos de vida e mana
+        Jogador jogador1 = new Jogador(nomeJogador1, deck1, 10, 20);
+        Jogador jogador2 = new Jogador(nomeJogador2, deck2, 10, 20);
+
+        // Cria o campo de batalha para cada jogador
+        CampodeBatalha campoJogador1 = new CampodeBatalha(maoJogador1, jogador1.getCemiterio(), deck1);
+        CampodeBatalha campoJogador2 = new CampodeBatalha(maoJogador2, jogador2.getCemiterio(), deck2);
+
         // Adiciona 3 cartas do deck à mão do Jogador 1
         for (int i = 0; i < 3; i++) {
-            maoJogador1.adicionarCartasMao(deck1.comprarCarta());
+            campoJogador1.comprarCarta();
         }
 
         // Adiciona 3 cartas do deck à mão do Jogador 2
         for (int i = 0; i < 3; i++) {
-            maoJogador2.adicionarCartasMao(deck2.comprarCarta());
+            campoJogador2.comprarCarta();
         }
 
         // Exibe as cartas na mão de cada jogador
         System.out.println("Cartas na mão do " + jogador1.getNome() + ":");
-        maoJogador1.mostrarCartas();
+        maoJogador1.mostrarCartasMao();
 
         System.out.println("Cartas na mão do " + jogador2.getNome() + ":");
-        maoJogador2.mostrarCartas();
+        maoJogador2.mostrarCartasMao();
 
         // Cria e inicia o jogo
-        Jogo jogo = new Jogo(jogador1, jogador2);
+        Jogo jogo = new Jogo(jogador1, jogador2,campoJogador1,campoJogador2);
         jogo.iniciar();
     }
 

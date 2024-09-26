@@ -1,6 +1,6 @@
 package MecanicasDeJogo;
 
-import MecanicasDeJogo.Abstract.*;
+import MecanicasDeJogo.Abstract.Carta;
 
 public class Jogador {
     private String nome;
@@ -22,9 +22,27 @@ public class Jogador {
         this.mana = mana;
         this.manaAtual = mana;
 
-        for (int i = 0; i < 5; i++) {
-            Carta cartaComprada = deck.comprarCarta();
+        // Comprando 3 cartas no início
+        System.out.println(nome + " está comprando cartas iniciais...");
+        for (int i = 0; i < 3; i++) {
+            comprarCartas();
+        }
+    }
+
+    // Método para comprar uma carta do deck e adicioná-la à mão
+    public void comprarCartas() {
+        // Verifique se há cartas no deck antes de tentar comprar
+        if (deck.isEmpty()) {
+            System.out.println("Não há mais cartas no deck para " + nome + "!");
+            return; // Não faz nada se o deck estiver vazio
+        }
+
+        Carta cartaComprada = deck.comprarCarta();
+        if (cartaComprada != null) {
             mao.adicionarCartasMao(cartaComprada);
+            System.out.println(nome + " comprou a carta: " + cartaComprada.getNome());
+        } else {
+            System.out.println("Não foi possível comprar uma carta.");
         }
     }
 
@@ -32,27 +50,11 @@ public class Jogador {
     public void jogarCartaNoCampo(Carta carta) {
         if (mao.temCarta(carta)) {
             campoDeBatalha.adicionarCartasAoCampo(carta);
+            mao.removerCartaMao(carta); // Remove a carta da mão
+            System.out.println(nome + " jogou a carta: " + carta.getNome());
         } else {
-            System.out.println("A carta " + carta.getNome() + " não está na mão.");
+            System.out.println("A carta " + carta.getNome() + " não está na mão de " + nome + ".");
         }
-    }
-
-    public void comprarCartas() {
-        Carta cartaComprada = deck.comprarCarta();
-        if (cartaComprada != null) {
-            mao.adicionarCartasMao(cartaComprada);
-            System.out.println(nome + " comprou a carta: " + cartaComprada.getNome());
-        }
-    }
-
-    public void jogarCarta(Carta carta) {
-        mao.removerCartaMao(carta);
-        System.out.println(nome + " jogou a carta: " + carta.getNome());
-    }
-
-    public void enviarAoCemiterio(Carta carta) {
-        cemiterio.adicionarCartasNoCemiterio(carta);
-        System.out.println(carta.getNome() + " foi enviada ao cemitério.");
     }
 
     public String getNome() {
@@ -75,7 +77,9 @@ public class Jogador {
         return vida;
     }
 
-    public int getMana() {return mana;}
+    public int getMana() {
+        return mana;
+    }
 
     public int getManaAtual() {
         return manaAtual;
@@ -110,4 +114,7 @@ public class Jogador {
         // Lógica de dano, destruição de criaturas, etc.
     }
 
+    public CampodeBatalha getCampoDeBatalha() {
+        return  campoDeBatalha;
+    }
 }

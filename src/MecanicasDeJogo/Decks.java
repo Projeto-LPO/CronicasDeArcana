@@ -14,21 +14,29 @@ public class Decks {
         if (cartas.size() < 8) {
             throw new IllegalArgumentException("O deck deve ter no mínimo 8 cartas");
         }
-        this.cartas = new ArrayList<>(cartas); }
+        this.cartas = new ArrayList<>(cartas);
+    }
+
     // Construtor sem parâmetros, inicializa lista vazia
     public Decks() {
         this.cartas = new ArrayList<>();  // Inicializa a lista de cartas
     }
 
+    // Método para verificar se o deck está vazio
+    public boolean isEmpty() {
+        return cartas.isEmpty();
+    }
+
     // Método para comprar carta do topo do deck
     public Carta comprarCarta() {
-        if (!cartas.isEmpty()) {
-           Carta cartaComprada = cartas.get(0);
-           System.out.println(cartaComprada.getNome()+"teste");
-           //cartas.remove(0);
-           return cartaComprada; // Remove a primeira carta do deck
+        if (cartas.isEmpty()) {
+            System.out.println("O deck está vazio!");
+            return null; // Não há cartas para comprar
         }
-        return null; // Certifique-se de que o retorno não seja null quando o deck estiver vazio
+        // Remove e retorna a última carta do deck
+        Carta carta = cartas.remove(cartas.size() - 1);
+        System.out.println("Carta comprada: " + carta.getNome());
+        return carta;
     }
 
     // Retorna o tamanho do deck
@@ -50,4 +58,7 @@ public class Decks {
     public List<Carta> getCartas() {
         return cartas;
     }
+
+
+
 }

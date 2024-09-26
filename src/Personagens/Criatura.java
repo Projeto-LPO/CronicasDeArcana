@@ -1,6 +1,7 @@
 package Personagens;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Jogador; // Certifique-se de ter a classe Jogador no package correto
 
 public abstract class Criatura extends Carta {
     private int poder;
@@ -18,6 +19,7 @@ public abstract class Criatura extends Carta {
         this.voa = voa;
     }
 
+    // Getters e Setters
     public int getPoder() {
         return poder;
     }
@@ -42,12 +44,13 @@ public abstract class Criatura extends Carta {
         this.voa = voa;
     }
 
-
+    // Método sobre efeito da criatura
     @Override
     public void efeito() {
         System.out.println("Habilidade especial de " + getNome() + ": " + habilidadeEspecial);
     }
 
+    // Método para entrar no campo de batalha
     @Override
     public void jogar() {
         System.out.println(getNome() + " entrou no campo de batalha.");
@@ -56,28 +59,30 @@ public abstract class Criatura extends Carta {
         }
     }
 
-    // Novo método para verificar se a criatura pode atacar um alvo
-    public void atacar(Criatura alvo) {
-        if (this.voa && !alvo.isVoa()) {
-            System.out.println(getNome() + " ataca diretamente o jogador inimigo, ignorando criaturas terrestres.");
+    // Método para permitir que a criatura ataque diretamente o jogador
+    public void atacarJogador(Jogador jogadorAlvo) {
+        if (this.voa) {
+            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + poder + " de dano.");
         } else {
-            System.out.println(getNome() + " ataca " + alvo.getNome() + " causando " + poder + " de dano.");
-            alvo.receberDano(poder);
+            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + poder + " de dano.");
+        }
+        jogadorAlvo.receberDano(poder);
+    }
+
+    // Método para a criatura receber dano
+    public void receberDano(int dano) {
+        this.resistencia -= dano;
+        System.out.println(getNome() + " recebeu " + dano + " de dano. Resistência atual: " + resistencia);
+        if (resistencia <= 0) {
+            System.out.println(getNome() + " foi derrotado!");
         }
     }
 
-    public void receberDano(int dano) {
-        resistencia -= dano;
-        if (resistencia <= 0) {
-            System.out.println(getNome() + " foi destruída.");
-        }
-
-
-        }
+    // Método para a criatura receber cura
     public void receberCura(int cura) {
         resistencia += cura;
         System.out.println(getNome() + " foi curada em " + cura + " pontos de resistência.");
     }
 
-}
 
+}

@@ -37,10 +37,13 @@ public class Mao {
         return cartas;
     }
 
-    public void mostrarCartas() {
-        System.out.println("Cartas na mão:");
-        for (Carta carta : cartas) {
-            System.out.println("- " + carta.getNome());
+    public void mostrarCartasMao() {
+        if (cartas.isEmpty()) {
+            System.out.println("Nenhuma carta na mão.");
+        } else {
+            for (int i = 0; i < cartas.size(); i++) {
+                Carta carta = cartas.get(i);
+                System.out.println((i + 1) + ": " + carta.getNome() + " - Custo de Mana: " + carta.getCustoMana());
+            }
         }
-    }
-}
+    }}

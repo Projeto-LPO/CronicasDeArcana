@@ -1,5 +1,9 @@
 package Personagens;
 
+import MecanicasDeJogo.Jogador;
+
+import java.util.List; // Importar List para trabalhar com listas de criaturas
+
 public class Guerreiro extends Criatura {
     private double furia;  // Atributo para definir o aumento de dano
     private boolean furiaAtivada;
@@ -32,23 +36,30 @@ public class Guerreiro extends Criatura {
         }
     }
 
-    @Override
+
     public void atacar(Criatura alvo) {
         verificarFuria();  // Verifica se a fúria deve ser ativada
         int danoFinal = (int) (getPoder() * furia);  // Calcula o dano com o multiplicador de fúria
 
-        if (this.isVoa() && !alvo.isVoa()) {
-            System.out.println(getNome() + " ataca diretamente o jogador inimigo, ignorando criaturas terrestres.");
-        } else {
-            System.out.println(getNome() + " ataca " + alvo.getNome() + " causando " + danoFinal + " de dano.");
-            alvo.receberDano(danoFinal);
+        // Verifica se há criaturas em campo e se o alvo é uma criatura
+        if (alvo != null) {
+            System.out.println(getNome() + " ataca " + alvo.getNome() + ", causando " + danoFinal + " de dano.");
+            alvo.receberDano(danoFinal); // Causa dano ao alvo
         }
+    }
+
+    public void atacarJogador(Jogador jogador) {
+        verificarFuria();  // Verifica se a fúria deve ser ativada
+        int danoFinal = (int) (getPoder() * furia);  // Calcula o dano com o multiplicador de fúria
+        System.out.println(getNome() + " ataca o jogador " + jogador.getNome() + ", causando " + danoFinal + " de dano.");
+        jogador.receberDano(danoFinal); // Causa dano ao jogador
     }
 
     @Override
     public void receberDano(int dano) {
+        System.out.println(getNome() + " recebeu " + dano + " de dano.");
         verificarFuria();  // Verifica se a fúria deve ser ativada ao receber dano
-        super.receberDano(dano);
+        super.receberDano(dano); // Chama o método da superclasse para aplicar o dano
     }
 
     @Override
