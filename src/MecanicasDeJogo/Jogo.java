@@ -24,31 +24,47 @@ public class Jogo {
         this.jogador2 = jogador2;
         this.campoJogador1 = campoJogador1;
         this.campoJogador2 = campoJogador2;
-        this.campoDeBatalha = new CampodeBatalha(jogador1.getMao(), jogador1.getCemiterio(), jogador1.getDeck());
-        this.jogadorAtivo = new Random().nextBoolean() ? jogador1 : jogador2; // Decide aleatoriamente quem começa
         this.scanner = new Scanner(System.in);
     }
 
     public void iniciar() {
-        jogador1.getDeck().embaralhar();
-        jogador2.getDeck().embaralhar();
-        System.out.println("O jogo começou! Boa sorte, " + jogador1.getNome() + " e " + jogador2.getNome() + "!");
+        boolean continuarJogo = true;
 
-        boolean jogoFinalizado = false;
+        while (continuarJogo) {
 
-        while (true) {
-            executarTurno(jogadorAtivo);
-            // Verifica condições de vitória
-            if (verificarVitoria(jogador1)){
-                jogador1.subirNivel();
-                jogoFinalizado = true;
+            this.campoDeBatalha = new CampodeBatalha(jogador1.getMao(), jogador1.getCemiterio(), jogador1.getDeck());
+
+            System.out.println("O jogo começou! Boa sorte, " + jogador1.getNome() + " e " + jogador2.getNome() + "!");
+
+            this.jogadorAtivo = new Random().nextBoolean() ? jogador1 : jogador2;
+
+            jogador1.getDeck().embaralhar();
+            jogador2.getDeck().embaralhar();
+
+            boolean jogoFinalizado = false;
+
+            while(!jogoFinalizado) {
+
+                executarTurno(jogadorAtivo);
+                // Verifica condições de vitória
+                if (verificarVitoria(jogador1)) {
+                    jogador1.subirNivel();
+                    jogoFinalizado = true;
+                } else if (verificarVitoria(jogador2)) {
+                    jogador2.subirNivel();
+                    jogoFinalizado = true;
+                }
+                // Troca o jogador ativo
+                jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
+
+                System.out.println("Deseja iniciar uma nova partida? (0 para sim, 1 para não)");
+                int escolha = scanner.nextInt();
+
+                if (escolha != 0) {
+                    continuarJogo = false;
+                    System.out.println("Obrigado por jogar!");
+                }
             }
-            else if (verificarVitoria(jogador2)) {
-                jogador2.subirNivel();
-                jogoFinalizado = true;
-            }
-            // Troca o jogador ativo
-            jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
         }
     }
 
