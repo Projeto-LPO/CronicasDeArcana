@@ -34,11 +34,18 @@ public class Jogo {
         jogador2.getDeck().embaralhar();
         System.out.println("O jogo começou! Boa sorte, " + jogador1.getNome() + " e " + jogador2.getNome() + "!");
 
+        boolean jogoFinalizado = false;
+
         while (true) {
             executarTurno(jogadorAtivo);
             // Verifica condições de vitória
-            if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
-                break; // Termina o jogo se alguém vencer
+            if (verificarVitoria(jogador1)){
+                jogador1.subirNivel();
+                jogoFinalizado = true;
+            }
+            else if (verificarVitoria(jogador2)) {
+                jogador2.subirNivel();
+                jogoFinalizado = true;
             }
             // Troca o jogador ativo
             jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
