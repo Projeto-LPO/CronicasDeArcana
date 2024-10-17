@@ -24,47 +24,28 @@ public class Jogo {
         this.jogador2 = jogador2;
         this.campoJogador1 = campoJogador1;
         this.campoJogador2 = campoJogador2;
+        this.campoDeBatalha = new CampodeBatalha(jogador1.getMao(), jogador1.getCemiterio(), jogador1.getDeck());
+        this.jogadorAtivo = new Random().nextBoolean() ? jogador1 : jogador2; // Decide aleatoriamente quem começa
         this.scanner = new Scanner(System.in);
     }
 
     public void iniciar() {
-        boolean continuarJogo = true;
+        jogador1.getDeck().embaralhar();
+        jogador2.getDeck().embaralhar();
+        System.out.println("O jogo começou! Boa sorte, " + jogador1.getNome() + " e " + jogador2.getNome() + "!");
 
-        while (continuarJogo) {
-
-            this.campoDeBatalha = new CampodeBatalha(jogador1.getMao(), jogador1.getCemiterio(), jogador1.getDeck());
-
-            System.out.println("O jogo começou! Boa sorte, " + jogador1.getNome() + " e " + jogador2.getNome() + "!");
-
-            this.jogadorAtivo = new Random().nextBoolean() ? jogador1 : jogador2;
-
-            jogador1.getDeck().embaralhar();
-            jogador2.getDeck().embaralhar();
-
-            boolean jogoFinalizado = false;
-
-            while(!jogoFinalizado) {
-
-                executarTurno(jogadorAtivo);
-                // Verifica condições de vitória
-                if (verificarVitoria(jogador1)) {
-                    jogador1.subirNivel();
-                    jogoFinalizado = true;
-                } else if (verificarVitoria(jogador2)) {
-                    jogador2.subirNivel();
-                    jogoFinalizado = true;
-                }
-                // Troca o jogador ativo
-                jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
-
-                System.out.println("Deseja iniciar uma nova partida? (0 para sim, 1 para não)");
-                int escolha = scanner.nextInt();
-
-                if (escolha != 0) {
-                    continuarJogo = false;
-                    System.out.println("Obrigado por jogar!");
-                }
+        while (true) {
+            executarTurno(jogadorAtivo);
+            // Verifica condições de vitória
+            if(verificarVitoria(jogadorAtivo)){
+                System.out.println("Parabens " +jogador1.getNome() + "Vc venceu");
+                return ;
             }
+
+
+
+            // Troca o jogador ativo
+            jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
         }
     }
 
@@ -213,12 +194,12 @@ public class Jogo {
 
     private boolean verificarVitoria(Jogador jogador) {
         if (jogador.getVida() <= 0) {
-            System.out.println(jogador.getNome() + " foi derrotado!");
+          System.out.println(jogador.getNome() +" Ficou sem vida");
             return true;
         }
 
         if (jogador.getDeck().isEmpty()) {
-            System.out.println(jogador.getNome() + " foi derrotado por ficar sem cartas no deck!");
+            System.out.println(jogador.getNome() + "Ficou sem cartas");
             return true;
         }
 

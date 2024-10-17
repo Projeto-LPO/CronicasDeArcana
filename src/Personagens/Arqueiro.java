@@ -24,6 +24,16 @@ public class Arqueiro extends Criatura {
         alvo.receberDano(getPoder());  // Aplica o dano ao alvo
     }
 
+    @Override
+    public void receberDano(int dano) {
+        
+    }
+
+    @Override
+    public void receberCura(int cura) {
+
+    }
+
     public void atacarJogador(Jogador jogador) {
         System.out.println(getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador " + jogador.getNome() + ", causando " + getPoder() + " de dano.");
         jogador.receberDano(getPoder());  // Aplica o dano ao jogador

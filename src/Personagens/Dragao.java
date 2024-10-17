@@ -16,8 +16,17 @@ public class Dragao extends Criatura {
     }
 
     @Override
+    public void atacar(Criatura alvo) {
+
+    }
+
+    @Override
     public void receberDano(int dano) {
-        super.receberDano(dano);
+    }
+
+    @Override
+    public void receberCura(int cura) {
+
     }
 
     // Método de ataque ajustado

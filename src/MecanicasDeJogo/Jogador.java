@@ -132,4 +132,7 @@ public class Jogador {
     public CampodeBatalha getCampoDeBatalha() {
         return  campoDeBatalha;
     }
+
+    public void setVida(int novaVida) {
+    }
 }

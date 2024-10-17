@@ -1,18 +1,30 @@
 package MecanicasDeJogo;
 
 import MecanicasDeJogo.Abstract.Carta;
+import Personagens.Criatura;
 
-public class Encantamento extends Carta {
+public abstract class Encantamento extends Carta {
     private String efeitoContínuo;
+    private int aumentoDano;
+    private int aumentoCura;
 
-    public Encantamento(String nome, int custoMana, String efeitoContínuo) {
+    // Construtor para Encantamentos de dano
+    public Encantamento(String nome, int custoMana, String efeitoContínuo, int aumentoDano) {
         super(nome, custoMana);
         this.efeitoContínuo = efeitoContínuo;
+        this.aumentoDano = aumentoDano;
+    }
+
+    // Construtor para Encantamentos de cura
+    public Encantamento(String nome, int custoMana, String efeitoContínuo, int aumentoCura, boolean isCura) {
+        super(nome, custoMana);
+        this.efeitoContínuo = efeitoContínuo;
+        this.aumentoCura = aumentoCura;
     }
 
     @Override
     public void efeito() {
-        // Implementação do efeito contínuo
+
         System.out.println("Efeito contínuo de " + getNome() + ": " + efeitoContínuo);
     }
 
@@ -20,9 +32,22 @@ public class Encantamento extends Carta {
     public void jogar() {
         System.out.println(getNome() + " foi colocado no campo de batalha");
     }
+    // efeito em jogadores
+   public  abstract void aplicarEfeitoDano(Jogador Oponente);
+    public  abstract  void aplicarEfeitoCura(Jogador Jogador);
+    // efeito em criaturas
+    public  abstract void aplicarEfeitoDano(Criatura criatura);
+    public  abstract  void aplicarEfeitoCura(Criatura cratura);
 
-    public String getEfeitoContínuo(){
+    public String getEfeitoContínuo() {
         return efeitoContínuo;
     }
 
+    public int getAumentoDano() {
+        return aumentoDano;
+    }
+
+    public int getAumentoCura() {
+        return aumentoCura;
+    }
 }

@@ -35,6 +35,11 @@ public class Mago extends Criatura {
     }
 
     @Override
+    public void receberCura(int cura) {
+
+    }
+
+    @Override
     public void jogar() {
         super.jogar();
         System.out.println(getNome() + " está preparado com o Escudo Mágico.");

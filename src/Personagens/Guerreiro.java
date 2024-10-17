@@ -59,7 +59,12 @@ public class Guerreiro extends Criatura {
     public void receberDano(int dano) {
         System.out.println(getNome() + " recebeu " + dano + " de dano.");
         verificarFuria();  // Verifica se a fúria deve ser ativada ao receber dano
-        super.receberDano(dano); // Chama o método da superclasse para aplicar o dano
+        // Chama o método da superclasse para aplicar o dano
+    }
+
+    @Override
+    public void receberCura(int cura) {
+
     }
 
     @Override
