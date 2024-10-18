@@ -1,8 +1,9 @@
 package MecanicasDeJogo;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Interfaces.Atacavel;
 
-public class Jogador {
+public class Jogador  {
     private String nome;
     private Decks deck;
     private Mao mao;

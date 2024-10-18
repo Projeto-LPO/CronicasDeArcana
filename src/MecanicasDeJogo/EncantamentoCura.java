@@ -1,14 +1,14 @@
 package MecanicasDeJogo;
 
+import MecanicasDeJogo.Interfaces.Jogavel;
 import Personagens.Criatura;
 
-public class EncantamentoCura extends Encantamento {
+public class EncantamentoCura extends Encantamento implements Jogavel {
 
 
     public EncantamentoCura(String nome, int custoMana, String efeitoContínuo, int aumentoCura) {
         super(nome, custoMana, efeitoContínuo,  aumentoCura);
     }
-
 
     @Override
     public void aplicarEfeitoCura(Criatura criatura) {

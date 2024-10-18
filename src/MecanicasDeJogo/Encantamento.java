@@ -1,9 +1,10 @@
 package MecanicasDeJogo;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import Personagens.Criatura;
 
-public abstract class Encantamento extends Carta {
+public abstract class Encantamento extends Carta implements Jogavel {
     private String efeitoContínuo;
     private int aumentoDano;
     private int aumentoCura;

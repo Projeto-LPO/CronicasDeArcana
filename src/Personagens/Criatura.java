@@ -78,5 +78,7 @@ public abstract class Criatura extends Carta {
 
 
     public void setResistencia(int novaVida) {
+        this.resistencia = novaVida;
+        System.out.println(getNome() + " agora tem " + this.resistencia + " de vida.");
     }
 }

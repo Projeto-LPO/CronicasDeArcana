@@ -1,17 +1,39 @@
 package Feiticos;
 
+import MecanicasDeJogo.Interfaces.Jogavel;
+import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
-public class FeitiçoDano extends Feitiço {
+public class FeitiçoDano extends Feitiço implements Jogavel {
 
     public FeitiçoDano(String nome, int custoMana, String efeito, int valorDano) {
-        super(nome, custoMana, efeito, valorDano);  // Chama o construtor da classe Feiticos.Feitiço
+        super(nome, custoMana, efeito, valorDano);
+    }
+
+    @Override
+    public void aplicarEfeitoDano(Jogador alvo) {
+
+    }
+
+    @Override
+    public void aplicarEfeitoDano(Criatura criatura) {
+
+    }
+
+    @Override
+    public void aplicarEfeitoCura(Criatura criatura) {
+
+    }
+
+    @Override
+    public void aplicarEfeitoCura(Jogador alvo) {
+
     }
 
     // Método para lançar o feitiço e causar dano a uma criatura
     public void lançarFeitiçoDano(Criatura alvo) {
         System.out.println(getNome() + " foi lançado e causou " + getValorDano() + " de dano a " + alvo.getNome());
-        alvo.receberDano(getValorDano());  // Aplica o dano à criatura alvo
+        alvo.receberDano(getValorDano());
     }
 
     @Override
@@ -24,9 +46,9 @@ public class FeitiçoDano extends Feitiço {
         System.out.println(getNome() + " foi conjurado com o efeito: " + getEfeito());
     }
 
-    // Método específico para aplicar o dano à criatura rival
+
     public void aplicarDano(Criatura alvo) {
         System.out.println(getNome() + " está aplicando " + getValorDano() + " de dano a " + alvo.getNome());
-        lançarFeitiçoDano(alvo);  // Chama o método que causa o dano à criatura
+        lançarFeitiçoDano(alvo);
     }
 }

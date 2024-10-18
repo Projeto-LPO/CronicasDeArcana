@@ -1,69 +1,58 @@
 package Feiticos;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
+import Personagens.Criatura;
 
-public abstract class Feitiço extends Carta {
+public abstract class Feitiço extends Carta implements Jogavel {
     private String efeito;
     private int valorCura;
     private int valorDano;
+
 
     public Feitiço(String nome, int custoMana, String efeito, int valorDano) {
         super(nome, custoMana);
         this.efeito = efeito;
         this.valorDano = valorDano;
-        this.valorCura = 0; // Sem cura para feitiços de dano
+        this.valorCura = 0;
     }
+
 
     public Feitiço(String nome, int custoMana, String efeito, int valorCura, boolean cura) {
         super(nome, custoMana);
         this.efeito = efeito;
         this.valorCura = valorCura;
-        this.valorDano = 0; // Sem dano para feitiços de cura
+        this.valorDano = 0;
     }
 
-    public void lançarFeitiçoDano(Jogador alvo) {
-        System.out.println(getNome() + " foi lançado e causou " + valorDano + " de dano a " + alvo.getNome());
-        alvo.receberDano(valorDano);
-    }
 
-    // Método para lançar feitiço de cura em um jogador
-    public void lançarFeitiçoCura(Jogador alvo) {
-        System.out.println(getNome() + " foi lançado e curou " + valorCura + " pontos de vida de " + alvo.getNome());
-        alvo.receberCura(valorCura);
-    }
-
-    @Override
-    public void efeito() {
-        // Implementação do efeito do feitiço
-        System.out.println("Efeito de " + getNome() + ": " + efeito);
-    }
+    public abstract void aplicarEfeitoDano(Jogador alvo);
+    public abstract  void aplicarEfeitoDano(Criatura criatura);
+    public  abstract  void aplicarEfeitoCura(Criatura criatura);
+    public abstract void aplicarEfeitoCura(Jogador alvo);
 
     @Override
     public void jogar() {
         System.out.println(getNome() + " foi conjurado com o efeito: " + efeito);
+        efeito();
     }
 
-
-    public void aplicarEfeito(Jogador alvo) {
-        if (valorDano > 0) {
-            lançarFeitiçoDano(alvo);
-        } else if (valorCura > 0) {
-            lançarFeitiçoCura(alvo);
-        } else {
-            System.out.println("Efeito especial do feitiço " + getNome() + " foi ativado.");
-        }
+    @Override
+    public void efeito() {
+        System.out.println("Efeito do feitiço " + getNome() + ": " + efeito);
     }
 
-    public  int getValorDano(){
-        return  valorDano;
+    // Getters
+    public int getValorDano() {
+        return valorDano;
     }
 
     public int getValorCura() {
         return valorCura;
     }
 
-    public String getEfeito(){
-        return  efeito;
+    public String getEfeito() {
+        return efeito;
     }
 }

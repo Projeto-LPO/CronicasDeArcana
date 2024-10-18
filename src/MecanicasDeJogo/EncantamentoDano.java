@@ -1,9 +1,10 @@
 package MecanicasDeJogo;
 
+import MecanicasDeJogo.Interfaces.Jogavel;
 import Personagens.Criatura;
 
 
-public class EncantamentoDano extends Encantamento {
+public class EncantamentoDano extends Encantamento implements Jogavel {
 
 
     public EncantamentoDano(String nome, int custoMana, String efeitoContínuo, int aumentoDano) {

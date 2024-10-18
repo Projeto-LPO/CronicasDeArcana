@@ -45,7 +45,7 @@ public class Mago extends Criatura {
         System.out.println(getNome() + " está preparado com o Escudo Mágico.");
     }
 
-    // Método para atacar uma criatura
+
 
     public void atacar(Criatura alvo) {
         System.out.println(getNome() + " lança um feitiço em " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
