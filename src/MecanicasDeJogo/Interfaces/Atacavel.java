@@ -1,6 +1,8 @@
 package MecanicasDeJogo.Interfaces;
 
+import Personagens.Criatura;
+
 public interface Atacavel {
     void receberDano(int dano);
-    void atacar(Atacavel alvo);
+    void receberCura(int cura);
 }

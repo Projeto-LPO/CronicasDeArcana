@@ -1,9 +1,12 @@
 package Personagens;
 
 import java.util.List; // Para trabalhar com listas de criaturas
+
+import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador; // Certifique-se de importar a classe Jogador corretamente
 
-public class Dragao extends Criatura {
+public class Dragao extends Criatura implements Jogavel, Atacavel {
 
     public Dragao(String nome, int custoMana, int poder, int resistencia) {
         super(nome, custoMana, poder, resistencia, "Voar", true);  // A habilidade especial é "Voar"

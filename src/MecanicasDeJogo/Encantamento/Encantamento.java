@@ -1,7 +1,8 @@
-package MecanicasDeJogo;
+package MecanicasDeJogo.Encantamento;
 
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Jogavel;
+import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
 public abstract class Encantamento extends Carta implements Jogavel {

@@ -46,9 +46,9 @@ public class FeitiçoCura extends Feitiço implements Jogavel {
     }
 
     // Método para conjurar o feitiço e curar uma criatura
-    public void jogar(Criatura criatura) {
-        System.out.println(getNome() + " foi conjurado e restaurou " + getValorCura() + " pontos de resistência de " + criatura.getNome());
-        lançarFeitiçoCura(criatura);
+    public void jogar(Criatura alvo) {
+        System.out.println(getNome() + " foi conjurado e restaurou " + getValorCura() + " pontos de resistência de " + alvo.getNome());
+        lançarFeitiçoCura(alvo);
     }
 
     // Método sobrecarregado para conjurar o feitiço e curar um jogador

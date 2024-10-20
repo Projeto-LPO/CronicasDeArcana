@@ -1,8 +1,10 @@
 package Personagens;
 
+import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador; // Certifique-se de ter a classe Jogador no package correto
 
-public class Arqueiro extends Criatura {
+public class Arqueiro extends Criatura implements Jogavel, Atacavel {
 
     public Arqueiro(String nome, int custoMana, int poder, int resistencia) {
         super(nome, custoMana, poder, resistencia, "Atira em tropas aéreas", false);  // Define a habilidade especial

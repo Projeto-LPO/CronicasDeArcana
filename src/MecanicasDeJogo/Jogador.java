@@ -3,7 +3,7 @@ package MecanicasDeJogo;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 
-public class Jogador  {
+public class Jogador implements Atacavel {
     private String nome;
     private Decks deck;
     private Mao mao;
@@ -101,6 +101,7 @@ public class Jogador  {
         return manaAtual;
     }
 
+    @Override
     public void receberDano(int dano) {
         this.vida -= dano;
         if (this.vida <= 0) {
@@ -110,7 +111,7 @@ public class Jogador  {
             System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
         }
     }
-
+    @Override
     public void receberCura(int cura) {
         this.vida += cura;
         System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);

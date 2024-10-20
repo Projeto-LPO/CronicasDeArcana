@@ -1,10 +1,12 @@
 package Personagens;
 
+import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 
 import java.util.List; // Importar List para trabalhar com listas de criaturas
 
-public class Guerreiro extends Criatura {
+public class Guerreiro extends Criatura implements Jogavel, Atacavel {
     private double furia;  // Atributo para definir o aumento de dano
     private boolean furiaAtivada;
 

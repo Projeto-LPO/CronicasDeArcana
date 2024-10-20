@@ -1,9 +1,11 @@
 package Personagens;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador; // Certifique-se de que a classe Jogador esteja no pacote correto
 
-public abstract class Criatura extends Carta {
+public abstract class Criatura extends Carta implements Jogavel , Atacavel {
     private int poder;
     private int resistencia;
     private int resistenciaInicial; // Atributo para armazenar a resistência inicial
@@ -57,7 +59,10 @@ public abstract class Criatura extends Carta {
     }
 
     // Métodos abstratos a serem implementados pelas subclasses
-    public abstract void atacar(Criatura alvo); // Método abstrato para atacar outra criatura
+
+    public abstract void atacar(Criatura alvo);
+    // Método abstrato para atacar outra criatura
+    @Override
     public abstract void receberDano(int dano); // Método abstrato para receber dano
     public abstract void receberCura(int cura); // Método abstrato para receber cura
 

@@ -1,8 +1,10 @@
 package Personagens;
 
+import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador; // Certifique-se de importar corretamente a classe Jogador
 
-public class Mago extends Criatura {
+public class Mago extends Criatura implements Jogavel , Atacavel {
     private boolean escudoMagicoAtivo;
 
     public Mago(String nome, int custoMana, int poder, int resistencia) {
