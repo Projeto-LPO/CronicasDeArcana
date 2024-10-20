@@ -1,3 +1,5 @@
+package main;
+
 import Feiticos.FeitiçoCura;
 import Feiticos.FeitiçoDano;
 import FluxodeCartas.Decks;
