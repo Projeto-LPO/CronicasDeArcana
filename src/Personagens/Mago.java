@@ -2,9 +2,9 @@ package Personagens;
 
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
-import MecanicasDeJogo.Jogador; // Certifique-se de importar corretamente a classe Jogador
+import MecanicasDeJogo.Jogador;
 
-public class Mago extends Criatura implements Jogavel , Atacavel {
+public class Mago extends Criatura implements Jogavel, Atacavel {
     private boolean escudoMagicoAtivo;
 
     public Mago(String nome, int custoMana, int poder, int resistencia) {
@@ -33,12 +33,20 @@ public class Mago extends Criatura implements Jogavel , Atacavel {
         } else {
             System.out.println(getNome() + " recebeu " + dano + " de dano.");
         }
-        super.receberDano(dano); // Chama o método da classe pai para aplicar o dano
+
+        // Atualiza a resistência do Mago
+        int novaResistencia = getResistencia() - dano;
+        setResistencia(novaResistencia < 0 ? 0 : novaResistencia); // Garante que a resistência não fique negativa
+
+        // Exibe a resistência atual
+        System.out.println(getNome() + " agora tem " + getResistencia() + " de vida.");
     }
 
     @Override
     public void receberCura(int cura) {
-
+        int novaResistencia = getResistencia() + cura;
+        setResistencia(novaResistencia > getResistenciaInicial() ? getResistenciaInicial() : novaResistencia); // Garante que a resistência não ultrapasse a inicial
+        System.out.println(getNome() + " foi curado. Vida atual: " + getResistencia());
     }
 
     @Override
@@ -47,8 +55,7 @@ public class Mago extends Criatura implements Jogavel , Atacavel {
         System.out.println(getNome() + " está preparado com o Escudo Mágico.");
     }
 
-
-
+    @Override
     public void atacar(Criatura alvo) {
         System.out.println(getNome() + " lança um feitiço em " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
         alvo.receberDano(getPoder());  // Aplica o dano à criatura

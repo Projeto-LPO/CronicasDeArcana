@@ -58,8 +58,6 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
         }
     }
 
-
-
     public abstract void atacar(Criatura alvo);
 
     @Override
