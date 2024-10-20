@@ -1,4 +1,4 @@
-package MecanicasDeJogo;
+package MecanicasDeJogo.Progressão;
 
 public class Nivel {
 

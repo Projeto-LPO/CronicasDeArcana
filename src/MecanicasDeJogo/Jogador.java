@@ -1,7 +1,12 @@
 package MecanicasDeJogo;
 
+import FluxodeCartas.CampodeBatalha;
+import FluxodeCartas.Cemiterio;
+import FluxodeCartas.Decks;
+import FluxodeCartas.Mao;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Progressão.Nivel;
 
 public class Jogador implements Atacavel {
     private String nome;

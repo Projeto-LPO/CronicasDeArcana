@@ -3,12 +3,12 @@ package Personagens;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
-import MecanicasDeJogo.Jogador; // Certifique-se de que a classe Jogador esteja no pacote correto
+import MecanicasDeJogo.Jogador;
 
 public abstract class Criatura extends Carta implements Jogavel , Atacavel {
     private int poder;
     private int resistencia;
-    private int resistenciaInicial; // Atributo para armazenar a resistência inicial
+    private int resistenciaInicial;
     private String habilidadeEspecial;
     private boolean voa;
     private String tipo;
@@ -17,7 +17,7 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
         super(nome, custoMana);
         this.poder = poder;
         this.resistencia = resistencia;
-        this.resistenciaInicial = resistencia; // Armazena a resistência inicial
+        this.resistenciaInicial = resistencia;
         this.habilidadeEspecial = habilidadeEspecial;
         this.voa = voa;
     }
@@ -32,7 +32,7 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
     }
 
     public int getResistenciaInicial() {
-        return resistenciaInicial; // Método para acessar a resistência inicial
+        return resistenciaInicial;
     }
 
     public String getHabilidadeEspecial() {
@@ -43,7 +43,7 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
         return voa;
     }
 
-    // Método sobre efeito da criatura
+
     @Override
     public void efeito() {
         System.out.println("Habilidade especial de " + getNome() + ": " + habilidadeEspecial);
@@ -58,15 +58,16 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
         }
     }
 
-    // Métodos abstratos a serem implementados pelas subclasses
+
 
     public abstract void atacar(Criatura alvo);
-    // Método abstrato para atacar outra criatura
-    @Override
-    public abstract void receberDano(int dano); // Método abstrato para receber dano
-    public abstract void receberCura(int cura); // Método abstrato para receber cura
 
-    // Método para a criatura atacar diretamente o jogador
+    @Override
+    public abstract void receberDano(int dano);
+    @Override
+    public abstract void receberCura(int cura);
+
+
     public void atacarJogador(Jogador jogadorAlvo) {
         if (this.voa) {
             System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + poder + " de dano.");

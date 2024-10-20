@@ -1,6 +1,7 @@
-package MecanicasDeJogo;
+package FluxodeCartas;
 
 import MecanicasDeJogo.Abstract.*;
+import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
 import java.util.ArrayList;

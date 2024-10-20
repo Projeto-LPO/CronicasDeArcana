@@ -1,4 +1,4 @@
-package MecanicasDeJogo;
+package FluxodeCartas;
 
 import MecanicasDeJogo.Abstract.Carta;
 

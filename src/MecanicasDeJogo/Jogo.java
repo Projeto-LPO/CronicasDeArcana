@@ -1,8 +1,7 @@
 package MecanicasDeJogo;
 
 import MecanicasDeJogo.Abstract.Carta;
-import MecanicasDeJogo.CampodeBatalha;
-import MecanicasDeJogo.Jogador;
+import FluxodeCartas.CampodeBatalha;
 import Personagens.Criatura;
 
 import java.util.ArrayList;

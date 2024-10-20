@@ -1,10 +1,10 @@
 import Feiticos.FeitiçoCura;
 import Feiticos.FeitiçoDano;
-import MecanicasDeJogo.Decks;
+import FluxodeCartas.Decks;
 import MecanicasDeJogo.Jogador;
 import MecanicasDeJogo.Jogo;
-import MecanicasDeJogo.Mao;
-import MecanicasDeJogo.CampodeBatalha;
+import FluxodeCartas.Mao;
+import FluxodeCartas.CampodeBatalha;
 import Personagens.*;
 
 import java.util.Scanner;

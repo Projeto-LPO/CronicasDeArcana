@@ -1,4 +1,4 @@
-package MecanicasDeJogo.Abstract;
+package MecanicasDeJogo.Progressão;
 
 public class Experiencia {
 
