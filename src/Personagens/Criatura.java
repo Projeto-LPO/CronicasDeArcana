@@ -1,12 +1,14 @@
 package Personagens;
 
 import MecanicasDeJogo.Abstract.Carta;
-import MecanicasDeJogo.Jogador; // Certifique-se de ter a classe Jogador no package correto
+import MecanicasDeJogo.Interfaces.Atacavel;
+import MecanicasDeJogo.Interfaces.Jogavel;
+import MecanicasDeJogo.Jogador;
 
-public abstract class Criatura extends Carta {
+public abstract class Criatura extends Carta implements Jogavel , Atacavel {
     private int poder;
     private int resistencia;
-    private int resistenciaInicial; // Atributo para armazenar a resistência inicial
+    private int resistenciaInicial;
     private String habilidadeEspecial;
     private boolean voa;
     private String tipo;
@@ -15,12 +17,12 @@ public abstract class Criatura extends Carta {
         super(nome, custoMana);
         this.poder = poder;
         this.resistencia = resistencia;
-        this.resistenciaInicial = resistencia; // Armazena a resistência inicial
+        this.resistenciaInicial = resistencia;
         this.habilidadeEspecial = habilidadeEspecial;
         this.voa = voa;
     }
 
-    // Getters e Setters
+    // Getters
     public int getPoder() {
         return poder;
     }
@@ -29,12 +31,8 @@ public abstract class Criatura extends Carta {
         return resistencia;
     }
 
-    public void setResistencia(int resistencia) {
-        this.resistencia = resistencia;
-    }
-
     public int getResistenciaInicial() {
-        return resistenciaInicial; // Método para acessar a resistência inicial
+        return resistenciaInicial;
     }
 
     public String getHabilidadeEspecial() {
@@ -45,17 +43,13 @@ public abstract class Criatura extends Carta {
         return voa;
     }
 
-    public void setVoa(boolean voa) {
-        this.voa = voa;
-    }
 
-    // Método sobre efeito da criatura
     @Override
     public void efeito() {
         System.out.println("Habilidade especial de " + getNome() + ": " + habilidadeEspecial);
     }
 
-    // Método para entrar no campo de batalha
+
     @Override
     public void jogar() {
         System.out.println(getNome() + " entrou no campo de batalha.");
@@ -64,7 +58,14 @@ public abstract class Criatura extends Carta {
         }
     }
 
-    // Método para permitir que a criatura ataque diretamente o jogador
+    public abstract void atacar(Criatura alvo);
+
+    @Override
+    public abstract void receberDano(int dano);
+    @Override
+    public abstract void receberCura(int cura);
+
+
     public void atacarJogador(Jogador jogadorAlvo) {
         if (this.voa) {
             System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + poder + " de dano.");
@@ -74,20 +75,14 @@ public abstract class Criatura extends Carta {
         jogadorAlvo.receberDano(poder);
     }
 
-    // Método para a criatura receber dano
-    public void receberDano(int dano) {
-        this.resistencia -= dano;
-        System.out.println(getNome() + " recebeu " + dano + " de dano. Resistência atual: " + resistencia);
-        if (resistencia <= 0) {
-            System.out.println(getNome() + " foi derrotado!");
-        }
-    }
-
-    // Método para a criatura receber cura
-    public void receberCura(int cura) {
-        resistencia += cura;
-        System.out.println(getNome() + " foi curada em " + cura + " pontos de resistência.");
+    public void setPoder(int novoPoder) {
+        this.poder = novoPoder;
+        System.out.println(getNome() + " agora tem " + this.poder + " de poder.");
     }
 
 
+    public void setResistencia(int novaVida) {
+        this.resistencia = novaVida;
+        System.out.println(getNome() + " agora tem " + this.resistencia + " de vida.");
+    }
 }
