@@ -84,5 +84,6 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
     public void setResistencia(int novaVida) {
         this.resistencia = novaVida;
         System.out.println(getNome() + " agora tem " + this.resistencia + " de vida.");
+        System.out.println(".");
     }
 }
