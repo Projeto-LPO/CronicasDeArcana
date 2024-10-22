@@ -1,5 +1,3 @@
-import Telas.TelaInicial;
-
 import javax.swing.*;
 
 public class CronicasDeArcana {
@@ -9,7 +7,6 @@ public class CronicasDeArcana {
         janela.setResizable(false);
         janela.setLocationRelativeTo(null);
         janela.setVisible(true);
-        janela.setContentPane(new TelaInicial());  // Define a Telas.TelaInicial como o painel inicial
         janela.pack();
     }
 }
