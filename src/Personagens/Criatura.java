@@ -66,24 +66,13 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel {
     public abstract void receberCura(int cura);
 
 
-    public void atacarJogador(Jogador jogadorAlvo) {
-        if (this.voa) {
-            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + poder + " de dano.");
-        } else {
-            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + poder + " de dano.");
-        }
-        jogadorAlvo.receberDano(poder);
-    }
-
-    public void setPoder(int novoPoder) {
-        this.poder = novoPoder;
-        System.out.println(getNome() + " agora tem " + this.poder + " de poder.");
-    }
+    public abstract void atacarJogador(Jogador jogadorAlvo) ;
 
 
-    public void setResistencia(int novaVida) {
-        this.resistencia = novaVida;
-        System.out.println(getNome() + " agora tem " + this.resistencia + " de vida.");
-        System.out.println(".");
-    }
+    public abstract void setPoder(int novoPoder) ;
+
+
+    public abstract void setResistencia(int novaVida) ;
+
 }
+

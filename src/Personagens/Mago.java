@@ -66,4 +66,16 @@ public class Mago extends Criatura implements Jogavel, Atacavel {
         System.out.println(getNome() + " não encontra criaturas para atacar e lança um feitiço diretamente no jogador " + jogador.getNome() + ", causando " + getPoder() + " de dano.");
         jogador.receberDano(getPoder());  // Aplica o dano ao jogador
     }
+
+    @Override
+    public void setPoder(int novoPoder) {
+        this.setPoder(novoPoder);  // Chama o método da superclasse
+        System.out.println(getNome() + " agora tem " + novoPoder + " de poder.");  // Mensagem personalizada
+    }
+
+    @Override
+    public void setResistencia(int novaVida) {
+        this.setResistencia(novaVida);  // Chama o método da superclasse
+        System.out.println(getNome() + " agora tem " + novaVida + " de resistência.");  // Mensagem personalizada
+    }
 }

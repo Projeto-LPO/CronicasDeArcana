@@ -8,6 +8,11 @@ import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Progressão.Nivel;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
 public class Jogador implements Atacavel {
     private String nome;
     private Decks deck;
@@ -141,5 +146,10 @@ public class Jogador implements Atacavel {
     }
 
     public void setVida(int novaVida) {
+        this.vida = novaVida;
+        System.out.println(getNome() + " agora tem " + this.vida + " de vida.");
+
+
+
     }
 }

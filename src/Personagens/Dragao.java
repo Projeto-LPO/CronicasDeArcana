@@ -1,7 +1,6 @@
 package Personagens;
 
 import java.util.List;
-
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
@@ -14,7 +13,6 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
 
     @Override
     public void jogar() {
-
         System.out.println(getNome() + " entrou no campo de batalha com a habilidade especial: " + getHabilidadeEspecial());
     }
 
@@ -54,10 +52,32 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
         System.out.println(getNome() + " foi curado. Vida atual: " + getResistencia());
     }
 
+    @Override
+    public void atacarJogador(Jogador jogadorAlvo) {
+        if (isVoa()) {
+            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + getPoder() + " de dano.");
+        } else {
+            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + getPoder() + " de dano.");
+        }
+        jogadorAlvo.receberDano(getPoder());
+    }
+
+    @Override
+    public void setPoder(int novoPoder) {
+        this.setPoder(novoPoder);  // Altera o poder do dragão
+        System.out.println(getNome() + " agora tem " + getPoder() + " de poder.");
+    }
+
+    @Override
+    public void setResistencia(int novaResistencia) {
+        // Altera a resistência do dragão
+
+        this.setResistencia(novaResistencia);
+        System.out.println(getNome() + " agora tem " + getResistencia() + " de resistência.");
+    }
 
     public void atacar(List<Criatura> criaturas, Jogador jogadorAlvo) {
         boolean atacouCriaturaAerea = false;
-
 
         for (Criatura criatura : criaturas) {
             if (criatura.isVoa()) {
@@ -67,7 +87,6 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
                 break;
             }
         }
-
 
         if (!atacouCriaturaAerea) {
             System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + getPoder() + " de dano.");
