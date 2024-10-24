@@ -1,6 +1,7 @@
 package MecanicasDeJogo;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
 import Personagens.Criatura;
 
@@ -48,7 +49,7 @@ public class Jogo {
         }
     }
 
-    private void executarTurno(Jogador jogador) {
+    private void executarTurno(Jogador jogador) throws ManaInsuficienteException {
         System.out.println("É a vez de " + jogador.getNome());
         System.out.println("Fase de Compra: ");
         jogador.comprarCartas();

@@ -1,5 +1,7 @@
 package MecanicasDeJogo;
 
+import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
+import MecanicasDeJogo.Exceptions.VidaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
 import MecanicasDeJogo.FluxodeCartas.Cemiterio;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -19,6 +21,7 @@ public class Jogador implements Atacavel {
     private int manaAtual;
     private Nivel nivel;
 
+    private static final int MANA_MAXIMA = 10;
 
     public Jogador(String nome, Decks deck, int vida, int mana) {
         this.nome = nome;
@@ -56,8 +59,13 @@ public class Jogador implements Atacavel {
     }
 
     // Método para jogar uma carta no campo de batalha
-    public void jogarCartaNoCampo(Carta carta) {
+    public void jogarCartaNoCampo(Carta carta) throws ManaInsuficienteException {
         if (mao.temCarta(carta)) {
+            // Verifica se a carta pode ser jogada com a mana disponível
+            if (carta.getCustoMana() > this.manaAtual) {
+                throw new ManaInsuficienteException("Mana insuficiente para jogar a carta: " + carta.getNome());
+            }
+            usarMana(carta.getCustoMana()); // Usa mana ao jogar a carta
             campoDeBatalha.adicionarCartasAoCampo(carta);
             mao.removerCartaMao(carta); // Remove a carta da mão
             System.out.println(nome + " jogou a carta: " + carta.getNome());
@@ -66,15 +74,30 @@ public class Jogador implements Atacavel {
         }
     }
 
-    public void subirNivel(){
+    public void iniciarTurno() {
+        reiniciarMana(); // Reinicia a mana para o início do turno
+        if (this.manaAtual < MANA_MAXIMA) {
+            this.manaAtual++;
+        }
+    }
+
+    public void reiniciarMana() {
+        this.manaAtual = 1; // Reinicia a mana atual para 1 no início do turno
+    }
+
+    public void usarMana(int quantidade) {
+        this.manaAtual -= quantidade;
+    }
+
+    public void subirNivel() {
         nivel.ganharNivel();
     }
 
-    public int getNivel(){
+    public int getNivel() {
         return nivel.getNivelAtual();
     }
 
-    public void mostrarNivel(){
+    public void mostrarNivel() {
         nivel.mostrarNivel();
     }
 
@@ -116,18 +139,11 @@ public class Jogador implements Atacavel {
             System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
         }
     }
+
     @Override
     public void receberCura(int cura) {
         this.vida += cura;
         System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
-    }
-
-    public void reiniciarMana() {
-        this.manaAtual = mana;
-    }
-
-    public void usarMana(int quantidade) {
-        this.manaAtual -= quantidade;
     }
 
     public void defender(Carta atacante) {
@@ -137,14 +153,11 @@ public class Jogador implements Atacavel {
     }
 
     public CampodeBatalha getCampoDeBatalha() {
-        return  campoDeBatalha;
+        return campoDeBatalha;
     }
 
     public void setVida(int novaVida) {
         this.vida = novaVida;
         System.out.println(getNome() + " agora tem " + this.vida + " de vida.");
-
-
-
     }
 }
