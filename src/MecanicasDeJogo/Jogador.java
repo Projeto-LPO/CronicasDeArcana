@@ -1,17 +1,12 @@
 package MecanicasDeJogo;
 
-import FluxodeCartas.CampodeBatalha;
-import FluxodeCartas.Cemiterio;
-import FluxodeCartas.Decks;
-import FluxodeCartas.Mao;
+import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
+import MecanicasDeJogo.FluxodeCartas.Cemiterio;
+import MecanicasDeJogo.FluxodeCartas.Decks;
+import MecanicasDeJogo.FluxodeCartas.Mao;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Progressão.Nivel;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class Jogador implements Atacavel {
     private String nome;

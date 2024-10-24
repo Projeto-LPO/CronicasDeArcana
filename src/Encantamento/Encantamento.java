@@ -1,4 +1,4 @@
-package MecanicasDeJogo.Encantamento;
+package Encantamento;
 
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Jogavel;

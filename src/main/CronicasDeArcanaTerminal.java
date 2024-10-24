@@ -2,11 +2,11 @@ package main;
 
 import Feiticos.FeitiçoCura;
 import Feiticos.FeitiçoDano;
-import FluxodeCartas.Decks;
+import MecanicasDeJogo.FluxodeCartas.Decks;
 import MecanicasDeJogo.Jogador;
 import MecanicasDeJogo.Jogo;
-import FluxodeCartas.Mao;
-import FluxodeCartas.CampodeBatalha;
+import MecanicasDeJogo.FluxodeCartas.Mao;
+import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
 import Personagens.*;
 
 import java.util.Scanner;
