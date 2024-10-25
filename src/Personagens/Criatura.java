@@ -5,7 +5,7 @@ import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 
-public abstract class Criatura extends Carta implements Jogavel , Atacavel {
+public abstract class Criatura extends Carta implements Jogavel , Atacavel   {
     private int poder;
     private int resistencia;
     private int resistenciaInicial;

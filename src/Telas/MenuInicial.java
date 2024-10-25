@@ -1,9 +1,12 @@
 package Telas;
 
+import MecanicasDeJogo.Jogador;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
 public class MenuInicial extends JFrame {
 
@@ -11,7 +14,7 @@ public class MenuInicial extends JFrame {
         //painel principal
         this.setTitle("Cronicas de Arcana");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(100, 100, 700, 600);
+        this.setBounds(100, 100, 1000, 750);
         this.setVisible(true);
         this.setResizable(false);
 
@@ -32,36 +35,45 @@ public class MenuInicial extends JFrame {
 
         //titulo inicial
         JLabel tituloPrincipal = new JLabel("Cronicas de Arcana");
-
-        tituloPrincipal.setFont(new Font("Uncial Antiqua", Font.BOLD, 15));
+        tituloPrincipal.setFont(new Font("Uncial Antiqua", Font.BOLD, 45));
         tituloPrincipal.setForeground(Color.GRAY);
         menuInicial.add(tituloPrincipal, BorderLayout.NORTH);
+        tituloPrincipal.setPreferredSize(new Dimension(100, 100));
+        tituloPrincipal.setHorizontalAlignment(SwingConstants.CENTER);
 
         //painel dos botoes
-        JPanel btnPainel = new JPanel(new GridLayout(3,1));
-        btnPainel.setBackground(new Color(0xFFFFF));
+        JPanel btnPainel = new JPanel(new GridLayout(3,1,30,30));
+        btnPainel.setPreferredSize(new Dimension(200, 200));
+        btnPainel.setBorder(BorderFactory.createEmptyBorder(50, 150, 50, 150));
+        btnPainel.setOpaque(false);
         menuInicial.add(btnPainel, BorderLayout.CENTER);
 
         //botoes da tela de inicio (jogar, inventario e sair)
         //jogar
         JButton btnJogar = new JButton("Jogar");
-        btnJogar.setBackground(new Color(0xFFFFF));
-        btnJogar.setForeground(Color.GRAY);
-        btnJogar.setFont(new Font("Uncial Antiqua", Font.BOLD, 15));
+        btnJogar.setBackground(Color.lightGray);
+        btnJogar.setForeground(Color.BLACK);
+        btnJogar.setPreferredSize(new Dimension(70, 50));
+        btnJogar.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
+        btnJogar.setFocusPainted(false);
         btnPainel.add(btnJogar);
 
         //inventario
         JButton btnInventario = new JButton("Inventário");
-        btnInventario.setBackground(new Color(0xFFFFF));
-        btnInventario.setForeground(Color.GRAY);
-        btnInventario.setFont(new Font("Uncial Antiqua", Font.BOLD, 15));
+        btnInventario.setBackground(Color.lightGray);
+        btnInventario.setForeground(Color.BLACK);
+        btnInventario.setPreferredSize(new Dimension(70, 50));
+        btnInventario.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
+        btnInventario.setFocusPainted(false);
         btnPainel.add(btnInventario);
 
         //sair
         JButton btnSair = new JButton("Sair");
-        btnSair.setBackground(new Color(0xFFFFF));
-        btnSair.setForeground(Color.GRAY);
-        btnSair.setFont(new Font("Uncial Antiqua", Font.BOLD, 15));
+        btnSair.setBackground(Color.lightGray);
+        btnSair.setForeground(Color.BLACK);
+        btnSair.setPreferredSize(new Dimension(70, 50));
+        btnSair.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
+        btnSair.setFocusPainted(false);
         btnPainel.add(btnSair);
 
         //metodos action listener
@@ -70,10 +82,8 @@ public class MenuInicial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Iniciando o jogo...");
-                JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(MenuInicial.this);
-                JogoTela telaJogo = new JogoTela();
-                janela.setContentPane(telaJogo);
-                janela.revalidate();
+                dispose();                                      //fecha a tela de titulo
+                new JogoTela().setVisible(true);                //abre a tela de jogo
             }
         });
 
@@ -81,8 +91,8 @@ public class MenuInicial extends JFrame {
         btnInventario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Fecha a tela de título
-                new TelaInventario().setVisible(true); //abre a tela de inventario
+                dispose();
+                new TelaInventario().setVisible(true);
             }
         });
 
@@ -94,6 +104,7 @@ public class MenuInicial extends JFrame {
             }
         });
 
+        this.add(menuInicial);
 
     }
 }

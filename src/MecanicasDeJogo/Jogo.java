@@ -42,8 +42,6 @@ public class Jogo {
                 return ;
             }
 
-
-
             // Troca o jogador ativo
             jogadorAtivo = (jogadorAtivo == jogador1) ? jogador2 : jogador1;
         }

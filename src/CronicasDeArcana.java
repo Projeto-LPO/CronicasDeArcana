@@ -1,12 +1,15 @@
-import javax.swing.*;
+import Telas.MenuInicial;
 
 public class CronicasDeArcana {
     public static void main(String[] args) {
-        JFrame janela = new JFrame("Crônicas de Arcana");
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        janela.setResizable(false);
-        janela.setLocationRelativeTo(null);
-        janela.setVisible(true);
-        janela.pack();
+        // Inicializando a tela de menu inicial
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                // Instancia a tela MenuInicial e a torna visível
+                MenuInicial menuInicial = new MenuInicial();
+                menuInicial.setVisible(true);
+            }
+        });
     }
 }

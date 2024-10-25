@@ -9,9 +9,12 @@ public class JogoTela extends JFrame {
         JFrame janelaJogo = new JFrame();
         janelaJogo.setTitle("Partida executada!");
         janelaJogo.setResizable(false);
+        janelaJogo.setPreferredSize(new Dimension(700, 600));
         janelaJogo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janelaJogo.setLocationRelativeTo(null);
         janelaJogo.setVisible(true);
+
+        this.add(janelaJogo);
 
         //painel de descrição da carta
         JPanel descricaoPanel = new JPanel();
@@ -20,6 +23,7 @@ public class JogoTela extends JFrame {
         descricaoPanel.setMaximumSize(new Dimension(250, 350));
         descricaoPanel.setBackground(new Color(255, 255, 255));
 
+        janelaJogo.add(descricaoPanel);
 
     }
 }
