@@ -47,7 +47,7 @@ public class Jogo {
         }
     }
 
-    private void executarTurno(Jogador jogador) throws ManaInsuficienteException {
+    private void executarTurno(Jogador jogador)  {
         System.out.println("É a vez de " + jogador.getNome());
         System.out.println("Fase de Compra: ");
         jogador.comprarCartas();

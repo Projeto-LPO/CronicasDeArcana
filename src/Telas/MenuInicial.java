@@ -16,7 +16,7 @@ public class MenuInicial extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100, 100, 1000, 750);
         this.setVisible(true);
-        this.setResizable(false);
+        this.setResizable(true);
 
         JPanel menuInicial = new JPanel(new BorderLayout()) {
             //metodo sobrescrito que cria um gradiente de cores no background do painel principal
