@@ -160,4 +160,7 @@ public class Jogador implements Atacavel {
         this.vida = novaVida;
         System.out.println(getNome() + " agora tem " + this.vida + " de vida.");
     }
+
+    public void setMana(int i) {
+    }
 }

@@ -3,20 +3,23 @@ package ElementosGraficos.UiElements;
 import javax.swing.*;
 import MecanicasDeJogo.FluxodeCartas.Mao;
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Jogador;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MaoUI extends JPanel {
-private Mao mao;
-private DefaultListModel<Carta> modeloLista;
-private JList<Carta> listaCartas;
-private JButton btnJogar;
+    private Mao mao;
+    private Jogador jogador;
+    private DefaultListModel<Carta> modeloLista;
+    private JList<Carta> listaCartas;
+    private JButton btnJogar;
 
 
-    public MaoUI(Mao mao) {
+    public MaoUI(Mao mao, Jogador jogador) {
         this.mao = mao; // Recebe a instância de Mao
+        this.jogador = jogador;
         this.setLayout(new BorderLayout()); // Layout principal
 
         // Modelo da lista para exibir as cartas
