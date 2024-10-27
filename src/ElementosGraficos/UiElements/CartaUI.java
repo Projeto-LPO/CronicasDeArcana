@@ -1,4 +1,4 @@
-package Telas;
+package ElementosGraficos.UiElements;
 
 import javax.swing.*;
 

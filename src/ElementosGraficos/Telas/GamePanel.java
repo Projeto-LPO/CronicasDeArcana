@@ -1,4 +1,4 @@
-package Telas;
+package ElementosGraficos.Telas;
 
 import java.awt.*;
 import javax.swing.*;

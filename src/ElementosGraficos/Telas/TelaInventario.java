@@ -1,4 +1,4 @@
-package Telas;
+package ElementosGraficos.Telas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +8,11 @@ import java.awt.event.ActionListener;
 public class TelaInventario extends JFrame {
 
     public TelaInventario() {
-        setTitle("Customização de Deck");
-        setSize(1000, 750);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        this.setTitle("Customização de Deck");
+        this.setSize(1000, 750);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
         //painel principal
         JPanel mainPanel = new JPanel(new BorderLayout()) {
@@ -50,8 +51,8 @@ public class TelaInventario extends JFrame {
         mainPanel.add(painelPrincipalInventario, BorderLayout.WEST);
 
         //painel central (Deck)
-        JPanel deckPainelPrincipal = new JPanel(new BorderLayout());                                //painel do fundo
-        JPanel deckCartasPainel = new JPanel(new BorderLayout());  //painel das cartas do deck
+        JPanel deckPainelPrincipal = new JPanel(new BorderLayout());            //painel do fundo
+        JPanel deckCartasPainel = new JPanel(new BorderLayout());               //painel das cartas do deck
 
         deckPainelPrincipal.setPreferredSize(new Dimension(300, 300));
         deckPainelPrincipal.add(deckCartasPainel, BorderLayout.CENTER);

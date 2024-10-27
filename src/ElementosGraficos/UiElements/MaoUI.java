@@ -1,10 +1,9 @@
-package Telas;
+package ElementosGraficos.UiElements;
 
 import javax.swing.*;
 import MecanicasDeJogo.FluxodeCartas.Mao;
 import MecanicasDeJogo.Abstract.Carta;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

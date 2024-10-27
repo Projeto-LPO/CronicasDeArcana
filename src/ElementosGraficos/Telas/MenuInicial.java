@@ -1,12 +1,9 @@
-package Telas;
-
-import MecanicasDeJogo.Jogador;
+package ElementosGraficos.Telas;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 
 public class MenuInicial extends JFrame {
 
@@ -15,8 +12,9 @@ public class MenuInicial extends JFrame {
         this.setTitle("Cronicas de Arcana");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100, 100, 1000, 750);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
-        this.setResizable(true);
 
         JPanel menuInicial = new JPanel(new BorderLayout()) {
             //metodo sobrescrito que cria um gradiente de cores no background do painel principal
@@ -26,7 +24,6 @@ public class MenuInicial extends JFrame {
                 Graphics2D g2d = (Graphics2D) g;
                 int width = getWidth();
                 int height = getHeight();
-
                 GradientPaint gradiente = new GradientPaint(0, 0, Color.decode("#004aad"), width, height, Color.decode("#271629"));
                 g2d.setPaint(gradiente);
                 g2d.fillRect(0, 0, width, height);
@@ -43,7 +40,7 @@ public class MenuInicial extends JFrame {
 
         //painel dos botoes
         JPanel btnPainel = new JPanel(new GridLayout(3,1,30,30));
-        btnPainel.setPreferredSize(new Dimension(200, 200));
+        btnPainel.setPreferredSize(new Dimension(100, 100));
         btnPainel.setBorder(BorderFactory.createEmptyBorder(50, 150, 50, 150));
         btnPainel.setOpaque(false);
         menuInicial.add(btnPainel, BorderLayout.CENTER);
@@ -53,8 +50,8 @@ public class MenuInicial extends JFrame {
         JButton btnJogar = new JButton("Jogar");
         btnJogar.setBackground(Color.lightGray);
         btnJogar.setForeground(Color.BLACK);
-        btnJogar.setPreferredSize(new Dimension(70, 50));
-        btnJogar.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
+        btnJogar.setPreferredSize(new Dimension(10, 10));
+        btnJogar.setFont(new Font("Uncial Antiqua", Font.BOLD, 30));
         btnJogar.setFocusPainted(false);
         btnPainel.add(btnJogar);
 
@@ -62,8 +59,8 @@ public class MenuInicial extends JFrame {
         JButton btnInventario = new JButton("Inventário");
         btnInventario.setBackground(Color.lightGray);
         btnInventario.setForeground(Color.BLACK);
-        btnInventario.setPreferredSize(new Dimension(70, 50));
-        btnInventario.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
+        btnInventario.setPreferredSize(new Dimension(60, 50));
+        btnInventario.setFont(new Font("Uncial Antiqua", Font.BOLD, 30));
         btnInventario.setFocusPainted(false);
         btnPainel.add(btnInventario);
 
@@ -71,8 +68,8 @@ public class MenuInicial extends JFrame {
         JButton btnSair = new JButton("Sair");
         btnSair.setBackground(Color.lightGray);
         btnSair.setForeground(Color.BLACK);
-        btnSair.setPreferredSize(new Dimension(70, 50));
-        btnSair.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
+        btnSair.setPreferredSize(new Dimension(60, 50));
+        btnSair.setFont(new Font("Uncial Antiqua", Font.BOLD, 30));
         btnSair.setFocusPainted(false);
         btnPainel.add(btnSair);
 
@@ -105,6 +102,5 @@ public class MenuInicial extends JFrame {
         });
 
         this.add(menuInicial);
-
     }
 }

@@ -1,4 +1,6 @@
-import Telas.MenuInicial;
+package main2;
+
+import ElementosGraficos.Telas.MenuInicial;
 
 public class CronicasDeArcana {
     public static void main(String[] args) {
