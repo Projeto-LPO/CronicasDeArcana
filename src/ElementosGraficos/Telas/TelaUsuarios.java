@@ -1,5 +1,6 @@
 package ElementosGraficos.Telas;
 
+import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;
@@ -11,6 +12,8 @@ public class TelaUsuarios extends JFrame {
     private JTextField nomeJogador1Field;
     private JTextField nomeJogador2Field;
     private JButton confirmarButton;
+    private JogadorUI jogadorUi1;
+    private JogadorUI jogadorUi2;
     private Jogador jogador1;
     private Jogador jogador2;
 
@@ -18,11 +21,12 @@ public class TelaUsuarios extends JFrame {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
 
-        setTitle("Entrada de Nomes");
-        setSize(300, 150);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 2));
-        setBackground(Color.BLACK);
+        this.setTitle("Entrada de Nomes");
+        this.setSize(300,150);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLayout(new GridLayout(3, 2));
+        this.setBackground(Color.BLACK);
 
         nomeJogador1Field = new JTextField();
         nomeJogador2Field = new JTextField();
@@ -42,7 +46,7 @@ public class TelaUsuarios extends JFrame {
 
                 //inicializa a tela de menu inicial ao confirmar
                 dispose();
-                new MenuInicial().setVisible(true);
+                new MenuInicial(jogador1, jogador2, jogadorUi1, jogadorUi2).setVisible(true);
 
             }
         });

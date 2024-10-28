@@ -1,14 +1,27 @@
 package ElementosGraficos.Telas;
 
+import ElementosGraficos.UiElements.JogadorUI;
+import MecanicasDeJogo.Jogador;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TelaInventario extends JFrame {
+    private JogadorUI jogadorUi1;
+    private JogadorUI jogadorUi2;
+    private Jogador jogador1;
+    private Jogador jogador2;
 
-    public TelaInventario() {
-        this.setTitle("Customização de Deck");
+    public TelaInventario(Jogador jogador1, Jogador jogador2,JogadorUI jogadorUi1,JogadorUI jogadorUi2) {
+        this.jogador1 = jogador1;
+        this.jogador2 = jogador2;
+        this.jogadorUi1 = jogadorUi1;
+        this.jogadorUi2 = jogadorUi2;
+
+
+        this.setTitle("Inventário - "+jogador1.getNome());
         this.setSize(1000, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -53,7 +66,7 @@ public class TelaInventario extends JFrame {
         deckCartasPainel.setBackground(new Color(149, 124, 90));
         deckPainelPrincipal.add(deckCartasPainel, BorderLayout.CENTER);
 
-        // painel inferior direito (Botões Salvar e Descartar)
+        //painel inferior - botoes salvar e descartar
         JPanel painelInferior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelInferior.setOpaque(false);
 
@@ -76,6 +89,7 @@ public class TelaInventario extends JFrame {
         mainPanel.add(deckPainelPrincipal, gbc);
 
         //painel superior - informações do jogador
+
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBackground(new Color(242, 213, 174));
         topPanel.setPreferredSize(new Dimension(200, 100));
@@ -83,7 +97,7 @@ public class TelaInventario extends JFrame {
         JPanel playerInfoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         playerInfoPanel.setOpaque(false);
 
-        JLabel playerInfoLabel = new JLabel("jogador 1 nivel 1");
+        JLabel playerInfoLabel = new JLabel("Jogador1");
         playerInfoLabel.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
         playerInfoPanel.add(playerInfoLabel);
 
@@ -104,7 +118,7 @@ public class TelaInventario extends JFrame {
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MenuInicial().setVisible(true);
+                new MenuInicial(jogador1, jogador2, jogadorUi1, jogadorUi2).setVisible(true);
             }
         });
 

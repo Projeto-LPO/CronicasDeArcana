@@ -6,7 +6,7 @@ import java.awt.*;
 public class JogoTela extends JFrame {
     public JogoTela() {
         // Configurações da janela principal
-        this.setTitle("Partida executada!");
+        this.setTitle("Partida executada! | Jogador 1 versus Jogador 2");
         this.setResizable(false);
         this.setBounds(100, 100, 1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +43,7 @@ public class JogoTela extends JFrame {
         // Painel de Descrição da Carta (lado esquerdo)
         JPanel descricaoPainel = new JPanel();
         descricaoPainel.setPreferredSize(new Dimension(200, 250));
-        descricaoPainel.setBackground(new Color(255, 228, 181)); // cor bege para descrição da carta
+        descricaoPainel.setBackground(new Color(255, 228, 181));
         descricaoPainel.setLayout(new BorderLayout());
 
         c.gridx = 0;
@@ -56,18 +56,18 @@ public class JogoTela extends JFrame {
         // Painel de Jogo do Jogador 1 (parte inferior)
         JPanel jogador1Painel = new JPanel(new BorderLayout());
         jogador1Painel.setPreferredSize(new Dimension(500, 150));
-        jogador1Painel.setBackground(new Color(0, 128, 0)); // cor verde para jogador 1
+        jogador1Painel.setBackground(new Color(0, 128, 0));
 
             // Painel de Deck do Jogador 1
             JPanel deckJogador1Painel = new JPanel();
             deckJogador1Painel.setPreferredSize(new Dimension(125, 150));
-            deckJogador1Painel.setBackground(new Color(44, 22, 11)); // cor marrom para o deck
+            deckJogador1Painel.setBackground(new Color(44, 22, 11));
             jogador1Painel.add(deckJogador1Painel, BorderLayout.WEST);
 
             // Painel da Mão do Jogador 1
             JPanel maoJogador1Painel = new JPanel();
             maoJogador1Painel.setPreferredSize(new Dimension(350, 150));
-            maoJogador1Painel.setBackground(new Color(123, 54, 53)); // cor para a mão do jogador 1
+            maoJogador1Painel.setBackground(new Color(123, 54, 53));
             jogador1Painel.add(maoJogador1Painel, BorderLayout.CENTER);
 
         c.gridx = 1;
