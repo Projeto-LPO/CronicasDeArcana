@@ -97,7 +97,7 @@ public class TelaInventario extends JFrame {
         JPanel playerInfoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         playerInfoPanel.setOpaque(false);
 
-        JLabel playerInfoLabel = new JLabel("Jogador1");
+        JLabel playerInfoLabel = new JLabel("Nome: "+jogador1.getNome()+" | Nível: "+jogador1.getNivel());
         playerInfoLabel.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
         playerInfoPanel.add(playerInfoLabel);
 
