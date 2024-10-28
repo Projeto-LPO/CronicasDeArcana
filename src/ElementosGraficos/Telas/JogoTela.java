@@ -18,7 +18,7 @@ public class JogoTela extends JFrame {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
 
-        this.setTitle("Partida executada! | "+ this.jogador1.getNome()+" versus "+ this.jogador2.getNome());
+        this.setTitle("Partida iniciada! | "+ this.jogador1.getNome()+" versus "+ this.jogador2.getNome());
         this.setResizable(false);
         this.setBounds(100, 100, 1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -22,7 +22,7 @@ public class TelaInventario2 extends JFrame {
         this.jogadorUi2 = jogadorUi2;
 
 
-        this.setTitle("Inventário - "+jogador1.getNome());
+        this.setTitle("Inventário - "+jogador2.getNome());
         this.setSize(1000, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
