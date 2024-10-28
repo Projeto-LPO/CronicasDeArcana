@@ -27,7 +27,7 @@ public class CartaUI extends JButton {
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     }
 
-    private void configurarAcaoClique() {
+    protected void configurarAcaoClique() {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,7 +36,7 @@ public class CartaUI extends JButton {
         });
     }
 
-    public void jogarCarta() {
+    protected void jogarCarta() {
         try {
             jogador.jogarCartaNoCampo(carta); // Jogar a carta utilizando a lógica do jogador
             setEnabled(false); // Desabilita o botão após jogar
