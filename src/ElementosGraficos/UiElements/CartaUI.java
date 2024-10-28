@@ -36,7 +36,7 @@ public class CartaUI extends JButton {
         });
     }
 
-    private void jogarCarta() {
+    public void jogarCarta() {
         try {
             jogador.jogarCartaNoCampo(carta); // Jogar a carta utilizando a lógica do jogador
             setEnabled(false); // Desabilita o botão após jogar
