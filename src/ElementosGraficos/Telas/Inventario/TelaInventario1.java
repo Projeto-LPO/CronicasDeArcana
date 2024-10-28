@@ -1,5 +1,6 @@
-package ElementosGraficos.Telas;
+package ElementosGraficos.Telas.Inventario;
 
+import ElementosGraficos.Telas.MenuInicial;
 import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Jogador;
 
@@ -8,13 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaInventario extends JFrame {
+public class TelaInventario1 extends JFrame {
     private JogadorUI jogadorUi1;
     private JogadorUI jogadorUi2;
     private Jogador jogador1;
     private Jogador jogador2;
 
-    public TelaInventario(Jogador jogador1, Jogador jogador2,JogadorUI jogadorUi1,JogadorUI jogadorUi2) {
+    public TelaInventario1(Jogador jogador1, Jogador jogador2, JogadorUI jogadorUi1, JogadorUI jogadorUi2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.jogadorUi1 = jogadorUi1;
@@ -131,17 +132,26 @@ public class TelaInventario extends JFrame {
         mainPanel.add(btnVoltar, gbc);
 
         //botão de troca de inventario (jogador 1 ---> jogador 2)
-        //JButton btnInventarioJogador2 = new JButton("Inventario do Jogador 2");
-        //btnInventarioJogador2.setBackground(new Color(242, 213, 174));
-       // btnInventarioJogador2.setPreferredSize(new Dimension(50, 50));
-        //btnInventarioJogador2.addActionListener(new ActionListener() {
-        //    public void actionPerformed(ActionEvent e) {
-        //        dispose();
-         //       new TelaInventario().setVisible(true);
-         //   }
-        //});
+        JButton btnInventarioJogador2 = new JButton("Inventário do Jogador 2");
+        btnInventarioJogador2.setBackground(new Color(242, 213, 174));
+        btnInventarioJogador2.setPreferredSize(new Dimension(50, 50));
 
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        gbc.weighty = 0.1;
+        gbc.anchor = GridBagConstraints.EAST;
 
+        btnInventarioJogador2.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+            dispose();
+            new TelaInventario2(jogador1, jogador2, jogadorUi1,jogadorUi2).setVisible(true);
+        }
+        });
+
+        mainPanel.add(btnInventarioJogador2, gbc);
+
+        //adiciona o painel ao frame
         this.add(mainPanel);
     }
 }

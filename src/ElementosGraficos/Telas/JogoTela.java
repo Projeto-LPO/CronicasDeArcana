@@ -1,12 +1,24 @@
 package ElementosGraficos.Telas;
 
+import ElementosGraficos.UiElements.JogadorUI;
+import MecanicasDeJogo.Jogador;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class JogoTela extends JFrame {
-    public JogoTela() {
+    private Jogador jogador1;
+    private Jogador jogador2;
+    private JogadorUI jogadorUi1;
+    private JogadorUI jogadorUi2;
+
+
+    public JogoTela(Jogador jogador1, Jogador jogador2, JogadorUI jogadorUi1, JogadorUI jogadorUi2) {
         // Configurações da janela principal
-        this.setTitle("Partida executada! | Jogador 1 versus Jogador 2");
+        this.jogador1 = jogador1;
+        this.jogador2 = jogador2;
+
+        this.setTitle("Partida executada! | "+ this.jogador1.getNome()+" versus "+ this.jogador2.getNome());
         this.setResizable(false);
         this.setBounds(100, 100, 1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

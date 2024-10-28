@@ -1,5 +1,6 @@
 package ElementosGraficos.Telas;
 
+import ElementosGraficos.Telas.Inventario.TelaInventario1;
 import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Jogador;
 
@@ -93,7 +94,7 @@ public class MenuInicial extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Iniciando o jogo...");
                 dispose();                                      //fecha a tela de titulo
-                new JogoTela().setVisible(true);                //abre a tela de jogo
+                new JogoTela(jogador1, jogador2,jogadorUi1,jogadorUi2).setVisible(true);                //abre a tela de jogo
             }
         });
 
@@ -102,7 +103,7 @@ public class MenuInicial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new TelaInventario(jogador1, jogador2, jogadorUi1,jogadorUi2).setVisible(true);
+                new TelaInventario1(jogador1, jogador2, jogadorUi1,jogadorUi2).setVisible(true);
             }
         });
 
