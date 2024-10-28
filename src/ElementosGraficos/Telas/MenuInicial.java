@@ -11,7 +11,7 @@ public class MenuInicial extends JFrame {
         //painel principal
         this.setTitle("Cronicas de Arcana");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(100, 100, 1000, 750);
+        this.setBounds(0, 0, 1000, 750);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

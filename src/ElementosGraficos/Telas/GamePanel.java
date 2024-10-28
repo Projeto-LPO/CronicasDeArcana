@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 1000;
-    public static final int HEIGHT = 700;
+    public static final int HEIGHT = 750;
 
     private Thread gameThread;
     private boolean running;

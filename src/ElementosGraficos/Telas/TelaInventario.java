@@ -15,26 +15,16 @@ public class TelaInventario extends JFrame {
         this.setResizable(false);
 
         //painel principal
-        JPanel mainPanel = new JPanel(new BorderLayout()) {
-            //metodo sobrescrito que cria um gradiente de cores no background do painel principal
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                int width = getWidth();
-                int height = getHeight();
-
-                GradientPaint gradiente = new GradientPaint(0, 0, Color.decode("#004aad"), width, height, Color.decode("#271629"));
-                g2d.setPaint(gradiente);
-                g2d.fillRect(0, 0, width, height);
-            }
-        };
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
         mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        mainPanel.setBackground(Color.BLACK);
 
         //painel esquerdo
         JPanel painelPrincipalInventario = new JPanel(new BorderLayout());
         painelPrincipalInventario.setOpaque(false);
+        painelPrincipalInventario.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        painelPrincipalInventario.setPreferredSize(new Dimension(200, 200));
 
         //painel das cartas disponiveis
         JPanel cartasDisponiveis = new JPanel(new BorderLayout());
