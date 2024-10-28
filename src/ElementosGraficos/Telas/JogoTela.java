@@ -60,7 +60,7 @@ public class JogoTela extends JFrame {
 
             // Painel de Deck do Jogador 1
             JPanel deckJogador1Painel = new JPanel();
-            deckJogador1Painel.setPreferredSize(new Dimension(150, 150));
+            deckJogador1Painel.setPreferredSize(new Dimension(125, 150));
             deckJogador1Painel.setBackground(new Color(44, 22, 11)); // cor marrom para o deck
             jogador1Painel.add(deckJogador1Painel, BorderLayout.WEST);
 
@@ -85,7 +85,7 @@ public class JogoTela extends JFrame {
 
             //painel de Deck do Jogador 2
             JPanel deckJogador2Painel = new JPanel();
-            deckJogador2Painel.setPreferredSize(new Dimension(100, 150));
+            deckJogador2Painel.setPreferredSize(new Dimension(125, 150));
             deckJogador2Painel.setBackground(new Color(44, 22, 11));
             jogador2Painel.add(deckJogador2Painel, BorderLayout.WEST);
 

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class MenuInicial extends JFrame {
 
     public MenuInicial() {
+
         //painel principal
         this.setTitle("Cronicas de Arcana");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

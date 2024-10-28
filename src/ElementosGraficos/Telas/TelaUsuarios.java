@@ -1,9 +1,7 @@
 package ElementosGraficos.Telas;
 
-import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Jogador;
 
-import javax.swing.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,6 +22,7 @@ public class TelaUsuarios extends JFrame {
         setSize(300, 150);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridLayout(3, 2));
+        setBackground(Color.BLACK);
 
         nomeJogador1Field = new JTextField();
         nomeJogador2Field = new JTextField();
@@ -41,12 +40,10 @@ public class TelaUsuarios extends JFrame {
                 JFrame jogadoresFrame = new JFrame("Informações dos Jogadores");
                 jogadoresFrame.setLayout(new GridLayout(2, 1));
 
-                jogadoresFrame.add(new JogadorUI(jogador1));
-                jogadoresFrame.add(new JogadorUI(jogador2));
-                jogadoresFrame.setSize(300, 200);
-                jogadoresFrame.setVisible(true);
-
+                //inicializa a tela de menu inicial ao confirmar
                 dispose();
+                new MenuInicial().setVisible(true);
+
             }
         });
         add(new JLabel("Nome do Jogador 1:"));
