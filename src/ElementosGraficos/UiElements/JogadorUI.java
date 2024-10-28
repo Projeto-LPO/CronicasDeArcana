@@ -8,13 +8,15 @@ import MecanicasDeJogo.Jogador;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 
-public class JogadorUI extends JPanel {
-    private Jogador jogador;
-    private JLabel vidaLabel;
-    private JLabel manaLabel;
-    private JLabel maoPanel;
-    private JLabel campoPanel;
-    private JButton comprarCartaButton;
+    public class JogadorUI extends JPanel {
+        private Jogador jogador;
+        private JLabel vidaLabel;
+        private JLabel manaLabel;
+        private JLabel nomeLabel;
+        private JLabel nivelLabel;
+        private JPanel maoPanel;
+        private JPanel campoPanel;
+        private JButton comprarCartaButton;
 
     public JogadorUI(Jogador jogador){
         this.jogador = jogador;
@@ -25,16 +27,18 @@ public class JogadorUI extends JPanel {
         setLayout(new BorderLayout());
 
         JPanel infoPanel = new JPanel(new GridLayout(1,2));
+        nomeLabel = new JLabel();
         vidaLabel = new JLabel();
         manaLabel = new JLabel();
+        infoPanel.add(nomeLabel);
         infoPanel.add(vidaLabel);
         infoPanel.add(manaLabel);
 
-        maoPanel = new JLabel();
+        maoPanel = new JPanel();
         maoPanel.setLayout(new FlowLayout());
         maoPanel.setBorder(BorderFactory.createTitledBorder("Mão"));
 
-        campoPanel = new JLabel();
+        campoPanel = new JPanel();
         campoPanel.setLayout(new FlowLayout());
         campoPanel.setBorder(BorderFactory.createTitledBorder("Campo de Batalha"));
 
@@ -56,6 +60,7 @@ public class JogadorUI extends JPanel {
     }
 
     private void atualizarInformacoes(){
+        nomeLabel.setText("Nome: " + jogador.getNome());
         vidaLabel.setText("Vida: " + jogador.getVida());
         manaLabel.setText("Mana: " + jogador.getManaAtual() + "/" + jogador.getMana());
     }

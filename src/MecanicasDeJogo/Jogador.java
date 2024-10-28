@@ -163,4 +163,8 @@ public class Jogador implements Atacavel {
 
     public void setMana(int i) {
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
