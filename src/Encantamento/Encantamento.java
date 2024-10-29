@@ -26,7 +26,6 @@ public abstract class Encantamento extends Carta implements Jogavel {
 
     @Override
     public void efeito() {
-
         System.out.println("Efeito contínuo de " + getNome() + ": " + efeitoContínuo);
     }
 

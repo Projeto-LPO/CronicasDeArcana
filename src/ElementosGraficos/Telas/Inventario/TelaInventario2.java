@@ -91,7 +91,6 @@ public class TelaInventario2 extends JFrame {
         mainPanel.add(deckPainelPrincipal, gbc);
 
         //painel superior - informações do jogador
-
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBackground(new Color(242, 213, 174));
         topPanel.setPreferredSize(new Dimension(200, 100));

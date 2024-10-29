@@ -30,7 +30,7 @@ public class TelaFinal extends JFrame {
         JTextArea primeiraTextArea = new JTextArea();
         primeiraTextArea.setEditable(false);
         primeiraTextArea.setOpaque(false);
-        primeiraTextArea.setFont(new Font("Uncial Antiqua", Font.PLAIN, 30));
+        primeiraTextArea.setFont(new Font("Uncial Antiqua", Font.BOLD, 30));
         primeiraTextArea.setText("Jogador 1 venceu a partida!");
 
         mainFinalPanel.add(primeiraTextArea, BorderLayout.CENTER);
@@ -38,7 +38,7 @@ public class TelaFinal extends JFrame {
         JTextArea segundaTextArea = new JTextArea();
         segundaTextArea.setEditable(false);
         segundaTextArea.setOpaque(false);
-        segundaTextArea.setFont(new Font("Uncial Antiqua", Font.PLAIN, 20));
+        segundaTextArea.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
         segundaTextArea.setText("Subiu para o nível x!");
 
         mainFinalPanel.add(segundaTextArea, BorderLayout.CENTER);
@@ -46,7 +46,7 @@ public class TelaFinal extends JFrame {
         JTextArea terceiraTextArea = new JTextArea();
         terceiraTextArea.setEditable(false);
         terceiraTextArea.setOpaque(false);
-        terceiraTextArea.setFont(new Font("Uncial Antiqua", Font.PLAIN, 20));
+            terceiraTextArea.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
         terceiraTextArea.setText("Carta Desbloqueada: 'nome da carta'");
 
         mainFinalPanel.add(terceiraTextArea, BorderLayout.CENTER);

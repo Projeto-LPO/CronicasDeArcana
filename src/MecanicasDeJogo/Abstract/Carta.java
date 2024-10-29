@@ -23,9 +23,9 @@ public abstract class Carta implements Jogavel {
     public int getCustoMana() {
         return custoMana;
     }
-@Override
+    @Override
     public abstract void efeito(); // Método abstrato a ser implementado por subclasses
-@Override
+    @Override
     public abstract void jogar(); // Outro método abstrato
 
 }
