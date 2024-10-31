@@ -88,25 +88,23 @@ public class JogoTela extends JFrame {
         c2.insets = new Insets(10, 10, 10, 10);
         c2.gridy = 0;
 
-        // Adicionando 5 instâncias de CartaUI na mão do jogador 1
+            // Adicionando 5 instâncias de CartaUI na mão do jogador 1
 
+            for (int i = 0; i < 5; i++) {
+                Component cartaUI; // Declara a variável para armazenar o componente a ser adicionado
 
-        for (int i = 0; i < 5; i++) {
-            Component cartaUI; // Declara a variável para armazenar o componente a ser adicionado
+                // Verifica se há cartas na mão antes de acessar
+                if (i < jogador1.getMao().getCartas().size()) {
+                    Carta carta = jogador1.getMao().getCartas().get(i);
+                    cartaUI = new CartaUI(carta, jogador1); // Se houver carta, cria CartaUI
+                } else {
+                    cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
+                }
 
-            // Verifica se há cartas na mão antes de acessar
-            if (i < jogador1.getMao().getCartas().size()) {
-                Carta carta = jogador1.getMao().getCartas().get(i);
-                cartaUI = new CartaUI(carta, jogador1); // Se houver carta, cria CartaUI
-            } else {
-                cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
+                // Define a posição do componente e adiciona ao painel
+                c2.gridx = i;
+                maoJogador1Painel.add(cartaUI, c2);
             }
-
-            // Define a posição do componente e adiciona ao painel
-            c2.gridx = i;
-            maoJogador1Painel.add(cartaUI, c2);
-        }
-
 
         // Painel do Jogador 1
         JPanel jogador1Painel = new JPanel(new BorderLayout());
