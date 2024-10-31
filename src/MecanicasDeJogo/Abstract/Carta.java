@@ -11,11 +11,6 @@ public abstract class Carta implements Jogavel {
         this.custoMana = custoMana;
     }
 
-    public void mostrarDetalhes(){
-        System.out.println("Nome: " + nome);
-        System.out.println("Custo Mana: " + custoMana);
-    }
-
     public String getNome() {
         return nome;
     }

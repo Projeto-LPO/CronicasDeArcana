@@ -1,16 +1,22 @@
 package ElementosGraficos.Telas;
 
+
+import ElementosGraficos.UiElements.CartaUI;
 import ElementosGraficos.UiElements.JogadorUI;
+import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class JogoTela extends JFrame {
     private Jogador jogador1;
     private Jogador jogador2;
     private JogadorUI jogadorUi1;
     private JogadorUI jogadorUi2;
+    private List<Carta> maoJogador1;
+    private List<Carta> maoJogador2;
 
 
     public JogoTela(Jogador jogador1, Jogador jogador2, JogadorUI jogadorUi1, JogadorUI jogadorUi2) {
@@ -40,7 +46,7 @@ public class JogoTela extends JFrame {
             campoJogador1.setPreferredSize(new Dimension(540,180));
             campoJogador1.setBackground(Color.WHITE);
 
-            //campo de batalha jogador 1
+            //campo de batalha jogador 2
             JPanel campoJogador2 = new JPanel();
             campoJogador2.setPreferredSize(new Dimension(540,180));
             campoJogador2.setBackground(Color.WHITE);
@@ -81,13 +87,23 @@ public class JogoTela extends JFrame {
 
         //painel de Jogo do Jogador 1 (parte inferior)
         JPanel jogador1Painel = new JPanel(new BorderLayout());
-        jogador1Painel.setPreferredSize(new Dimension(500, 150));
+        jogador1Painel.setPreferredSize(new Dimension(550, 150));
         jogador1Painel.setOpaque(false);
 
             //painel de Deck do Jogador 1
-            JPanel deckJogador1Painel = new JPanel();
+            JPanel deckJogador1Painel = new JPanel(new BorderLayout());
+            deckJogador1Painel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             deckJogador1Painel.setPreferredSize(new Dimension(125, 150));
-            deckJogador1Painel.setBackground(new Color(44, 22, 11));
+            deckJogador1Painel.setOpaque(false);
+
+                //botão do deck jogador1
+                JButton btDdeckJog1 = new JButton("Deck");
+                btDdeckJog1.setBackground(Color.YELLOW);
+                btDdeckJog1.setPreferredSize(new Dimension(75, 100));
+
+                deckJogador1Painel.add(btDdeckJog1, BorderLayout.CENTER);
+
+            //adiciona o deck ao painel de jogador
             jogador1Painel.add(deckJogador1Painel, BorderLayout.WEST);
 
             //painel da Mão do Jogador 1
@@ -98,61 +114,18 @@ public class JogoTela extends JFrame {
             c2.insets = new Insets(10, 10, 10, 10);
             c2.gridy = 0;
 
-                //botoes das cartas
-                    //carta1
-                    JButton btnCarta1 = new JButton("Carta1");
-                    btnCarta1.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
-                    btnCarta1.setBackground(new Color(0, 128, 0));
-                    btnCarta1.setBorderPainted(true);
-                    btnCarta1.setPreferredSize(new Dimension(62,80));
 
-                    c2.gridx = 0;
-
-                    maoJogador1Painel.add(btnCarta1, c2);
-
-                    //carta2
-                    JButton btnCarta2 = new JButton("Carta2");
-                    btnCarta2.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
-                    btnCarta2.setBackground(new Color(0, 128, 0));
-                    btnCarta2.setBorderPainted(true);
-                    btnCarta2.setPreferredSize(new Dimension(62,80));
-
-                    c2.gridx = 1;
-
-                    maoJogador1Painel.add(btnCarta2, c2);
-
-                    //carta3
-                    JButton btnCarta3 = new JButton("Carta3");
-                    btnCarta2.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
-                    btnCarta3.setBackground(new Color(0, 128, 0));
-                    btnCarta3.setBorderPainted(true);
-                    btnCarta3.setPreferredSize(new Dimension(62,80));
-
-                    c2.gridx = 2;
-
-                    maoJogador1Painel.add(btnCarta3, c2);
-
-                    //carta4
-                    JButton btnCarta4 = new JButton("Carta4");
-                    btnCarta4.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
-                    btnCarta4.setBackground(new Color(0, 128, 0));
-                    btnCarta4.setBorderPainted(true);
-                    btnCarta4.setPreferredSize(new Dimension(62,80));
-
-                    c2.gridx = 3;
-
-                    maoJogador1Painel.add(btnCarta4, c2);
-
-                    //carta5
-                    JButton btnCarta5 = new JButton("Carta5");
-                    btnCarta5.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
-                    btnCarta5.setBackground(new Color(0, 128, 0));
-                    btnCarta5.setBorderPainted(true);
-                    btnCarta5.setPreferredSize(new Dimension(62,80));
-
-                    c2.gridx = 4;
-
-                    maoJogador1Painel.add(btnCarta5, c2);
+                //teste de integração da logica com interface
+                for (int i = 0; i < maoJogador1.size(); i++) {
+                    Carta carta = maoJogador1.get(i);
+                    CartaUI cartaBotao = new CartaUI(carta, jogador1);
+                    cartaBotao.setPreferredSize(new Dimension(62, 80));
+                    cartaBotao.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
+                    cartaBotao.setBackground(new Color(0, 128, 0));
+                    cartaBotao.setBorderPainted(true);
+                    c2.gridx = i;
+                    maoJogador1Painel.add(cartaBotao, c2);
+                }
 
              //adiciona a mão ao painel de jogador
             jogador1Painel.add(maoJogador1Painel);
@@ -166,15 +139,25 @@ public class JogoTela extends JFrame {
 
         //painel de Jogo do Jogador 2 (parte superior)
         JPanel jogador2Painel = new JPanel(new BorderLayout());
-        jogador2Painel.setPreferredSize(new Dimension(500, 150));
+        jogador2Painel.setPreferredSize(new Dimension(550, 150));
         jogador2Painel.setOpaque(false);
 
         jogador2Painel.setBackground(new Color(0, 128, 0));
 
             //painel de Deck do Jogador 2
-            JPanel deckJogador2Painel = new JPanel();
+            JPanel deckJogador2Painel = new JPanel(new BorderLayout());
+            deckJogador2Painel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             deckJogador2Painel.setPreferredSize(new Dimension(125, 150));
-            deckJogador2Painel.setBackground(new Color(44, 22, 11));
+            deckJogador2Painel.setOpaque(false);
+
+                //botão do deck jogador2
+                JButton btDdeckJog2 = new JButton("Deck");
+                btDdeckJog2.setBackground(Color.YELLOW);
+                btDdeckJog2.setPreferredSize(new Dimension(75, 100));
+
+                deckJogador2Painel.add(btDdeckJog2, BorderLayout.CENTER);
+
+            //adiciona o deck2 ao painel
             jogador2Painel.add(deckJogador2Painel, BorderLayout.WEST);
 
             // painel da Mão do Jogador 2
@@ -187,14 +170,14 @@ public class JogoTela extends JFrame {
 
                 // botões das cartas para o jogador 2
                 // carta1
-                JButton btnCarta1Jogador2 = new JButton("Carta1");
-                btnCarta1Jogador2.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
-                btnCarta1Jogador2.setBackground(new Color(0, 128, 0));
-                btnCarta1Jogador2.setBorderPainted(true);
-                btnCarta1Jogador2.setPreferredSize(new Dimension(62, 80));
+                JButton btnCartaJogador2 = new JButton("Carta1");
+                btnCartaJogador2.setFont(new Font("Uncial Antiqua", Font.BOLD, 12));
+                btnCartaJogador2.setBackground(new Color(0, 128, 0));
+                btnCartaJogador2.setBorderPainted(true);
+                btnCartaJogador2.setPreferredSize(new Dimension(62, 80));
 
                 c3.gridx = 0;
-                maoJogador2Painel.add(btnCarta1Jogador2, c3);
+                maoJogador2Painel.add(btnCartaJogador2, c3);
 
                 // carta2
                 JButton btnCarta2Jogador2 = new JButton("Carta2");
