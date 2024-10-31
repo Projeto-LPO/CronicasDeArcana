@@ -15,8 +15,8 @@ public class FeitiçoUI extends CartaUI{
     private  JLabel valorDanoLabel;
     private JLabel valorCuraLabel;
 
-    public FeitiçoUI(Feitiço feitiço, Carta carta, Jogador jogador) {
-        super(carta, jogador);
+    public FeitiçoUI(Feitiço feitiço, Jogador jogador) {
+        super(feitiço, jogador);
         this.feitiço = feitiço;
         configurarComponentes();
     }

@@ -1,15 +1,12 @@
 package ElementosGraficos.UiElements;
 
-import MecanicasDeJogo.Abstract.Carta;
-import MecanicasDeJogo.Jogador;
-
 import javax.swing.*;
 import java.awt.*;
 import MecanicasDeJogo.Abstract.Carta;
-import MecanicasDeJogo.Jogador; // Importando a classe Jogador
+import MecanicasDeJogo.Jogador;
 import Encantamento.Encantamento;
 
-public class EncantamentoUI extends CartaUI{
+public class EncantamentoUI extends CartaUI {
     private Encantamento encantamento;
     private JLabel nomeLabel;
     private JLabel custoManaLabel;
@@ -17,13 +14,13 @@ public class EncantamentoUI extends CartaUI{
     private JLabel aumentoDanoLabel;
     private JLabel aumentoCuraLabel;
 
-    public EncantamentoUI(Encantamento encantamento,Carta carta, Jogador jogador) {
+    public EncantamentoUI(Encantamento encantamento, Carta carta, Jogador jogador) {
         super(carta, jogador);
         this.encantamento = encantamento;
         configurarComponentes();
-
     }
-    private void configurarComponentes(){
+
+    private void configurarComponentes() {
         setLayout(new BorderLayout());
 
         nomeLabel = new JLabel("Nome: " + encantamento.getNome());
@@ -32,13 +29,14 @@ public class EncantamentoUI extends CartaUI{
         aumentoDanoLabel = new JLabel("Aumento de Dano: " + encantamento.getAumentoDano());
         aumentoCuraLabel = new JLabel("Aumento de Cura: " + encantamento.getAumentoCura());
 
-        JPanel infoPanel = new JPanel(new GridLayout(5,1));
-
+        JPanel infoPanel = new JPanel(new GridLayout(5, 1));
         infoPanel.add(nomeLabel);
         infoPanel.add(custoManaLabel);
         infoPanel.add(efeitoContinuoLabel);
         infoPanel.add(aumentoDanoLabel);
         infoPanel.add(aumentoCuraLabel);
+
+        add(infoPanel, BorderLayout.CENTER); // Certifique-se de adicionar o painel ao layout principal
     }
 
     @Override

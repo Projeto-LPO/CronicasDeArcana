@@ -4,9 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Feiticos.Feitiço;
 import MecanicasDeJogo.Jogador;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
+import Personagens.Criatura;
+import Encantamento.*;
 
 public class JogadorUI extends JPanel {
     private Jogador jogador;
@@ -73,20 +77,34 @@ public class JogadorUI extends JPanel {
     private void atualizarMao() {
         maoPanel.removeAll();
         for (Carta carta : jogador.getMao().getCartas()) {
-            CartaUI cartaUI = new CartaUI(carta, jogador);
+            CartaUI cartaUI;
+
+            if (carta instanceof Encantamento ) {
+                cartaUI = new EncantamentoUI((Encantamento) carta, carta, jogador);
+            } else if (carta instanceof Criatura) {
+                cartaUI = new CriaturaUI((Criatura) carta, jogador);
+            } else if (carta instanceof Feitiço) {
+                cartaUI = new FeitiçoUI((Feitiço) carta, jogador);
+            } else {
+                continue; // Ignora cartas de tipos desconhecidos
+            }
+
+            // Configura a ação de clique para jogar a carta
             cartaUI.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     cartaUI.jogarCarta(); // Chama a ação de jogar a carta
-                    atualizarCampo();
-                    atualizarInformacoes();
+                    atualizarCampo();      // Atualiza o campo de batalha
+                    atualizarInformacoes();// Atualiza as informações do jogador
                 }
             });
-            maoPanel.add(cartaUI);
+
+            maoPanel.add(cartaUI); // Adiciona a carta na interface de mão
         }
         maoPanel.revalidate();
         maoPanel.repaint();
     }
+
 
     private void atualizarCampo() {
         campoPanel.removeAll();
@@ -98,3 +116,4 @@ public class JogadorUI extends JPanel {
         campoPanel.repaint();
     }
 }
+

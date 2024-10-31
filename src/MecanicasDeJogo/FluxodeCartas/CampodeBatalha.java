@@ -37,7 +37,7 @@ public class CampodeBatalha {
 
     public void comprarCartaCampo() {
         if (!deck.isEmpty()) {
-            Carta cartaComprada = deck.comprarCarta(); // Supondo que você tenha esse método no Deck
+            Carta cartaComprada = deck.comprarCarta();
             mao.adicionarCartasMao(cartaComprada);
             System.out.println("Você comprou a carta: " + cartaComprada.getNome());
         } else {
