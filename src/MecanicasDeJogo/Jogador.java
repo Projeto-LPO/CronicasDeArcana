@@ -58,21 +58,26 @@ public class Jogador implements Atacavel {
         }
     }
 
-    // Método para jogar uma carta no campo de batalha
     public void jogarCartaNoCampo(Carta carta) throws ManaInsuficienteException {
-        if (mao.temCarta(carta)) {
-            // Verifica se a carta pode ser jogada com a mana disponível
-            if (carta.getCustoMana() > this.manaAtual) {
-                throw new ManaInsuficienteException("Mana insuficiente para jogar a carta: " + carta.getNome());
-            }
-            usarMana(carta.getCustoMana()); // Usa mana ao jogar a carta
-            campoDeBatalha.adicionarCartasAoCampo(carta);
-            mao.removerCartaMao(carta); // Remove a carta da mão
-            System.out.println(nome + " jogou a carta: " + carta.getNome());
-        } else {
+
+        if (!mao.temCarta(carta)) {
             System.out.println("A carta " + carta.getNome() + " não está na mão de " + nome + ".");
+            return;
         }
+
+        if (carta.getCustoMana() > this.manaAtual) {
+            throw new ManaInsuficienteException("Mana insuficiente para jogar a carta: " + carta.getNome());
+        }
+        usarMana(carta.getCustoMana());
+
+
+        mao.removerCartaMao(carta);
+        campoDeBatalha.adicionarCartasAoCampo(carta);
+
+        System.out.println(nome + " jogou a carta: " + carta.getNome());
+        System.out.println("Mana restante de " + nome + ": " + this.manaAtual);
     }
+
 
     public void iniciarTurno() {
         reiniciarMana(); // Reinicia a mana para o início do turno
