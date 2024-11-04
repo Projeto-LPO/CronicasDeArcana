@@ -148,16 +148,16 @@ public class JogoTela extends JFrame {
 
         //adicionando as cartas
         for (int i = 0; i < 5; i++) {
-            Component cartaUI; // Declara a variável para armazenar o componente a ser adicionado
+            Component cartaUI; //variavel container
 
-            // Verifica se há cartas na mão antes de acessar
+            //verifica se há cartas na mão antes de acessar
             if (i < jogador1.getMao().getCartas().size()) {
                 Carta carta = jogador1.getMao().getCartas().get(i);
-                cartaUI = new CartaUI(carta, jogador1); // Se houver carta, cria CartaUI
+                cartaUI = new CartaUI(carta, jogador1); //se houver carta, cria CartaUI
             } else {
-                cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
+                cartaUI = new JButton("Vazio"); //adiciona um botão vazio caso não haja carta na posição i
             }
-            // Define a posição do componente e adiciona ao painel
+            //define a posição do componente e adiciona ao painel
             c2.gridx = i;
             maoJogador1Painel.add(cartaUI, c2);
         }
@@ -185,6 +185,11 @@ public class JogoTela extends JFrame {
 
             btnCompra1.add(nomeDeck1);
 
+            btnCompra1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jogador1.getMao().adicionarCartasMao(deckJogador1.comprarCarta());
+                }
+            });
 
             deckJogador1Painel.add(btnCompra1, BorderLayout.CENTER);
 
@@ -254,10 +259,16 @@ public class JogoTela extends JFrame {
             btnCompra2.setBackground(Color.WHITE);
             btnCompra2.setPreferredSize(new Dimension(100, 150));
 
+            btnCompra2.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jogador2.getMao().adicionarCartasMao(deckJogador2.comprarCarta());
+                }
+            });
+
+            deckJogador2Painel.add(btnCompra2, BorderLayout.CENTER);
 
         //adiciona o painel do deck no painel de jogador2
         jogador2Painel.add(deckJogador2Painel, BorderLayout.EAST);
-
 
         //painel de informações do jogador 2
         JPanel infoJogador2 = new JPanel(new GridLayout(3, 1));
