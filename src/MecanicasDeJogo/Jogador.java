@@ -70,7 +70,6 @@ public class Jogador implements Atacavel {
         }
         usarMana(carta.getCustoMana());
 
-
         mao.removerCartaMao(carta);
         campoDeBatalha.adicionarCartasAoCampo(carta);
 

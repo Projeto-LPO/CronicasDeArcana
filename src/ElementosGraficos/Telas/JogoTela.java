@@ -22,7 +22,11 @@ public class JogoTela extends JFrame {
     private Decks deckJogador1;
     private Decks deckJogador2;
     private boolean turnoJogador1; //(true para jogador 1, false para jogador 2)
-
+    private JButton btnCompra1;
+    private JButton btnCompra2;
+    private JButton cartaUI;
+    private JButton btnFinalizarTurno1;
+    private JButton btnFinalizarTurno2;
 
     public JogoTela(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
@@ -48,7 +52,11 @@ public class JogoTela extends JFrame {
         String primeiroJogador = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
         JOptionPane.showMessageDialog(this, "O jogador " + primeiroJogador + " começa!");
 
+        //---------------------------------------------------------------------------------------------------------------
 
+        //INCIO DAS CONFIGURAÇÕES VISUAIS + BOTOES DE CARTA E COMPRA DE CARTA
+
+        //configuração da tela principal
         this.setTitle("Partida iniciada! | " + this.jogador1.getNome() + " versus " + this.jogador2.getNome());
         this.setResizable(false);
         this.setBounds(100, 100, 1200, 800);
@@ -143,7 +151,7 @@ public class JogoTela extends JFrame {
         c2.insets = new Insets(10, 10, 10, 10);
         c2.gridy = 0;
 
-        //adicionando as cartas
+        //criação dos slots de carta
         for (int i = 0; i < 5; i++) {
             Component cartaUI; //variavel container
 
@@ -178,7 +186,7 @@ public class JogoTela extends JFrame {
         //painel do DECK do jogador1
         JPanel deckJogador1Painel = new JPanel(new BorderLayout());
         deckJogador1Painel.setPreferredSize(new Dimension(100, 150));
-        deckJogador1Painel.setBackground(Color.YELLOW);
+        deckJogador1Painel.setOpaque(false);
         deckJogador1Painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JLabel nomeDeck = new JLabel();
         deckJogador1Painel.add(nomeDeck, BorderLayout.CENTER);
@@ -215,6 +223,14 @@ public class JogoTela extends JFrame {
         infoJogador1.add(new JLabel("Mana: " + jogador1.getMana()));
 
         jogador1Painel.add(infoJogador1, BorderLayout.WEST);
+
+        //botao de finalizar o turno do jogador 1
+        JButton btnFinalizarTurno1 = new JButton("Finalizar Turno");
+        btnFinalizarTurno1.setBackground(Color.LIGHT_GRAY);
+        btnFinalizarTurno1.setPreferredSize(new Dimension(120, 50));
+        btnFinalizarTurno1.addActionListener(e -> alternarTurno());
+
+        jogador1Painel.add(btnFinalizarTurno1, BorderLayout.SOUTH);
 
         c.gridx = 1;
         c.gridy = 2;
@@ -253,7 +269,7 @@ public class JogoTela extends JFrame {
                         System.out.println("Jogador 2 jogou a carta: " + carta.getNome());
                     }
                 });
-            // Se houver carta, cria CartaUI
+                // Se houver carta, cria CartaUI
             } else {
                 cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
             }
@@ -269,9 +285,8 @@ public class JogoTela extends JFrame {
         //painel do DECK do jogador2
         JPanel deckJogador2Painel = new JPanel(new BorderLayout());
         deckJogador2Painel.setPreferredSize(new Dimension(100, 150));
-        deckJogador2Painel.setBackground(Color.YELLOW);
+        deckJogador2Painel.setOpaque(false);
         deckJogador2Painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
 
         JLabel nomeDeck2 = new JLabel("Deck 2");
         deckJogador2Painel.add(nomeDeck2, BorderLayout.CENTER);
@@ -302,6 +317,14 @@ public class JogoTela extends JFrame {
 
         jogador2Painel.add(infoJogador2, BorderLayout.WEST);
 
+        //botão de finalizar o turno
+        JButton btnFinalizarTurno2 = new JButton("Finalizar Turno");
+        btnFinalizarTurno2.setBackground(Color.LIGHT_GRAY);
+        btnFinalizarTurno2.setPreferredSize(new Dimension(120, 50));
+        btnFinalizarTurno2.addActionListener(e -> alternarTurno());
+
+        jogador2Painel.add(btnFinalizarTurno2, BorderLayout.NORTH);
+
         c.gridx = 1;
         c.gridy = 0;
         c.gridwidth = 2;
@@ -309,7 +332,32 @@ public class JogoTela extends JFrame {
         c.anchor = GridBagConstraints.NORTH;
         gamePanel.add(jogador2Painel, c);
 
+        //-------------------------------------------
 
+        //adiciona o painel principal ao frame
         this.add(gamePanel);
     }
+    private void iniciarTurno(){
+        if(turnoJogador1){
+            btnCompra1.setEnabled(true);
+            btnCompra2.setEnabled(false);
+            btnFinalizarTurno1.setEnabled(true);
+            btnFinalizarTurno2.setEnabled(false);
+
+        } else{
+            btnCompra1.setEnabled(false);
+            btnCompra2.setEnabled(true);
+            btnFinalizarTurno1.setEnabled(false);
+            btnFinalizarTurno2.setEnabled(true);
+        }
+    }
+
+    private void alternarTurno(){
+        turnoJogador1 = !turnoJogador1;
+        String jogadorAtual = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
+        JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtual + "!");
+
+        iniciarTurno();
+    }
+
 }

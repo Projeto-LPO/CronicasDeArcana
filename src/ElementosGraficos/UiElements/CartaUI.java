@@ -21,7 +21,7 @@ public class CartaUI extends JButton {
 
     private void configurarBotaoCarta() {
         setPreferredSize(new Dimension(62, 80));
-        setFont(new Font("Arial", Font.PLAIN, 9));
+        setFont(new Font("Uncia", Font.PLAIN, 10));
         setBackground(new Color(200, 180, 150));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         setHorizontalAlignment(SwingConstants.CENTER);

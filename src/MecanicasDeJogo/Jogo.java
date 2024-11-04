@@ -38,7 +38,7 @@ public class Jogo {
             executarTurno(jogadorAtivo);
             // Verifica condições de vitória
             if(verificarVitoria(jogadorAtivo)){
-                System.out.println("Parabens " +jogador1.getNome() + "Vc venceu");
+                System.out.println("Parabens " +jogador1.getNome() + "Voce venceu");
                 return ;
             }
 
