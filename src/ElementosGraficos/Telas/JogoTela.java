@@ -3,6 +3,7 @@ package ElementosGraficos.Telas;
 import ElementosGraficos.UiElements.CartaUI;
 import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.Decks;
 import MecanicasDeJogo.FluxodeCartas.InstanciaCartas;
 import MecanicasDeJogo.Jogador;
@@ -47,11 +48,7 @@ public class JogoTela extends JFrame {
         String primeiroJogador = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
         JOptionPane.showMessageDialog(this, "O jogador " + primeiroJogador + " começa!");
 
-        //---------------------------------------------------------------------------------------------------------------
 
-        //INCIO DAS CONFIGURAÇÕES VISUAIS + BOTOES DE CARTA E COMPRA DE CARTA
-
-        //configuração da tela principal
         this.setTitle("Partida iniciada! | " + this.jogador1.getNome() + " versus " + this.jogador2.getNome());
         this.setResizable(false);
         this.setBounds(100, 100, 1200, 800);
@@ -153,7 +150,20 @@ public class JogoTela extends JFrame {
             //verifica se há cartas na mão antes de acessar
             if (i < jogador1.getMao().getCartas().size()) {
                 Carta carta = jogador1.getMao().getCartas().get(i);
-                cartaUI = new CartaUI(carta, jogador1); //se houver carta, cria CartaUI
+                cartaUI = new CartaUI(carta, jogador1);
+                ((CartaUI)(cartaUI)).addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            jogador1.jogarCartaNoCampo(carta);
+                        } catch (ManaInsuficienteException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        System.out.println("Jogador 1 jogou a carta: " + carta.getNome());
+
+                    }
+                });
+
             } else {
                 cartaUI = new JButton("Vazio"); //adiciona um botão vazio caso não haja carta na posição i
             }
@@ -173,25 +183,25 @@ public class JogoTela extends JFrame {
         JLabel nomeDeck = new JLabel();
         deckJogador1Painel.add(nomeDeck, BorderLayout.CENTER);
 
-            //botão de deck (compra)
-            JButton btnCompra1 = new JButton();
-            btnCompra1.setBackground(Color.WHITE);
-            btnCompra1.setPreferredSize(new Dimension(100, 150));
+        //botão de deck (compra)
+        JButton btnCompra1 = new JButton();
+        btnCompra1.setBackground(Color.WHITE);
+        btnCompra1.setPreferredSize(new Dimension(100, 150));
 
-            JLabel nomeDeck1 = new JLabel("Deck1");
-            nomeDeck1.setHorizontalAlignment(SwingConstants.CENTER);
-            nomeDeck1.setFont(new Font("Uncial Antiqua", Font.BOLD, 10));
-            nomeDeck1.setForeground(Color.BLACK);
+        JLabel nomeDeck1 = new JLabel("Deck1");
+        nomeDeck1.setHorizontalAlignment(SwingConstants.CENTER);
+        nomeDeck1.setFont(new Font("Uncial Antiqua", Font.BOLD, 10));
+        nomeDeck1.setForeground(Color.BLACK);
 
-            btnCompra1.add(nomeDeck1);
+        btnCompra1.add(nomeDeck1);
 
-            btnCompra1.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    jogador1.getMao().adicionarCartasMao(deckJogador1.comprarCarta());
-                }
-            });
+        btnCompra1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jogador1.getMao().adicionarCartasMao(deckJogador1.comprarCarta());
+            }
+        });
 
-            deckJogador1Painel.add(btnCompra1, BorderLayout.CENTER);
+        deckJogador1Painel.add(btnCompra1, BorderLayout.CENTER);
 
         //adiciona o painel do deck no painel de jogador
         jogador1Painel.add(deckJogador1Painel, BorderLayout.EAST);
@@ -231,7 +241,19 @@ public class JogoTela extends JFrame {
             Component cartaUI;
             if (i < jogador2.getMao().getCartas().size()) {
                 Carta carta = jogador2.getMao().getCartas().get(i);
-                cartaUI = new CartaUI(carta, jogador2); // Se houver carta, cria CartaUI
+                cartaUI = new CartaUI(carta, jogador2);
+                ((CartaUI)(cartaUI)).addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            jogador2.jogarCartaNoCampo(carta);
+                        } catch (ManaInsuficienteException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        System.out.println("Jogador 2 jogou a carta: " + carta.getNome());
+                    }
+                });
+            // Se houver carta, cria CartaUI
             } else {
                 cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
             }
@@ -254,18 +276,18 @@ public class JogoTela extends JFrame {
         JLabel nomeDeck2 = new JLabel("Deck 2");
         deckJogador2Painel.add(nomeDeck2, BorderLayout.CENTER);
 
-            //botao de deck (compra)
-            JButton btnCompra2 = new JButton("Deck2");
-            btnCompra2.setBackground(Color.WHITE);
-            btnCompra2.setPreferredSize(new Dimension(100, 150));
+        //botao de deck (compra)
+        JButton btnCompra2 = new JButton("Deck2");
+        btnCompra2.setBackground(Color.WHITE);
+        btnCompra2.setPreferredSize(new Dimension(100, 150));
 
-            btnCompra2.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    jogador2.getMao().adicionarCartasMao(deckJogador2.comprarCarta());
-                }
-            });
+        btnCompra2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jogador2.getMao().adicionarCartasMao(deckJogador2.comprarCarta());
+            }
+        });
 
-            deckJogador2Painel.add(btnCompra2, BorderLayout.CENTER);
+        deckJogador2Painel.add(btnCompra2, BorderLayout.CENTER);
 
         //adiciona o painel do deck no painel de jogador2
         jogador2Painel.add(deckJogador2Painel, BorderLayout.EAST);
@@ -287,19 +309,7 @@ public class JogoTela extends JFrame {
         c.anchor = GridBagConstraints.NORTH;
         gamePanel.add(jogador2Painel, c);
 
-        //-------------------------------------------
 
-        //METODOS DE FUNCIONAMENTO DO JOGO
-
-        //metodo de alternancia de turnos
-        //public void alternarTurno(){
-        //    turnoJogador1 = !turnoJogador1;
-
-
-        //}
-
-
-        //adiciona o painel principal ao frame
         this.add(gamePanel);
     }
 }
