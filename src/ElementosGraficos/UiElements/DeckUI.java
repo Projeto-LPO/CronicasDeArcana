@@ -1,6 +1,5 @@
 package ElementosGraficos.UiElements;
 
-
 import MecanicasDeJogo.FluxodeCartas.Decks;
 import MecanicasDeJogo.Abstract.Carta;
 
@@ -29,7 +28,7 @@ public class DeckUI extends JPanel{
         this.add(scrollPane, BorderLayout.CENTER);
 
         JPanel painelBotoes = new JPanel();
-        btnComprar=new JButton("Comprar Carta");
+        btnComprar = new JButton("Comprar Carta");
         btnEmbaralhar = new JButton("Embaralhar Deck");
 
         btnComprar.addActionListener(new ActionListener() {
@@ -39,7 +38,6 @@ public class DeckUI extends JPanel{
 
             }
         });
-
 
       btnEmbaralhar.addActionListener(new ActionListener() {
         @Override
