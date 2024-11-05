@@ -43,12 +43,10 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel   {
         return voa;
     }
 
-
     @Override
     public void efeito() {
         System.out.println("Habilidade especial de " + getNome() + ": " + habilidadeEspecial);
     }
-
 
     @Override
     public void jogar() {

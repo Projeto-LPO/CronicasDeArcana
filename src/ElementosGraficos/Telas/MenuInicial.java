@@ -15,7 +15,6 @@ public class MenuInicial extends JFrame {
     private JogadorUI jogadorUi1;
     private JogadorUI jogadorUi2;
 
-
     public MenuInicial(Jogador jogador1, Jogador jogador2, JogadorUI jogadorUi1, JogadorUI jogadorUi2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;

@@ -154,7 +154,6 @@ public class JogoTela extends JFrame {
         //criação dos slots de carta
         for (int i = 0; i < 5; i++) {
             Component cartaUI; //variavel container
-
             //verifica se há cartas na mão antes de acessar
             if (i < jogador1.getMao().getCartas().size()) {
                 Carta carta = jogador1.getMao().getCartas().get(i);
@@ -171,7 +170,6 @@ public class JogoTela extends JFrame {
 
                     }
                 });
-
             } else {
                 cartaUI = new JButton("Vazio"); //adiciona um botão vazio caso não haja carta na posição i
             }
@@ -337,6 +335,7 @@ public class JogoTela extends JFrame {
         //adiciona o painel principal ao frame
         this.add(gamePanel);
     }
+
     private void iniciarTurno(){
         if(turnoJogador1){
             btnCompra1.setEnabled(true);

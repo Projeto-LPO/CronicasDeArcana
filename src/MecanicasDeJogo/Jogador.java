@@ -59,7 +59,6 @@ public class Jogador implements Atacavel {
     }
 
     public void jogarCartaNoCampo(Carta carta) throws ManaInsuficienteException {
-
         if (!mao.temCarta(carta)) {
             System.out.println("A carta " + carta.getNome() + " não está na mão de " + nome + ".");
             return;
@@ -76,8 +75,7 @@ public class Jogador implements Atacavel {
         System.out.println(nome + " jogou a carta: " + carta.getNome());
         System.out.println("Mana restante de " + nome + ": " + this.manaAtual);
     }
-
-
+    
     public void iniciarTurno() {
         reiniciarMana(); // Reinicia a mana para o início do turno
         if (this.manaAtual < MANA_MAXIMA) {
@@ -166,6 +164,7 @@ public class Jogador implements Atacavel {
     }
 
     public void setMana(int i) {
+        this.mana = i;
     }
 
     public void setNome(String nome) {
