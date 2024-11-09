@@ -2,6 +2,8 @@ package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
 import ElementosGraficos.UiElements.JogadorUI;
+import Feiticos.FeitiçoCura;
+import Feiticos.FeitiçoDano;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -401,10 +403,30 @@ public class JogoTela extends JFrame {
     private void atacarJogador(Criatura atacante, Jogador jogadorOponente){
         atacante.atacarJogador(jogadorOponente);
     }
-    private void aplicarFeitiçoDeCura(){
+    private void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+
+        feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
+
+
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+            feitiçoCura.aplicarEfeitoCura(criatura);
+        }
+    }
+
+    private void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano ,Jogador jogadorAlvo){
+        feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
+
+       for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+            feitiçoDano.aplicarEfeitoDano(criatura);
+        }
+    }
+    private void adicionarFeitiçonoCemiterio(){
 
     }
-    private void aplicarFeitiçoDeDano(){
+    private void aplicarEncantamentoDano(){
+
+    }
+    private void aplicarEncantementoCura(){
 
     }
 
