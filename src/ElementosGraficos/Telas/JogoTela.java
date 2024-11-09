@@ -7,6 +7,7 @@ import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.Decks;
 import MecanicasDeJogo.FluxodeCartas.InstanciaCartas;
 import MecanicasDeJogo.Jogador;
+import Personagens.Criatura;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -330,7 +331,6 @@ public class JogoTela extends JFrame {
         c.anchor = GridBagConstraints.NORTH;
         gamePanel.add(jogador2Painel, c);
 
-        //-------------------------------------------
 
         //adiciona o painel principal ao frame
         this.add(gamePanel);
@@ -352,6 +352,7 @@ public class JogoTela extends JFrame {
     }
 
     private void alternarTurno(){
+
         turnoJogador1 = !turnoJogador1;
         String jogadorAtual = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
         JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtual + "!");
@@ -359,4 +360,75 @@ public class JogoTela extends JFrame {
         iniciarTurno();
     }
 
+
+
+    private void combate(Jogador jogadorAtivo, Jogador jogadorOponente) {
+
+        List<Criatura> criaturasAtacantes = jogadorAtivo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtivo);
+        List<Criatura> criaturasDefensoras = jogadorOponente.getCampoDeBatalha().getCriaturasNoCampo(jogadorOponente);
+
+
+        if (criaturasAtacantes.isEmpty()) {
+            System.out.println(jogadorAtivo.getNome() + " não tem criaturas para atacar.");
+            return;
+        }
+
+
+        for (Criatura atacante : criaturasAtacantes) {
+            if (!criaturasDefensoras.isEmpty()) {
+
+                Criatura alvo = criaturasDefensoras.get(0);
+                System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
+                atacarCriatura(atacante, alvo); // Ataque à criatura do oponente
+
+
+                if (alvo.getResistencia() <= 0) {
+                    removerCriaturaDoCampo(jogadorOponente, alvo);
+                }
+            } else {
+
+                System.out.println(atacante.getNome() + " ataca " + jogadorOponente.getNome());
+                atacarJogador(atacante, jogadorOponente);
+            }
+        }
+
+
+        verificarVitoria(jogadorOponente);
+    }
+    private void atacarCriatura(Criatura atacante, Criatura alvo){
+        atacante.atacar(alvo);
+    }
+    private void atacarJogador(Criatura atacante, Jogador jogadorOponente){
+        atacante.atacarJogador(jogadorOponente);
+    }
+    private void aplicarFeitiçoDeCura(){
+
+    }
+    private void aplicarFeitiçoDeDano(){
+
+    }
+
+
+    private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
+
+        jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
+
+        jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
+        System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
+    }
+
+    private boolean verificarVitoria(Jogador jogador) {
+        if (jogador.getVida() <= 0) {
+            System.out.println(jogador.getNome() +" Ficou sem vida");
+            return true;
+        }
+
+        if (jogador.getDeck().isEmpty()) {
+            System.out.println(jogador.getNome() + "Ficou sem cartas");
+            return true;
+        }
+
+        return false;
+    }
 }
+
