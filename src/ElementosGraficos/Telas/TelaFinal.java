@@ -9,12 +9,10 @@ import java.awt.*;
 public class TelaFinal extends JFrame {
     private Jogador jogador1;
     private Jogador jogador2;
-    private JogadorUI jogadorUi1;
-    private JogadorUI jogadorUi2;
 
-    public TelaFinal(JogadorUI jogadorUI1, JogadorUI jogadorUI2) {
-        this.jogadorUi1 = jogadorUI1;
-        this.jogadorUi2 = jogadorUI2;
+
+    public TelaFinal() {
+
 
         setTitle("Partida Finalizada!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

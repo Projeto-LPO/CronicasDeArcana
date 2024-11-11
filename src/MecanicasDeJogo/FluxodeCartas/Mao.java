@@ -1,5 +1,6 @@
 package MecanicasDeJogo.FluxodeCartas;
 
+import Feiticos.Feitiço;
 import MecanicasDeJogo.Abstract.Carta;
 
 import java.util.ArrayList;
@@ -46,4 +47,9 @@ public class Mao {
                 System.out.println((i + 1) + ": " + carta.getNome() + " - Custo de Mana: " + carta.getCustoMana());
             }
         }
-    }}
+    }
+
+
+
+
+}

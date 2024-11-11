@@ -1,5 +1,6 @@
 package MecanicasDeJogo;
 
+import Feiticos.Feitiço;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.Exceptions.VidaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
@@ -9,6 +10,9 @@ import MecanicasDeJogo.FluxodeCartas.Mao;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Progressão.Nivel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Jogador implements Atacavel {
     private String nome;
@@ -76,16 +80,10 @@ public class Jogador implements Atacavel {
         System.out.println("Mana restante de " + nome + ": " + this.manaAtual);
     }
     
-    public void iniciarTurno() {
-        reiniciarMana(); // Reinicia a mana para o início do turno
-        if (this.manaAtual < MANA_MAXIMA) {
-            this.manaAtual++;
-        }
-    }
+
 
     public void reiniciarMana() {
-        this.manaAtual = 1; // Reinicia a mana atual para 1 no início do turno
-    }
+        this.manaAtual = 1; }
 
     public void usarMana(int quantidade) {
         this.manaAtual -= quantidade;
@@ -170,4 +168,7 @@ public class Jogador implements Atacavel {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+
+
 }

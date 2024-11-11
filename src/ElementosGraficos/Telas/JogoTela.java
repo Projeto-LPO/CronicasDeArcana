@@ -2,8 +2,12 @@ package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
 import ElementosGraficos.UiElements.JogadorUI;
+import Encantamento.Encantamento;
+import Encantamento.EncantamentoDano;
+import Feiticos.Feitiço;
 import Feiticos.FeitiçoCura;
 import Feiticos.FeitiçoDano;
+import Encantamento.EncantamentoCura;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -362,51 +366,74 @@ public class JogoTela extends JFrame {
         iniciarTurno();
     }
 
-
-
     private void combate(Jogador jogadorAtivo, Jogador jogadorOponente) {
-
         List<Criatura> criaturasAtacantes = jogadorAtivo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtivo);
         List<Criatura> criaturasDefensoras = jogadorOponente.getCampoDeBatalha().getCriaturasNoCampo(jogadorOponente);
-
 
         if (criaturasAtacantes.isEmpty()) {
             System.out.println(jogadorAtivo.getNome() + " não tem criaturas para atacar.");
             return;
         }
 
-
         for (Criatura atacante : criaturasAtacantes) {
             if (!criaturasDefensoras.isEmpty()) {
-
                 Criatura alvo = criaturasDefensoras.get(0);
                 System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
-                atacarCriatura(atacante, alvo); // Ataque à criatura do oponente
-
+                atacarCriatura(atacante, alvo);  // Ataque à criatura do oponente
 
                 if (alvo.getResistencia() <= 0) {
                     removerCriaturaDoCampo(jogadorOponente, alvo);
                 }
             } else {
-
                 System.out.println(atacante.getNome() + " ataca " + jogadorOponente.getNome());
                 atacarJogador(atacante, jogadorOponente);
             }
-        }
 
+            // Atualize a interface após cada ataque
+            SwingUtilities.invokeLater(() -> atualizarInterface());
+        }
 
         verificarVitoria(jogadorOponente);
     }
-    private void atacarCriatura(Criatura atacante, Criatura alvo){
+
+    private void atacarCriatura(Criatura atacante, Criatura alvo) {
         atacante.atacar(alvo);
+
+        // Exibir atualização de dano na interface
+        SwingUtilities.invokeLater(() -> atualizarInterface());
     }
-    private void atacarJogador(Criatura atacante, Jogador jogadorOponente){
+
+    private void atacarJogador(Criatura atacante, Jogador jogadorOponente) {
         atacante.atacarJogador(jogadorOponente);
+
+        // Atualizar vida do jogador na interface
+        SwingUtilities.invokeLater(() -> atualizarInterface());
     }
+
+    private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
+        jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
+        jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
+        System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
+
+        // Atualize a interface para mover a criatura ao cemitério
+        SwingUtilities.invokeLater(() -> atualizarInterface());
+    }
+
+    private boolean verificarVitoria(Jogador jogador) {
+        if (jogador.getVida() <= 0 || jogador.getDeck().isEmpty()) {
+            System.out.println(jogador.getNome() + " perdeu o jogo.");
+
+            SwingUtilities.invokeLater(() -> {
+                TelaFinal telaFinal = new TelaFinal();
+                telaFinal.setVisible(true);
+            });
+            return true;
+        }
+        return false;
+    }
+
     private void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
-
         feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
-
 
         for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
             feitiçoCura.aplicarEfeitoCura(criatura);
@@ -415,42 +442,28 @@ public class JogoTela extends JFrame {
 
     private void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano ,Jogador jogadorAlvo){
         feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
-
        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
             feitiçoDano.aplicarEfeitoDano(criatura);
         }
     }
-    private void adicionarFeitiçonoCemiterio(){
-
+    private void adicionarFeitiçonoCemiterio(Jogador jogador ,Feitiço feitiço) {
+        jogador.getCemiterio().adicionarCartasNoCemiterio(feitiço);
     }
-    private void aplicarEncantamentoDano(){
-
+    private void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
+            for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+                encantamentoDano.aplicarEfeitoDano(criatura);
+            }
     }
-    private void aplicarEncantementoCura(){
-
-    }
-
-
-    private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
-
-        jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
-
-        jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
-        System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
-    }
-
-    private boolean verificarVitoria(Jogador jogador) {
-        if (jogador.getVida() <= 0) {
-            System.out.println(jogador.getNome() +" Ficou sem vida");
-            return true;
+    private void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura ){
+        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+            encantamentoCura.aplicarEfeitoCura(criatura);
         }
 
-        if (jogador.getDeck().isEmpty()) {
-            System.out.println(jogador.getNome() + "Ficou sem cartas");
-            return true;
-        }
-
-        return false;
     }
+public void atualizarInterface(){
+
+}
+
+
 }
 
