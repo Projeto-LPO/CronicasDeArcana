@@ -20,6 +20,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -342,59 +343,90 @@ public class JogoTela extends JFrame {
         this.add(gamePanel);
     }
 
-    private void iniciarTurno(){
-        if(turnoJogador1){
-            btnCompra1.setEnabled(true);
-            btnCompra2.setEnabled(false);
-            btnFinalizarTurno1.setEnabled(true);
-            btnFinalizarTurno2.setEnabled(false);
+    private void iniciarTurno() {
+        Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
-        } else{
-            btnCompra1.setEnabled(false);
-            btnCompra2.setEnabled(true);
-            btnFinalizarTurno1.setEnabled(false);
-            btnFinalizarTurno2.setEnabled(true);
+        if (jogadorAtual.getMana() < 10) {
+            jogadorAtual.incrementarMana();
         }
+
+        configurarBotoesDeTurno(turnoJogador1);
+
+        verificarEncantamentos();
+
+        executarFaseDeCombate(jogadorAtual, turnoJogador1 ? jogador2 : jogador1);
+
+        atualizarInterface();
     }
 
-    private void alternarTurno(){
+    private void configurarBotoesDeTurno(boolean turnoJogador1) {
+        btnCompra1.setEnabled(turnoJogador1);
+        btnCompra2.setEnabled(!turnoJogador1);
+        btnFinalizarTurno1.setEnabled(turnoJogador1);
+        btnFinalizarTurno2.setEnabled(!turnoJogador1);
+    }
 
+
+    private void alternarTurno() {
         turnoJogador1 = !turnoJogador1;
-        String jogadorAtual = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
-        JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtual + "!");
+        String jogadorAtualNome = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
+        JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtualNome + "!");
 
         iniciarTurno();
     }
 
-    private void combate(Jogador jogadorAtivo, Jogador jogadorOponente) {
-        List<Criatura> criaturasAtacantes = jogadorAtivo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtivo);
-        List<Criatura> criaturasDefensoras = jogadorOponente.getCampoDeBatalha().getCriaturasNoCampo(jogadorOponente);
-
-        if (criaturasAtacantes.isEmpty()) {
-            System.out.println(jogadorAtivo.getNome() + " não tem criaturas para atacar.");
-            return;
-        }
+    private void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
+        List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
+        List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);
 
         for (Criatura atacante : criaturasAtacantes) {
             if (!criaturasDefensoras.isEmpty()) {
                 Criatura alvo = criaturasDefensoras.get(0);
                 System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
-                atacarCriatura(atacante, alvo);  // Ataque à criatura do oponente
+                atacarCriatura(atacante, alvo);
 
                 if (alvo.getResistencia() <= 0) {
-                    removerCriaturaDoCampo(jogadorOponente, alvo);
+                    removerCriaturaDoCampo(jogadorDefensor, alvo);
                 }
             } else {
-                System.out.println(atacante.getNome() + " ataca " + jogadorOponente.getNome());
-                atacarJogador(atacante, jogadorOponente);
+                System.out.println(atacante.getNome() + " ataca " + jogadorDefensor.getNome());
+                atacarJogador(atacante, jogadorDefensor);
             }
 
-            // Atualize a interface após cada ataque
-            SwingUtilities.invokeLater(() -> atualizarInterface());
+            // Atualizar a interface após cada ataque
+            SwingUtilities.invokeLater(this::atualizarInterface);
         }
 
-        verificarVitoria(jogadorOponente);
+        verificarVitoria(jogadorDefensor);
     }
+
+    private void finalizarTurno() {
+        alternarTurno();
+    }
+
+    private void verificarEncantamentos() {
+        // Verificar os encantamentos no campo do jogador 1
+        List<Encantamento> encantamentosJogador1 = jogador1.getCampoDeBatalha().getEncantamentosNoCampo();
+        verificarDuracaoEncantamentos(encantamentosJogador1, jogador1);
+
+        // Verificar os encantamentos no campo do jogador 2
+        List<Encantamento> encantamentosJogador2 = jogador2.getCampoDeBatalha().getEncantamentosNoCampo();
+        verificarDuracaoEncantamentos(encantamentosJogador2, jogador2);
+    }
+
+    // Método auxiliar para verificar a duração dos encantamentos e movê-los para o cemitério, se necessário
+    private void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
+        for (Encantamento encantamento : encantamentos) {
+            encantamento.reduzirDuracao();
+
+            if (encantamento.getDuracao() <= 0) {
+                jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
+                jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
+                System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
+            }
+        }
+    }
+
 
     private void atacarCriatura(Criatura atacante, Criatura alvo) {
         atacante.atacar(alvo);
@@ -449,6 +481,11 @@ public class JogoTela extends JFrame {
     private void adicionarFeitiçonoCemiterio(Jogador jogador ,Feitiço feitiço) {
         jogador.getCemiterio().adicionarCartasNoCemiterio(feitiço);
     }
+
+    private void adicionarEnacantamentonoCemiterio(Jogador jogador, Encantamento encantamento){
+        jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
+    }
+
     private void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
             for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
                 encantamentoDano.aplicarEfeitoDano(criatura);
@@ -461,7 +498,6 @@ public class JogoTela extends JFrame {
 
     }
 public void atualizarInterface(){
-
 }
 
 

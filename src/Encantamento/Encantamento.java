@@ -9,12 +9,14 @@ public abstract class Encantamento extends Carta implements Jogavel {
     private String efeitoContínuo;
     private int aumentoDano;
     private int aumentoCura;
+    private int duracao;
 
     // Construtor para Encantamentos de dano
-    public Encantamento(String nome, int custoMana, String efeitoContínuo, int aumentoDano) {
+    public Encantamento(String nome, int custoMana, String efeitoContínuo, int aumentoDano, int duraçãoInicial) {
         super(nome, custoMana);
         this.efeitoContínuo = efeitoContínuo;
         this.aumentoDano = aumentoDano;
+        this.duracao = duraçãoInicial;
     }
 
     // Construtor para Encantamentos de cura
@@ -51,4 +53,18 @@ public abstract class Encantamento extends Carta implements Jogavel {
     public int getAumentoCura() {
         return aumentoCura;
     }
+
+    public int getDuracao(){
+        return  duracao;
+    }
+    public void reduzirDuracao() {
+        if (duracao > 0) {
+            duracao--;
+        }
+    }
+
+    public boolean isExpirado() {
+        return duracao <= 0;
+    }
+
 }

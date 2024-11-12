@@ -146,11 +146,12 @@ public class Jogador implements Atacavel {
         System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
     }
 
-    public void defender(Carta atacante) {
-        // Aqui, você pode implementar a lógica de defesa.
-        System.out.println(getNome() + " defende com " + atacante.getNome());
-        // Lógica de dano, destruição de criaturas, etc.
+    public void incrementarMana() {
+        if (manaAtual < 10) {
+            manaAtual++;
+        }
     }
+
 
     public CampodeBatalha getCampoDeBatalha() {
         return campoDeBatalha;

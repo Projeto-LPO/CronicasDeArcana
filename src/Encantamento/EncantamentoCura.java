@@ -6,8 +6,8 @@ import Personagens.Criatura;
 
 public class EncantamentoCura extends Encantamento implements Jogavel {
 
-    public EncantamentoCura(String nome, int custoMana, String efeitoContínuo, int aumentoCura) {
-        super(nome, custoMana, efeitoContínuo, aumentoCura);
+    public EncantamentoCura(String nome, int custoMana, String efeitoContínuo, int aumentoCura, int duracaoInicial) {
+        super(nome, custoMana, efeitoContínuo, aumentoCura, duracaoInicial);
     }
 
     // Método da interface Jogavel para jogar o encantamento
@@ -16,7 +16,7 @@ public class EncantamentoCura extends Encantamento implements Jogavel {
         System.out.println("O encantamento " + getNome() + " foi jogado com o efeito: " + getEfeitoContínuo());
     }
 
-    // Método da interface Jogavel para exibir o efeito do encantamento
+
     @Override
     public void efeito() {
         System.out.println("Encantamento " + getNome() + " tem o efeito contínuo: " + getEfeitoContínuo());

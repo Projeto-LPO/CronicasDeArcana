@@ -6,7 +6,7 @@ import Personagens.Criatura;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import Encantamento.Encantamento;
 public class CampodeBatalha {
     private List<Carta> campo;
     private Mao mao;
@@ -57,5 +57,18 @@ public class CampodeBatalha {
             }
         }
         return criaturasNoCampo;
+    }
+
+
+
+
+    public List<Encantamento> getEncantamentosNoCampo() {
+        List<Encantamento> encantamentos = new ArrayList<>();
+        for (Carta carta : campo) {
+            if (carta instanceof Encantamento) {
+                encantamentos.add((Encantamento) carta);
+            }
+        }
+        return encantamentos;
     }
 }

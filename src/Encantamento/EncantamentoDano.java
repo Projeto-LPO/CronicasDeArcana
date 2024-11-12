@@ -6,8 +6,8 @@ import Personagens.Criatura;
 
 public class EncantamentoDano extends Encantamento implements Jogavel {
 
-    public EncantamentoDano(String nome, int custoMana, String efeitoContínuo, int aumentoDano) {
-        super(nome, custoMana, efeitoContínuo, aumentoDano);  // Reutilizando o campo 'aumentoDano' da classe Encantamento
+    public EncantamentoDano(String nome, int custoMana, String efeitoContínuo, int aumentoDano, int duracaoInicial) {
+        super(nome, custoMana, efeitoContínuo, aumentoDano, duracaoInicial);
     }
 
     // Método da interface Jogavel para jogar o encantamento
