@@ -93,7 +93,7 @@ public class MenuInicial extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Iniciando o jogo...");
                 dispose();
-                new JogoTela(jogador1, jogador2).setVisible(true);                //abre a tela de jogo
+                new JogoTela(jogador1, jogador2).setVisible(true);
             }
         });
 

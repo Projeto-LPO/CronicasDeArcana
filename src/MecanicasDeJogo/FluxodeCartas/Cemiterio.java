@@ -1,6 +1,7 @@
 package MecanicasDeJogo.FluxodeCartas;
 
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 import Encantamento.Encantamento;
 
