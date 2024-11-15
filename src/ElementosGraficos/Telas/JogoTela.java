@@ -1,13 +1,11 @@
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
-import ElementosGraficos.UiElements.JogadorUI;
 import Encantamento.Encantamento;
 import Encantamento.EncantamentoDano;
 import Feiticos.Feitiço;
 import Feiticos.FeitiçoCura;
 import Feiticos.FeitiçoDano;
-import Encantamento.EncantamentoCura;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -16,11 +14,9 @@ import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -403,7 +399,7 @@ public class JogoTela extends JFrame {
         alternarTurno();
     }
 
-    private void verificarEncantamentos() {
+    public void verificarEncantamentos() {
         // Verificar os encantamentos no campo do jogador 1
         List<Encantamento> encantamentosJogador1 = jogador1.getCampoDeBatalha().getEncantamentosNoCampo();
         verificarDuracaoEncantamentos(encantamentosJogador1, jogador1);
@@ -414,7 +410,7 @@ public class JogoTela extends JFrame {
     }
 
     // Método auxiliar para verificar a duração dos encantamentos e movê-los para o cemitério, se necessário
-    private void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
+    public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
         for (Encantamento encantamento : encantamentos) {
             encantamento.reduzirDuracao();
 
@@ -499,8 +495,21 @@ public class JogoTela extends JFrame {
 public void atualizarInterface(){
 }
 
-public void atualizarDadosJogador(){
+public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
+        infoJogadorPanel.removeAll();
 
-}}
+        infoJogadorPanel.add(new JLabel("Nome: " + jogador.getNome()));
+        infoJogadorPanel.add(new JLabel(" Vida " + jogador.getVida()));
+        infoJogadorPanel.add(new JLabel("Mana: " + jogador.getNome()));
+
+        infoJogadorPanel.revalidate();
+        infoJogadorPanel.repaint();
+
+
+}
+
+}
+
+
 
 

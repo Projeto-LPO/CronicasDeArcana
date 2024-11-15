@@ -11,16 +11,18 @@ import  java.util.List;
 public class Cemiterio {
     private List<Carta> cartasNoCemiterio;
 
-    public Cemiterio(){
+    public Cemiterio() {
         this.cartasNoCemiterio = new ArrayList<>();
     }
 
-    public void adicionarCartasNoCemiterio(Carta carta){
+    public void adicionarCartasNoCemiterio(Carta carta) {
         cartasNoCemiterio.add(carta);
 
     }
 
-    public  List<Carta> getCartasNoCemiterio(){
+    public List<Carta> getCartasNoCemiterio() {
         return cartasNoCemiterio;
     }
 }
+
+

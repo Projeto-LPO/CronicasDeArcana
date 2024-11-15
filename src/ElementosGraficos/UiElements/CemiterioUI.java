@@ -22,4 +22,19 @@ public class CemiterioUI{
         cemiterioPainel.revalidate();
         cemiterioPainel.repaint();
 
-    }}
+    }
+
+   /*
+    public void enviarCartaAoCemiterio(Carta carta, Jogador jogador) {
+        jogador.getCemiterio().adicionarCartasNoCemiterio(carta);
+        jogador.getCampoDeBatalha().removerCartaDoCampo(carta);
+
+        // Atualiza o cemitério gráfico
+        if (jogador == jogador1) {
+            atualizarCemiterio(cemiterioJogador1, jogador.getCemiterio().getCartasNoCemiterio());
+        } else if (jogador == jogador2) {
+            atualizarCemiterio(cemiterioJogador2, jogador.getCemiterio().getCartasNoCemiterio());
+        }*/
+
+
+}
