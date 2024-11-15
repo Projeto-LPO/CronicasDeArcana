@@ -10,6 +10,7 @@ import MecanicasDeJogo.FluxodeCartas.Mao;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Progressão.Nivel;
+import Personagens.Criatura;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class Jogador implements Atacavel {
 
     // Método para comprar uma carta do deck e adicioná-la à mão
     public void comprarCartas() {
-        // Verifique se há cartas no deck antes de tentar comprar
+
         if (deck.isEmpty()) {
             System.out.println("Não há mais cartas no deck para " + nome + "!");
             return; // Não faz nada se o deck estiver vazio
@@ -147,7 +148,7 @@ public class Jogador implements Atacavel {
     }
 
     public void incrementarMana() {
-        if (manaAtual < 10) {
+        if (manaAtual < MANA_MAXIMA) {
             manaAtual++;
         }
     }
@@ -162,13 +163,12 @@ public class Jogador implements Atacavel {
         System.out.println(getNome() + " agora tem " + this.vida + " de vida.");
     }
 
-    public void setMana(int i) {
-        this.mana = i;
-    }
+
 
     public void setNome(String nome) {
         this.nome = nome;
     }
+
 
 
 

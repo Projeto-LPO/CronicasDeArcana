@@ -220,7 +220,6 @@ public class JogoTela extends JFrame {
         //adiciona o painel do deck no painel de jogador
         jogador1Painel.add(deckJogador1Painel, BorderLayout.EAST);
 
-        //painel de informações do jogador 1
         JPanel infoJogador1 = new JPanel(new GridLayout(3, 1));
         infoJogador1.setPreferredSize(new Dimension(100, 150));
         infoJogador1.setBackground(Color.CYAN);
@@ -464,7 +463,7 @@ public class JogoTela extends JFrame {
         return false;
     }
 
-    private void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+    public void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
         feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
         for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
@@ -472,26 +471,26 @@ public class JogoTela extends JFrame {
         }
     }
 
-    private void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano ,Jogador jogadorAlvo){
+    public void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano ,Jogador jogadorAlvo){
         feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
             feitiçoDano.aplicarEfeitoDano(criatura);
         }
     }
-    private void adicionarFeitiçonoCemiterio(Jogador jogador ,Feitiço feitiço) {
+    public void adicionarFeitiçonoCemiterio(Jogador jogador ,Feitiço feitiço) {
         jogador.getCemiterio().adicionarCartasNoCemiterio(feitiço);
     }
 
-    private void adicionarEnacantamentonoCemiterio(Jogador jogador, Encantamento encantamento){
+    public void adicionarEnacantamentonoCemiterio(Jogador jogador, Encantamento encantamento){
         jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
     }
 
-    private void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
+    public void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
             for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
                 encantamentoDano.aplicarEfeitoDano(criatura);
             }
     }
-    private void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura ){
+    public void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura ){
         for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
             encantamentoCura.aplicarEfeitoCura(criatura);
         }
@@ -500,6 +499,8 @@ public class JogoTela extends JFrame {
 public void atualizarInterface(){
 }
 
+public void atualizarDadosJogador(){
 
-}
+}}
+
 

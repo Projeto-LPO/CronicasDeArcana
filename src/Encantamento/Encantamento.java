@@ -62,7 +62,6 @@ public abstract class Encantamento extends Carta implements Jogavel {
             duracao--;
         }
     }
-
     public boolean isExpirado() {
         return duracao <= 0;
     }

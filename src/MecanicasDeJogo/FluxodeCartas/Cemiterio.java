@@ -1,6 +1,9 @@
 package MecanicasDeJogo.FluxodeCartas;
 
 import MecanicasDeJogo.Abstract.Carta;
+import Personagens.Criatura;
+import Encantamento.Encantamento;
+
 
 import java.util.ArrayList;
 import  java.util.List;
@@ -15,6 +18,7 @@ public class Cemiterio {
         cartasNoCemiterio.add(carta);
 
     }
+
     public  List<Carta> getCartasNoCemiterio(){
         return cartasNoCemiterio;
     }

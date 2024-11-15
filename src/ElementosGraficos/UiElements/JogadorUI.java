@@ -71,7 +71,7 @@ public class JogadorUI extends JPanel {
         nomeLabel.setText("Nome: " + jogador.getNome());
         vidaLabel.setText("Vida: " + jogador.getVida());
         manaLabel.setText("Mana: " + jogador.getManaAtual() + "/" + jogador.getMana());
-        nivelLabel.setText("Nível: " + jogador.getNivel()); // Corrigido para exibir o nível
+        nivelLabel.setText("Nível: " + jogador.getNivel());
     }
 
     private void atualizarMao() {

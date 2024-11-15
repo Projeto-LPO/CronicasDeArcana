@@ -1,62 +1,59 @@
 package ElementosGraficos.UiElements;
 
-import javax.swing.*;
-import MecanicasDeJogo.FluxodeCartas.Mao;
+import ElementosGraficos.UiElements.CartaUI;
 import MecanicasDeJogo.Abstract.Carta;
+import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.Jogador;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+public class MaoUI{
+public void atualizarMao(JPanel maoPainel, Jogador jogador) {
+    maoPainel.removeAll();
 
-public class MaoUI extends JPanel {
-    private Mao mao;
-    private Jogador jogador;
-    private DefaultListModel<Carta> modeloLista;
-    private JList<Carta> listaCartas;
-    private JButton btnJogar;
+    GridBagConstraints c2 = new GridBagConstraints();
+    c2.insets = new Insets(10, 10, 10, 10);
+    c2.gridy = 0;
 
+    for (int i = 0; i < 5; i++) {
+        Component cartaUI;
 
-    public MaoUI(Mao mao, Jogador jogador) {
-        this.mao = mao; // Recebe a instância de Mao
-        this.jogador = jogador;
-        this.setLayout(new BorderLayout()); // Layout principal
+        if (i < jogador.getMao().getCartas().size()) {
+            Carta carta = jogador.getMao().getCartas().get(i);
+            cartaUI = new CartaUI(carta, jogador);
 
-        // Modelo da lista para exibir as cartas
-        modeloLista = new DefaultListModel<>();
-        listaCartas = new JList<>(modeloLista); // Cria a lista com o modelo
-        listaCartas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite selecionar apenas uma carta
+            ((CartaUI) cartaUI).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        jogador.jogarCartaNoCampo(carta);
 
-        // Criação do painel de rolagem para a lista de cartas
-        JScrollPane scrollPane = new JScrollPane(listaCartas);
-        this.add(scrollPane, BorderLayout.CENTER); // Adiciona ao painel principal
+                        // Verifica se o deck não está vazio e então compra uma carta
+                        if (!jogador.getDeck().isEmpty()) {
+                            Carta novaCarta = jogador.getDeck().comprarCarta();
 
-        // Botão para jogar a carta selecionada
-        btnJogar = new JButton("Jogar Carta");
-        btnJogar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jogarCarta(); // Chama o método para jogar a carta
-            }
-        });
-        this.add(btnJogar, BorderLayout.SOUTH); // Adiciona o botão ao painel
-    }
-    public void atualizarCartas(){
-        modeloLista.clear();
-        for(Carta carta : mao.getCartas()){
-            modeloLista.addElement(carta);
-        }
-    }
-
-    private void jogarCarta() {
-        Carta cartaSelecionada = listaCartas.getSelectedValue(); // Obtém a carta selecionada
-        if (cartaSelecionada != null) {
-            mao.removerCartaMao(cartaSelecionada); // Remove a carta da mão
-            atualizarCartas(); // Atualiza a lista de cartas
-            System.out.println(cartaSelecionada.getNome() + " foi jogada."); // Exibe uma mensagem
+                            // Adiciona a nova carta à mão do jogador
+                            jogador.getMao().getCartas().add(novaCarta);
+                        }
+                        atualizarMao(maoPainel, jogador);
+                    } catch (ManaInsuficienteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma carta para jogar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            cartaUI = new JButton("Vazio");
         }
+
+        c2.gridx = i;
+        maoPainel.add(cartaUI, c2);
     }
 
-}
+    maoPainel.revalidate();
+    maoPainel.repaint();
+}}
+
