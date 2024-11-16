@@ -1,6 +1,7 @@
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
+import ElementosGraficos.UiElements.MaoUI;
 import Encantamento.Encantamento;
 import Encantamento.EncantamentoDano;
 import Feiticos.Feitiço;
@@ -32,6 +33,7 @@ public class JogoTela extends JFrame {
     private JButton btnFinalizarTurno1;
     private JButton btnFinalizarTurno2;
 
+
     public JogoTela(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
@@ -43,6 +45,7 @@ public class JogoTela extends JFrame {
         this.deckJogador2 = new Decks(cartasCriadas);
         this.deckJogador1.embaralhar();
         this.deckJogador2.embaralhar();
+        MaoUI maoUI = new MaoUI();
 
         //adiciona as cartas na mão dos jogadores no inicio do jogo
         for (int i = 0; i < 5; i++) {
@@ -167,6 +170,9 @@ public class JogoTela extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             jogador1.jogarCartaNoCampo(carta);
+                            maoUI.atualizarCampoDeBatalha(campoJogador1, jogador1);
+                            maoUI.atualizarMao(maoJogador1Painel, campoJogador1, jogador1);
+
                         } catch (ManaInsuficienteException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -264,6 +270,9 @@ public class JogoTela extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             jogador2.jogarCartaNoCampo(carta);
+                            maoUI.atualizarCampoDeBatalha(campoJogador2, jogador2);
+                            maoUI.atualizarMao(maoJogador2Painel, campoJogador2, jogador2 );
+
                         } catch (ManaInsuficienteException ex) {
                             throw new RuntimeException(ex);
                         }
