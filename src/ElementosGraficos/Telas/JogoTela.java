@@ -1,6 +1,7 @@
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
+import ElementosGraficos.UiElements.CemiterioUI;
 import ElementosGraficos.UiElements.MaoUI;
 import Encantamento.Encantamento;
 import Encantamento.EncantamentoDano;
@@ -46,6 +47,7 @@ public class JogoTela extends JFrame {
         this.deckJogador1.embaralhar();
         this.deckJogador2.embaralhar();
         MaoUI maoUI = new MaoUI();
+        CemiterioUI cemiterioUI= new CemiterioUI();
 
         //adiciona as cartas na mão dos jogadores no inicio do jogo
         for (int i = 0; i < 5; i++) {
@@ -343,8 +345,66 @@ public class JogoTela extends JFrame {
         gamePanel.add(jogador2Painel, c);
 
 
-        //adiciona o painel principal ao frame
+
         this.add(gamePanel);
+    }
+
+    private boolean jogoAtivo = true;
+    private boolean turnoFinalizado = false;
+
+    public void iniciarJogo() {
+        while (jogoAtivo) {
+
+            Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
+
+
+            iniciarTurno();
+
+
+            esperarFinalizarTurno();
+
+
+            if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
+                jogoAtivo = false;
+            }
+
+
+            alternarTurno();
+        }
+
+
+        encerrarJogo();
+    }
+
+    private void esperarFinalizarTurno() {
+
+        while (jogoAtivo) {
+            try {
+                Thread.sleep(100); //
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+
+            if (turnoFinalizado) {
+                turnoFinalizado = false;
+                break;
+            }
+        }
+    }
+
+    private void finalizarTurno() {
+        turnoFinalizado = true;
+        alternarTurno();
+    }
+
+    private void encerrarJogo() {
+
+        SwingUtilities.invokeLater(() -> {
+            TelaFinal telaFinal = new TelaFinal();
+            telaFinal.setVisible(true);
+            dispose();
+        });
     }
 
     private void iniciarTurno() {
@@ -369,7 +429,6 @@ public class JogoTela extends JFrame {
         btnFinalizarTurno1.setEnabled(turnoJogador1);
         btnFinalizarTurno2.setEnabled(!turnoJogador1);
     }
-
 
     private void alternarTurno() {
         turnoJogador1 = !turnoJogador1;
@@ -397,28 +456,22 @@ public class JogoTela extends JFrame {
                 atacarJogador(atacante, jogadorDefensor);
             }
 
-            // Atualizar a interface após cada ataque
+
             SwingUtilities.invokeLater(this::atualizarInterface);
         }
 
         verificarVitoria(jogadorDefensor);
     }
 
-    private void finalizarTurno() {
-        alternarTurno();
-    }
-
-    public void verificarEncantamentos() {
-        // Verificar os encantamentos no campo do jogador 1
+    private void verificarEncantamentos() {
         List<Encantamento> encantamentosJogador1 = jogador1.getCampoDeBatalha().getEncantamentosNoCampo();
         verificarDuracaoEncantamentos(encantamentosJogador1, jogador1);
 
-        // Verificar os encantamentos no campo do jogador 2
         List<Encantamento> encantamentosJogador2 = jogador2.getCampoDeBatalha().getEncantamentosNoCampo();
         verificarDuracaoEncantamentos(encantamentosJogador2, jogador2);
     }
 
-    // Método auxiliar para verificar a duração dos encantamentos e movê-los para o cemitério, se necessário
+
     public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
         for (Encantamento encantamento : encantamentos) {
             encantamento.reduzirDuracao();
@@ -431,11 +484,9 @@ public class JogoTela extends JFrame {
         }
     }
 
-
     private void atacarCriatura(Criatura atacante, Criatura alvo) {
         atacante.atacar(alvo);
 
-        // Exibir atualização de dano na interface
         SwingUtilities.invokeLater(() -> atualizarInterface());
     }
 
@@ -451,8 +502,9 @@ public class JogoTela extends JFrame {
         jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
         System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
 
-        // Atualize a interface para mover a criatura ao cemitério
-        SwingUtilities.invokeLater(() -> atualizarInterface());
+
+
+
     }
 
     private boolean verificarVitoria(Jogador jogador) {
@@ -467,6 +519,7 @@ public class JogoTela extends JFrame {
         }
         return false;
     }
+
 
     public void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
         feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
@@ -486,7 +539,7 @@ public class JogoTela extends JFrame {
         jogador.getCemiterio().adicionarCartasNoCemiterio(feitiço);
     }
 
-    public void adicionarEnacantamentonoCemiterio(Jogador jogador, Encantamento encantamento){
+    public void adicionarEncantamentonoCemiterio(Jogador jogador, Encantamento encantamento){
         jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
     }
 
