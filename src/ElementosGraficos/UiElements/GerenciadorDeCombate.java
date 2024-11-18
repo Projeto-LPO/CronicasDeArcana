@@ -42,7 +42,7 @@ import java.util.List;
             jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
         }
 
-        public void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+        public static void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
             feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
             for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
@@ -50,7 +50,7 @@ import java.util.List;
             }
         }
 
-        public void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano , Jogador jogadorAlvo){
+        public static void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
             feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
             for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
                 feitiçoDano.aplicarEfeitoDano(criatura);

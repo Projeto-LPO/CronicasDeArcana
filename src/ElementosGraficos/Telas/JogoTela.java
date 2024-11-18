@@ -171,9 +171,9 @@ public class JogoTela extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            jogador1.jogarCartaNoCampo(carta);
+                            jogador1.jogarCartaNoCampo(carta, jogador2);
                             maoUI.atualizarCampoDeBatalha(campoJogador1, jogador1);
-                            maoUI.atualizarMao(maoJogador1Painel, campoJogador1, jogador1);
+                            maoUI.atualizarMao(maoJogador1Painel, campoJogador1, jogador1, jogador2);
 
                         } catch (ManaInsuficienteException ex) {
                             throw new RuntimeException(ex);
@@ -271,9 +271,9 @@ public class JogoTela extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            jogador2.jogarCartaNoCampo(carta);
+                            jogador2.jogarCartaNoCampo(carta, jogador1);
                             maoUI.atualizarCampoDeBatalha(campoJogador2, jogador2);
-                            maoUI.atualizarMao(maoJogador2Painel, campoJogador2, jogador2 );
+                            maoUI.atualizarMao(maoJogador2Painel, campoJogador2, jogador2, jogador1 );
 
                         } catch (ManaInsuficienteException ex) {
                             throw new RuntimeException(ex);
@@ -501,10 +501,6 @@ public class JogoTela extends JFrame {
         jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
         jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
         System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
-
-
-
-
     }
 
     private boolean verificarVitoria(Jogador jogador) {
@@ -518,29 +514,6 @@ public class JogoTela extends JFrame {
             return true;
         }
         return false;
-    }
-
-
-    public void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
-        feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
-
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
-            feitiçoCura.aplicarEfeitoCura(criatura);
-        }
-    }
-
-    public void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano ,Jogador jogadorAlvo){
-        feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
-       for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
-            feitiçoDano.aplicarEfeitoDano(criatura);
-        }
-    }
-    public void adicionarFeitiçonoCemiterio(Jogador jogador ,Feitiço feitiço) {
-        jogador.getCemiterio().adicionarCartasNoCemiterio(feitiço);
-    }
-
-    public void adicionarEncantamentonoCemiterio(Jogador jogador, Encantamento encantamento){
-        jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
     }
 
     public void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){

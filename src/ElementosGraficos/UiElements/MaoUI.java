@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 public class MaoUI {
-    public void atualizarMao(JPanel maoPainel, JPanel campoPainel, Jogador jogador) {
+    public void atualizarMao(JPanel maoPainel, JPanel campoPainel, Jogador jogador, Jogador jogadorOponente) {
         maoPainel.removeAll();
 
         GridBagConstraints c2 = new GridBagConstraints();
@@ -33,7 +33,7 @@ public class MaoUI {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             // Joga a carta no campo
-                            jogador.jogarCartaNoCampo(carta);
+                            jogador.jogarCartaNoCampo(carta, jogadorOponente);
 
                             // Atualiza o campo de batalha usando o método existente
                             atualizarCampoDeBatalha(campoPainel, jogador);
@@ -45,7 +45,7 @@ public class MaoUI {
                             }
 
                             // Atualiza o painel da mão
-                            atualizarMao(maoPainel, campoPainel, jogador);
+                            atualizarMao(maoPainel, campoPainel, jogador, jogadorOponente);
                         } catch (ManaInsuficienteException ex) {
                             JOptionPane.showMessageDialog(null, "Mana insuficiente para jogar esta carta!");
                         }

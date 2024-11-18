@@ -1,6 +1,9 @@
 package MecanicasDeJogo;
 
+import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import Feiticos.Feitiço;
+import Feiticos.FeitiçoCura;
+import Feiticos.FeitiçoDano;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.Exceptions.VidaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
@@ -11,6 +14,7 @@ import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Progressão.Nivel;
 import Personagens.Criatura;
+import Encantamento.Encantamento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +67,7 @@ public class Jogador implements Atacavel {
         }
     }
 
-    public void jogarCartaNoCampo(Carta carta) throws ManaInsuficienteException {
+    public void jogarCartaNoCampo(Carta carta, Jogador jogadorAlvo) throws ManaInsuficienteException {
         if (!mao.temCarta(carta)) {
             System.out.println("A carta " + carta.getNome() + " não está na mão de " + nome + ".");
             return;
@@ -72,15 +76,36 @@ public class Jogador implements Atacavel {
         if (carta.getCustoMana() > this.manaAtual) {
             throw new ManaInsuficienteException("Mana insuficiente para jogar a carta: " + carta.getNome());
         }
+
         usarMana(carta.getCustoMana());
-
         mao.removerCartaMao(carta);
-        campoDeBatalha.adicionarCartasAoCampo(carta);
 
-        System.out.println(nome + " jogou a carta: " + carta.getNome());
+        if (carta instanceof FeitiçoCura) {
+            FeitiçoCura feitiçoCura = (FeitiçoCura) carta;
+            GerenciadorDeCombate.aplicarFeitiçoDeCura(feitiçoCura, jogadorAlvo);
+            cemiterio.adicionarCartasNoCemiterio(feitiçoCura);
+
+            System.out.println(nome + " lançou o feitiço de cura: " + carta.getNome());
+
+        } else if (carta instanceof FeitiçoDano) {
+            FeitiçoDano feitiçoDano = (FeitiçoDano) carta;
+            GerenciadorDeCombate.aplicarFeitiçoDeDano(feitiçoDano, jogadorAlvo);
+            cemiterio.adicionarCartasNoCemiterio(feitiçoDano);
+            System.out.println(nome + " lançou o feitiço de dano: " + carta.getNome());
+            //atualizar cemiterio
+        } else if (carta instanceof Encantamento) {
+            Encantamento encantamento = (Encantamento) carta;
+            campoDeBatalha.adicionarCartasAoCampo(encantamento);
+            System.out.println(nome + " jogou o encantamento: " + carta.getNome());
+            // atualizar cemiterio
+        } else {
+            campoDeBatalha.adicionarCartasAoCampo(carta);
+            System.out.println(nome + " jogou a carta: " + carta.getNome());
+        }
+
         System.out.println("Mana restante de " + nome + ": " + this.manaAtual);
     }
-    
+
 
 
     public void reiniciarMana() {

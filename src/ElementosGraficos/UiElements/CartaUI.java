@@ -44,7 +44,7 @@ public class CartaUI extends JButton {
 
     protected void jogarCarta() {
         try {
-            jogador.jogarCartaNoCampo(carta);
+            jogador.jogarCartaNoCampo(carta, jogador);
             setEnabled(false);
             System.out.println(carta.getNome() + " foi jogada.");
         } catch (ManaInsuficienteException e) {
