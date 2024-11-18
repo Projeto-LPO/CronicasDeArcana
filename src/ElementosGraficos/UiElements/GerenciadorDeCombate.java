@@ -7,6 +7,8 @@ import Feiticos.FeitiçoDano;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 import Encantamento.*;
+
+import javax.swing.*;
 import java.util.List;
 
 
@@ -29,20 +31,22 @@ import java.util.List;
             }
         }
 
-        private void atacarCriatura(Criatura atacante, Criatura alvo) {
+        public void atacarCriatura(Criatura atacante, Criatura alvo) {
             atacante.atacar(alvo);
+            SwingUtilities.invokeLater(() -> atualizarInterface());
         }
 
-        private void atacarJogador(Criatura atacante, Jogador jogador) {
+        public  void atacarJogador(Criatura atacante, Jogador jogador) {
             atacante.atacarJogador(jogador);
+            SwingUtilities.invokeLater(() -> atualizarInterface());
         }
 
-        private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
+        public void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
             jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
             jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
         }
 
-        public static void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+        public  void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
             feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
             for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
@@ -50,7 +54,7 @@ import java.util.List;
             }
         }
 
-        public static void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
+        public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
             feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
             for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
                 feitiçoDano.aplicarEfeitoDano(criatura);
@@ -64,12 +68,12 @@ import java.util.List;
             jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
         }
 
-        public void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
+        public  void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
             for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
                 encantamentoDano.aplicarEfeitoDano(criatura);
             }
         }
-        public void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura ){
+        public  void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura){
             for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
                 encantamentoCura.aplicarEfeitoCura(criatura);
             }
@@ -88,7 +92,7 @@ import java.util.List;
                 }
             }
         }
-
+public void atualizarInterface(){}
 
     }
 

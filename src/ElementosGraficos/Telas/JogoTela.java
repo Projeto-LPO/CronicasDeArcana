@@ -2,6 +2,7 @@ package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
 import ElementosGraficos.UiElements.CemiterioUI;
+import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import ElementosGraficos.UiElements.MaoUI;
 import Encantamento.Encantamento;
 import Encantamento.EncantamentoDano;
@@ -21,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Random;
+import Encantamento.EncantamentoCura;
 
 public class JogoTela extends JFrame {
     private Jogador jogador1;
@@ -33,6 +35,7 @@ public class JogoTela extends JFrame {
     private JButton cartaUI;
     private JButton btnFinalizarTurno1;
     private JButton btnFinalizarTurno2;
+    private GerenciadorDeCombate gerenciador;
 
 
     public JogoTela(Jogador jogador1, Jogador jogador2) {
@@ -40,6 +43,8 @@ public class JogoTela extends JFrame {
         this.jogador2 = jogador2;
 
         //criação dos decks
+        GerenciadorDeCombate GerenciadorDeCombate = new GerenciadorDeCombate();
+
         List<Carta> cartasCriadas = InstanciaCartas.gerarCartas();
 
         this.deckJogador1 = new Decks(cartasCriadas);
@@ -446,21 +451,16 @@ public class JogoTela extends JFrame {
             if (!criaturasDefensoras.isEmpty()) {
                 Criatura alvo = criaturasDefensoras.get(0);
                 System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
-                atacarCriatura(atacante, alvo);
+                gerenciador.atacarCriatura(atacante, alvo);
 
                 if (alvo.getResistencia() <= 0) {
-                    removerCriaturaDoCampo(jogadorDefensor, alvo);
+                    gerenciador.removerCriaturaDoCampo(jogadorDefensor, alvo);
                 }
             } else {
                 System.out.println(atacante.getNome() + " ataca " + jogadorDefensor.getNome());
-                atacarJogador(atacante, jogadorDefensor);
+               gerenciador.atacarJogador(atacante, jogadorDefensor);
             }
-
-
-            SwingUtilities.invokeLater(this::atualizarInterface);
         }
-
-        verificarVitoria(jogadorDefensor);
     }
 
     private void verificarEncantamentos() {
@@ -473,28 +473,23 @@ public class JogoTela extends JFrame {
 
 
     public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
+        for(Encantamento encantamento: encantamentos){
+        if (encantamento instanceof EncantamentoDano) {
+            gerenciador.aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
+        } else if (encantamento instanceof EncantamentoCura) {
+            gerenciador.aplicarEncantementoCura(jogador, (EncantamentoCura) encantamento);
+        }
+        }
         for (Encantamento encantamento : encantamentos) {
             encantamento.reduzirDuracao();
 
             if (encantamento.getDuracao() <= 0) {
                 jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
                 jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
+                //Atualizar cemitério
                 System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
             }
         }
-    }
-
-    private void atacarCriatura(Criatura atacante, Criatura alvo) {
-        atacante.atacar(alvo);
-
-        SwingUtilities.invokeLater(() -> atualizarInterface());
-    }
-
-    private void atacarJogador(Criatura atacante, Jogador jogadorOponente) {
-        atacante.atacarJogador(jogadorOponente);
-
-        // Atualizar vida do jogador na interface
-        SwingUtilities.invokeLater(() -> atualizarInterface());
     }
 
     private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
@@ -516,17 +511,6 @@ public class JogoTela extends JFrame {
         return false;
     }
 
-    public void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
-            for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
-                encantamentoDano.aplicarEfeitoDano(criatura);
-            }
-    }
-    public void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura ){
-        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
-            encantamentoCura.aplicarEfeitoCura(criatura);
-        }
-
-    }
 public void atualizarInterface(){
 }
 
@@ -539,7 +523,6 @@ public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
 
         infoJogadorPanel.revalidate();
         infoJogadorPanel.repaint();
-
 
 }
 

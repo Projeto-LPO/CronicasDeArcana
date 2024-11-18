@@ -29,8 +29,9 @@ public class Jogador implements Atacavel {
     private int mana;
     private int manaAtual;
     private Nivel nivel;
+    private GerenciadorDeCombate gerenciador;
 
-    private static final int MANA_MAXIMA = 10;
+    private static  int MANA_MAXIMA = 10;
 
     public Jogador(String nome, Decks deck, int vida, int mana) {
         this.nome = nome;
@@ -82,14 +83,14 @@ public class Jogador implements Atacavel {
 
         if (carta instanceof FeitiçoCura) {
             FeitiçoCura feitiçoCura = (FeitiçoCura) carta;
-            GerenciadorDeCombate.aplicarFeitiçoDeCura(feitiçoCura, jogadorAlvo);
+            gerenciador.aplicarFeitiçoDeCura(feitiçoCura, jogadorAlvo);
             cemiterio.adicionarCartasNoCemiterio(feitiçoCura);
 
             System.out.println(nome + " lançou o feitiço de cura: " + carta.getNome());
 
         } else if (carta instanceof FeitiçoDano) {
             FeitiçoDano feitiçoDano = (FeitiçoDano) carta;
-            GerenciadorDeCombate.aplicarFeitiçoDeDano(feitiçoDano, jogadorAlvo);
+            gerenciador.aplicarFeitiçoDeDano(feitiçoDano, jogadorAlvo);
             cemiterio.adicionarCartasNoCemiterio(feitiçoDano);
             System.out.println(nome + " lançou o feitiço de dano: " + carta.getNome());
             //atualizar cemiterio
@@ -105,7 +106,6 @@ public class Jogador implements Atacavel {
 
         System.out.println("Mana restante de " + nome + ": " + this.manaAtual);
     }
-
 
 
     public void reiniciarMana() {

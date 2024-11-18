@@ -20,10 +20,11 @@ public abstract class Encantamento extends Carta implements Jogavel {
     }
 
     // Construtor para Encantamentos de cura
-    public Encantamento(String nome, int custoMana, String efeitoContínuo, int aumentoCura, boolean isCura) {
+    public Encantamento(String nome, int custoMana, String efeitoContínuo, int aumentoCura, boolean isCura, int duraçãoInicial) {
         super(nome, custoMana);
         this.efeitoContínuo = efeitoContínuo;
         this.aumentoCura = aumentoCura;
+        this.duracao = duraçãoInicial;
     }
 
     @Override
