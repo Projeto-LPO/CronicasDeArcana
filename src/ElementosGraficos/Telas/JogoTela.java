@@ -365,7 +365,6 @@ public class JogoTela extends JFrame {
 
             iniciarTurno();
 
-
             esperarFinalizarTurno();
 
 
@@ -376,7 +375,6 @@ public class JogoTela extends JFrame {
 
             alternarTurno();
         }
-
 
         encerrarJogo();
     }
@@ -415,9 +413,6 @@ public class JogoTela extends JFrame {
     private void iniciarTurno() {
         Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
-        if (jogadorAtual.getMana() < 10) {
-            jogadorAtual.incrementarMana();
-        }
 
         configurarBotoesDeTurno(turnoJogador1);
 
@@ -439,6 +434,8 @@ public class JogoTela extends JFrame {
         turnoJogador1 = !turnoJogador1;
         String jogadorAtualNome = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
         JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtualNome + "!");
+        jogador1.incrementarMana();
+        jogador2.incrementarMana();
 
         iniciarTurno();
     }
