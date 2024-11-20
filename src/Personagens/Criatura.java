@@ -72,5 +72,13 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel   {
 
     public abstract void setResistencia(int novaVida) ;
 
+    //metodo sobrescrito de geração de descrição da criatura
+    @Override
+    public String gerarDescricao(){
+        return String.format("<html><b>Tipo:</b> Criatura<br><b>Nome:</b> %s<br><b>Dano:</b> %d<br><b>Mana:</b> %d<br><b>Vida:</b> %d</html>",
+                getNome(), getPoder(), getCustoMana(), getResistencia());
+    }
+
+
 }
 

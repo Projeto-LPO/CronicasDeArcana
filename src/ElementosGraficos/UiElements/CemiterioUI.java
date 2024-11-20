@@ -5,7 +5,6 @@ import MecanicasDeJogo.FluxodeCartas.Cemiterio;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.*;
@@ -13,7 +12,8 @@ import Encantamento.Encantamento;
 
 
 public class CemiterioUI{
-    public void atualizarCemiterio(JPanel cemiterioPainel,  Jogador jogador) {
+
+    public void atualizarCemiterio(JPanel cemiterioPainel, Jogador jogador) {
         cemiterioPainel.removeAll();
 
         GridBagConstraints c = new GridBagConstraints();
@@ -21,18 +21,15 @@ public class CemiterioUI{
         c.gridy = 0;
 
         List<Carta> cartasNoCemiterio = jogador.getCemiterio().getCartasNoCemiterio();
-        for(int i = 0; i < cartasNoCemiterio.size(); i++){
-
+        for (int i = 0; i < cartasNoCemiterio.size(); i++) {
             Carta carta = cartasNoCemiterio.get(i);
             Component cartaUI = new CartaUI(carta, jogador);
             c.gridx = i;
             cemiterioPainel.add(cartaUI, c);
-
         }
 
         cemiterioPainel.revalidate();
         cemiterioPainel.repaint();
-
     }
 
     public void atualizarCampoDeBatalha(JPanel campoJogador, Jogador jogador){
@@ -66,18 +63,6 @@ public class CemiterioUI{
         campoJogador.repaint();
 
 
-
 }}
 
 
-   /*
-    public void enviarCartaAoCemiterio(Carta carta, Jogador jogador) {
-        jogador.getCemiterio().adicionarCartasNoCemiterio(carta);
-        jogador.getCampoDeBatalha().removerCartaDoCampo(carta);
-
-        // Atualiza o cemitério gráfico
-        if (jogador == jogador1) {
-            atualizarCemiterio(cemiterioJogador1, jogador.getCemiterio().getCartasNoCemiterio());
-        } else if (jogador == jogador2) {
-            atualizarCemiterio(cemiterioJogador2, jogador.getCemiterio().getCartasNoCemiterio());
-        }*/

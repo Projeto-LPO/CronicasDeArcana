@@ -23,4 +23,6 @@ public abstract class Carta implements Jogavel {
     @Override
     public abstract void jogar(); // Outro método abstrato
 
+    public abstract String gerarDescricao();
+
 }

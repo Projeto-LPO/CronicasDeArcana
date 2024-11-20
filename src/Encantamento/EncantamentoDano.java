@@ -49,4 +49,13 @@ public class EncantamentoDano extends Encantamento implements Jogavel {
     public void aplicarEfeitoCura(Criatura criatura) {
         System.out.println("Método de cura não utilizado para " + getNome());
     }
+
+    //metodo sobrescrito de geração de descrição do encantamento de dano
+    @Override
+    public String gerarDescricao(){
+        return String.format( "<html><b>Tipo:</b> Encantamento de Dano<br><b>Nome:</b> %s<br><b>Dano:</b> %d<br><b>Mana:</b> %d</html>",
+                getNome(), getAumentoDano(), getCustoMana());
+    }
+
+
 }

@@ -139,12 +139,4 @@ public class JogoUI extends Component {
         }
     }
 
-    public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador) {
-        infoJogadorPanel.removeAll();
-        infoJogadorPanel.add(new JLabel("Nome: " + jogador.getNome()));
-        infoJogadorPanel.add(new JLabel(" Vida: " + jogador.getVida()));
-        infoJogadorPanel.add(new JLabel("Mana: " + jogador.getMana()));
-        infoJogadorPanel.revalidate();
-        infoJogadorPanel.repaint();
-    }
 }

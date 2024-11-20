@@ -8,8 +8,10 @@ import Personagens.Criatura;
 import Encantamento.Encantamento;
 import java.awt.*;
 import java.util.List;
+
 public class CampodeBatalhaUI{
-public void atualizarCampoDeBatalha(JPanel campoJogador, Jogador jogador) {
+
+    public void atualizarCampoDeBatalha(JPanel campoJogador, Jogador jogador) {
     campoJogador.removeAll();  // Limpa o painel do campo de batalha do jogador
 
     GridBagConstraints c = new GridBagConstraints();

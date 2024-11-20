@@ -6,9 +6,6 @@ import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import ElementosGraficos.UiElements.MaoUI;
 import Encantamento.Encantamento;
 import Encantamento.EncantamentoDano;
-import Feiticos.Feitiço;
-import Feiticos.FeitiçoCura;
-import Feiticos.FeitiçoDano;
 import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -18,8 +15,7 @@ import Personagens.Criatura;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.List;
 import java.util.Random;
 import Encantamento.EncantamentoCura;
@@ -36,6 +32,8 @@ public class JogoTela extends JFrame {
     private JButton btnFinalizarTurno1;
     private JButton btnFinalizarTurno2;
     private GerenciadorDeCombate gerenciador;
+    private JPanel cemiterioPainel;
+    private JLabel textoDescricao;
 
 
     public JogoTela(Jogador jogador1, Jogador jogador2) {
@@ -52,7 +50,6 @@ public class JogoTela extends JFrame {
         this.deckJogador1.embaralhar();
         this.deckJogador2.embaralhar();
         MaoUI maoUI = new MaoUI();
-        CemiterioUI cemiterioUI= new CemiterioUI();
 
         //adiciona as cartas na mão dos jogadores no inicio do jogo
         for (int i = 0; i < 5; i++) {
@@ -92,12 +89,12 @@ public class JogoTela extends JFrame {
         //campo jogador 1
         JPanel campoJogador1 = new JPanel();
         campoJogador1.setPreferredSize(new Dimension(540, 180));
-        campoJogador1.setBackground(Color.WHITE);
+        campoJogador1.setOpaque(false);
 
         //campo jogador 2
         JPanel campoJogador2 = new JPanel();
         campoJogador2.setPreferredSize(new Dimension(540, 180));
-        campoJogador2.setBackground(Color.WHITE);
+        campoJogador2.setOpaque(false);
 
         //adiciona os campos individuais ao campo principal
         campoDeBatalhaPainel.add(campoJogador1, BorderLayout.SOUTH);
@@ -119,12 +116,12 @@ public class JogoTela extends JFrame {
         //cemiterio jogador 1
         JPanel cemiterioJogador1 = new JPanel();
         cemiterioJogador1.setPreferredSize(new Dimension(180, 200));
-        cemiterioJogador1.setBackground(Color.WHITE);
+        cemiterioJogador1.setOpaque(false);
 
         //cemiterio jogador 2
         JPanel cemiterioJogador2 = new JPanel();
         cemiterioJogador2.setPreferredSize(new Dimension(180, 200));
-        cemiterioJogador2.setBackground(Color.WHITE);
+        cemiterioJogador2.setOpaque(false);
 
         //adiciona os cemiterios
         cemiterioPainel.add(cemiterioJogador1, BorderLayout.SOUTH);
@@ -145,6 +142,15 @@ public class JogoTela extends JFrame {
         descricaoPainel.setBackground(new Color(255, 228, 181));
         descricaoPainel.setLayout(new BorderLayout());
 
+            //criação da label da descrição
+            textoDescricao = new JLabel();
+            textoDescricao.setHorizontalAlignment(SwingConstants.CENTER);
+            textoDescricao.setForeground(Color.BLACK);
+            textoDescricao.setFont(new Font("Uncial Antiqua", Font.PLAIN, 12));
+            textoDescricao.setBounds(10,10,180,230);
+
+        descricaoPainel.add(textoDescricao, BorderLayout.CENTER);
+        
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
@@ -184,8 +190,13 @@ public class JogoTela extends JFrame {
                             throw new RuntimeException(ex);
                         }
                         System.out.println("Jogador 1 jogou a carta: " + carta.getNome());
-
                     }
+                });
+                ((CartaUI)(cartaUI)).addMouseMotionListener(new MouseMotionAdapter() {
+                   public void mouseMoved(MouseEvent e) {                                  //funcao para adicionar
+                                                                                           //o escutador de mouse passando
+                       atualizarDescricao(carta);
+                   }
                 });
             } else {
                 cartaUI = new JButton("Vazio"); //adiciona um botão vazio caso não haja carta na posição i
@@ -230,11 +241,12 @@ public class JogoTela extends JFrame {
         jogador1Painel.add(deckJogador1Painel, BorderLayout.EAST);
 
         JPanel infoJogador1 = new JPanel(new GridLayout(3, 1));
-        infoJogador1.setPreferredSize(new Dimension(100, 150));
+        infoJogador1.setPreferredSize(new Dimension(150, 150));
         infoJogador1.setBackground(Color.CYAN);
         infoJogador1.add(new JLabel("Nome: " + jogador1.getNome()));
         infoJogador1.add(new JLabel("Vida: " + jogador1.getVida()));
         infoJogador1.add(new JLabel("Mana: " + jogador1.getMana()));
+        infoJogador1.add(new JLabel("Nível: " + jogador1.getNivel()));
 
         jogador1Painel.add(infoJogador1, BorderLayout.WEST);
 
@@ -286,6 +298,11 @@ public class JogoTela extends JFrame {
                         System.out.println("Jogador 2 jogou a carta: " + carta.getNome());
                     }
                 });
+                ((CartaUI)(cartaUI)).addMouseMotionListener(new MouseMotionAdapter() {
+                    public void mouseMoved(MouseEvent e) {
+                        atualizarDescricao(carta);
+                    }
+                });
                 // Se houver carta, cria CartaUI
             } else {
                 cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
@@ -326,11 +343,12 @@ public class JogoTela extends JFrame {
 
         //painel de informações do jogador 2
         JPanel infoJogador2 = new JPanel(new GridLayout(3, 1));
-        infoJogador2.setPreferredSize(new Dimension(100, 150));
+        infoJogador2.setPreferredSize(new Dimension(150, 150));
         infoJogador2.setBackground(Color.CYAN);
         infoJogador2.add(new JLabel("Nome: " + jogador2.getNome()));
         infoJogador2.add(new JLabel("Vida: " + jogador2.getVida()));
         infoJogador2.add(new JLabel("Mana: " + jogador2.getMana()));
+        infoJogador2.add(new JLabel("Nível: "+jogador2.getNivel()));
 
         jogador2Painel.add(infoJogador2, BorderLayout.WEST);
 
@@ -348,8 +366,6 @@ public class JogoTela extends JFrame {
         c.gridheight = 1;
         c.anchor = GridBagConstraints.NORTH;
         gamePanel.add(jogador2Painel, c);
-
-
 
         this.add(gamePanel);
     }
@@ -483,7 +499,8 @@ public class JogoTela extends JFrame {
             if (encantamento.getDuracao() <= 0) {
                 jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
                 jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
-                //Atualizar cemitério
+                CemiterioUI cemiterioUI = new CemiterioUI();
+                SwingUtilities.invokeLater(()->cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador) );
                 System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
             }
         }
@@ -492,6 +509,10 @@ public class JogoTela extends JFrame {
     private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
         jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
         jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
+
+        CemiterioUI cemiterioUI = new CemiterioUI();
+        SwingUtilities.invokeLater(()-> cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador));
+
         System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
     }
 
@@ -508,15 +529,20 @@ public class JogoTela extends JFrame {
         return false;
     }
 
-public void atualizarInterface(){
-}
+    public void atualizarInterface(){
+    }
 
-public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
+    public void atualizarDescricao(Carta carta){
+        textoDescricao.setText(carta.gerarDescricao());
+    }
+
+    public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
         infoJogadorPanel.removeAll();
 
         infoJogadorPanel.add(new JLabel("Nome: " + jogador.getNome()));
         infoJogadorPanel.add(new JLabel(" Vida " + jogador.getVida()));
         infoJogadorPanel.add(new JLabel("Mana: " + jogador.getNome()));
+        infoJogadorPanel.add(new JLabel(" Nível: " + jogador.getNivel()));
 
         infoJogadorPanel.revalidate();
         infoJogadorPanel.repaint();

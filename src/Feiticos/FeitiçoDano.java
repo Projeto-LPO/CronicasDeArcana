@@ -57,5 +57,11 @@ public class FeitiçoDano extends Feitiço implements Jogavel {
         System.out.println("Método de cura não é utilizado para " + getNome());
     }
 
+    //metodo sobrescrito de geração de descrição do feitiço de dano
+    @Override
+    public String gerarDescricao(){
+        return String.format("<html><b>Tipo:</b> Feitiço de Dano<br><b>Nome:</b> %s<br><b>Dano Mágico:</b> %d<br><b>Mana:</b> %d</html>",
+        getNome(), getValorCura(), getCustoMana());
+    }
 
 }

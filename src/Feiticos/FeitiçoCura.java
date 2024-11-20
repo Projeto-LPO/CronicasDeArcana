@@ -56,4 +56,12 @@ public class FeitiçoCura extends Feitiço implements Jogavel {
         System.out.println(getNome() + " foi conjurado e restaurou " + getValorCura() + " pontos de resistência de " + alvo.getNome());
         aplicarEfeitoCura(alvo);  // Cura o jogador alvo
     }
+
+    //metodo sobrescrito de geração de descrição do feitiço de cura
+    @Override
+    public String gerarDescricao() {
+        return String.format("<html><b>Tipo:</b> Encantamento de Cura<br><b>Nome:</b> %s<br><b>Cura:</b> %d<br><b>Mana:</b> %d</html>",
+        getNome(), getValorCura(), getCustoMana());
+    }
+
 }
