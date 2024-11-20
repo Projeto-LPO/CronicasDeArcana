@@ -1,6 +1,7 @@
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.Telas.Inventario.TelaInventario1;
+import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Jogador;
 
@@ -12,14 +13,12 @@ import java.awt.event.ActionListener;
 public class MenuInicial extends JFrame {
     private Jogador jogador1;
     private Jogador jogador2;
-    private JogadorUI jogadorUi1;
-    private JogadorUI jogadorUi2;
 
-    public MenuInicial(Jogador jogador1, Jogador jogador2, JogadorUI jogadorUi1, JogadorUI jogadorUi2) {
+    private GerenciadorDeCombate gerenciador;
+
+    public MenuInicial(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
-        this.jogadorUi1 = jogadorUi1;
-        this.jogadorUi2 = jogadorUi2;
 
         //painel principal
         this.setTitle("Cronicas de Arcana");
@@ -93,7 +92,7 @@ public class MenuInicial extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Iniciando o jogo...");
                 dispose();
-                new JogoTela(jogador1, jogador2).setVisible(true);
+                new JogoTela(jogador1, jogador2, gerenciador).setVisible(true);
             }
         });
 
@@ -102,7 +101,7 @@ public class MenuInicial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new TelaInventario1(jogador1, jogador2, jogadorUi1,jogadorUi2).setVisible(true);
+                new TelaInventario1(jogador1, jogador2).setVisible(true);
             }
         });
 

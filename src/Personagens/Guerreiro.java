@@ -57,26 +57,31 @@ public class Guerreiro extends Criatura implements Jogavel, Atacavel {
 
     @Override
     public void setPoder(int novoPoder) {
-        this.setPoder(novoPoder);  // Chama o método da superclasse
+        super.setPoder(novoPoder);  // Chama o método da superclasse
         System.out.println(getNome() + " agora tem " + novoPoder + " de poder.");  // Mensagem personalizada
     }
 
     @Override
     public void setResistencia(int novaVida) {
-        this.setResistencia(novaVida);  // Chama o método da superclasse
+        super.setResistencia(novaVida);  // Chama o método da superclasse
         System.out.println(getNome() + " agora tem " + novaVida + " de resistência.");  // Mensagem personalizada
     }
 
     @Override
     public void receberDano(int dano) {
         System.out.println(getNome() + " recebeu " + dano + " de dano.");
-        setResistencia(getResistencia() - dano);  // Aplica o dano ao Guerreiro
-        verificarFuria();  // Verifica se a fúria deve ser ativada após receber dano
 
-        if (getResistencia() <= 0) {
+        // Calcula a nova resistência, garantindo que não fique abaixo de zero
+        int novaResistencia = Math.max(0, getResistencia() - dano);
+        setResistencia(novaResistencia);
+
+        // Verifica se a fúria deve ser ativada após receber dano
+        verificarFuria();
+
+        if (novaResistencia == 0) {
             System.out.println(getNome() + " foi derrotado.");
         } else {
-            System.out.println(getNome() + " tem " + getResistencia() + " de vida restante.");
+            System.out.println(getNome() + " tem " + novaResistencia + " de vida restante.");
         }
     }
 

@@ -67,11 +67,15 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel   {
     public abstract void atacarJogador(Jogador jogadorAlvo) ;
 
 
-    public abstract void setPoder(int novoPoder) ;
+    public void setPoder(int novoPoder) {
+        this.poder = Math.max(0, novoPoder);
+        System.out.println(getNome() + " agora tem " + this.poder + " de poder.");
+    }
 
-
-    public abstract void setResistencia(int novaVida) ;
-
+    public void setResistencia(int novaResistencia) {
+        this.resistencia = Math.max(0, novaResistencia);
+        System.out.println(getNome() + " agora tem " + this.resistencia + " de resistência.");
+    }
     //metodo sobrescrito de geração de descrição da criatura
     @Override
     public String gerarDescricao(){

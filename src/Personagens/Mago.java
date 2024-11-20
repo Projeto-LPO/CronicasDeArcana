@@ -27,20 +27,26 @@ public class Mago extends Criatura implements Jogavel, Atacavel {
     @Override
     public void receberDano(int dano) {
         verificarEscudo(); // Verifica se o escudo deve ser ativado
+
         if (escudoMagicoAtivo) {
-            dano /= 2; // Dano reduzido se o escudo mágico estiver ativo
+            dano /= 2; // Reduz o dano pela metade se o escudo estiver ativo
             System.out.println(getNome() + " está protegido pelo Escudo Mágico, recebendo apenas " + dano + " de dano.");
         } else {
             System.out.println(getNome() + " recebeu " + dano + " de dano.");
         }
 
-        // Atualiza a resistência do Mago
-        int novaResistencia = getResistencia() - dano;
-        setResistencia(novaResistencia < 0 ? 0 : novaResistencia); // Garante que a resistência não fique negativa
+        // Calcula a nova resistência, garantindo que não fique negativa
+        int novaResistencia = Math.max(0, getResistencia() - dano);
+        setResistencia(novaResistencia);
 
-        // Exibe a resistência atual
-        System.out.println(getNome() + " agora tem " + getResistencia() + " de vida.");
+        // Exibe a resistência atual ou informa que foi derrotado
+        if (novaResistencia == 0) {
+            System.out.println(getNome() + " foi derrotado.");
+        } else {
+            System.out.println(getNome() + " agora tem " + novaResistencia + " de vida.");
+        }
     }
+
 
     @Override
     public void receberCura(int cura) {
@@ -69,13 +75,16 @@ public class Mago extends Criatura implements Jogavel, Atacavel {
 
     @Override
     public void setPoder(int novoPoder) {
-        this.setPoder(novoPoder);  // Chama o método da superclasse
+        super.setPoder(novoPoder);  // Chama o método da superclasse
         System.out.println(getNome() + " agora tem " + novoPoder + " de poder.");  // Mensagem personalizada
     }
 
     @Override
-    public void setResistencia(int novaVida) {
-        this.setResistencia(novaVida);  // Chama o método da superclasse
-        System.out.println(getNome() + " agora tem " + novaVida + " de resistência.");  // Mensagem personalizada
+    public void setResistencia(int novaResistencia) {
+        // Atualiza diretamente a resistência da superclasse
+        super.setResistencia(novaResistencia);
+        System.out.println(getNome() + " agora tem " + novaResistencia + " de resistência.");
     }
+
+
 }

@@ -36,19 +36,21 @@ public class JogoTela extends JFrame {
     private JLabel textoDescricao;
 
 
-    public JogoTela(Jogador jogador1, Jogador jogador2) {
+    public JogoTela(Jogador jogador1, Jogador jogador2, GerenciadorDeCombate gerenciador) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
-
-        //criação dos decks
-        GerenciadorDeCombate GerenciadorDeCombate = new GerenciadorDeCombate();
+        this.gerenciador = gerenciador;
 
         List<Carta> cartasCriadas = InstanciaCartas.gerarCartas();
 
+        // Inicializando decks dos jogadores com as cartas geradas
         this.deckJogador1 = new Decks(cartasCriadas);
         this.deckJogador2 = new Decks(cartasCriadas);
+
+        // Embaralhando os decks dos jogadores
         this.deckJogador1.embaralhar();
         this.deckJogador2.embaralhar();
+
         MaoUI maoUI = new MaoUI();
 
         //adiciona as cartas na mão dos jogadores no inicio do jogo
@@ -181,6 +183,10 @@ public class JogoTela extends JFrame {
                 ((CartaUI)(cartaUI)).addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if (!turnoJogador1) {
+                            System.out.println("Não é o turno do Jogador 1!");
+                            return;
+                        }
                         try {
                             jogador1.jogarCartaNoCampo(carta, jogador2);
                             maoUI.atualizarCampoDeBatalha(campoJogador1, jogador1);
@@ -214,20 +220,16 @@ public class JogoTela extends JFrame {
         deckJogador1Painel.setPreferredSize(new Dimension(100, 150));
         deckJogador1Painel.setOpaque(false);
         deckJogador1Painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         JLabel nomeDeck = new JLabel();
         deckJogador1Painel.add(nomeDeck, BorderLayout.CENTER);
 
-        //botão de deck (compra)
-        JButton btnCompra1 = new JButton();
+// Botão de deck (compra)
+        JButton btnCompra1 = new JButton("Deck 1");
         btnCompra1.setBackground(Color.WHITE);
         btnCompra1.setPreferredSize(new Dimension(100, 150));
-
-        JLabel nomeDeck1 = new JLabel("Deck1");
-        nomeDeck1.setHorizontalAlignment(SwingConstants.CENTER);
-        nomeDeck1.setFont(new Font("Uncial Antiqua", Font.BOLD, 10));
-        nomeDeck1.setForeground(Color.BLACK);
-
-        btnCompra1.add(nomeDeck1);
+        btnCompra1.setFont(new Font("Uncial Antiqua", Font.BOLD, 10));  // Definindo a fonte
+        btnCompra1.setForeground(Color.BLACK);  // Definindo a cor do texto
 
         btnCompra1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -235,9 +237,10 @@ public class JogoTela extends JFrame {
             }
         });
 
+// Adiciona o botão de compra ao painel
         deckJogador1Painel.add(btnCompra1, BorderLayout.CENTER);
 
-        //adiciona o painel do deck no painel de jogador
+// Adiciona o painel do deck no painel de jogador
         jogador1Painel.add(deckJogador1Painel, BorderLayout.EAST);
 
         JPanel infoJogador1 = new JPanel(new GridLayout(3, 1));
@@ -265,6 +268,8 @@ public class JogoTela extends JFrame {
         c.anchor = GridBagConstraints.SOUTH;
         gamePanel.add(jogador1Painel, c);
 
+
+
         //painel do Jogador 2
         JPanel jogador2Painel = new JPanel(new BorderLayout());
         jogador2Painel.setPreferredSize(new Dimension(500, 150));
@@ -287,8 +292,13 @@ public class JogoTela extends JFrame {
                 ((CartaUI)(cartaUI)).addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if (turnoJogador1) {
+                            System.out.println("Não é o turno do Jogador 2!");
+                            return;
+                        }
                         try {
                             jogador2.jogarCartaNoCampo(carta, jogador1);
+
                             maoUI.atualizarCampoDeBatalha(campoJogador2, jogador2);
                             maoUI.atualizarMao(maoJogador2Painel, campoJogador2, jogador2, jogador1 );
 
@@ -325,11 +335,10 @@ public class JogoTela extends JFrame {
         JLabel nomeDeck2 = new JLabel("Deck 2");
         deckJogador2Painel.add(nomeDeck2, BorderLayout.CENTER);
 
-        //botao de deck (compra)
-        JButton btnCompra2 = new JButton("Deck2");
+        // Inicializa o botão de compra
+        btnCompra2 = new JButton("Deck2");
         btnCompra2.setBackground(Color.WHITE);
         btnCompra2.setPreferredSize(new Dimension(100, 150));
-
         btnCompra2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jogador2.getMao().adicionarCartasMao(deckJogador2.comprarCarta());
@@ -338,10 +347,10 @@ public class JogoTela extends JFrame {
 
         deckJogador2Painel.add(btnCompra2, BorderLayout.CENTER);
 
-        //adiciona o painel do deck no painel de jogador2
+        // Adiciona o painel do deck no painel de jogador2
         jogador2Painel.add(deckJogador2Painel, BorderLayout.EAST);
 
-        //painel de informações do jogador 2
+        // Verifique se o painel de informações foi inicializado corretamente
         JPanel infoJogador2 = new JPanel(new GridLayout(3, 1));
         infoJogador2.setPreferredSize(new Dimension(150, 150));
         infoJogador2.setBackground(Color.CYAN);
@@ -352,47 +361,50 @@ public class JogoTela extends JFrame {
 
         jogador2Painel.add(infoJogador2, BorderLayout.WEST);
 
-        //botão de finalizar o turno
+        // Finalizar turno
         JButton btnFinalizarTurno2 = new JButton("Finalizar Turno");
         btnFinalizarTurno2.setBackground(Color.LIGHT_GRAY);
         btnFinalizarTurno2.setPreferredSize(new Dimension(120, 50));
         btnFinalizarTurno2.addActionListener(e -> alternarTurno());
-
         jogador2Painel.add(btnFinalizarTurno2, BorderLayout.NORTH);
 
+        // Configura o painel na interface
         c.gridx = 1;
         c.gridy = 0;
         c.gridwidth = 2;
         c.gridheight = 1;
         c.anchor = GridBagConstraints.NORTH;
         gamePanel.add(jogador2Painel, c);
-
         this.add(gamePanel);
+
+        // Atualiza a interface
+        this.revalidate();
+        this.repaint();
+
     }
 
     private boolean jogoAtivo = true;
     private boolean turnoFinalizado = false;
 
     public void iniciarJogo() {
+        System.out.println("Iniciando o jogo...");
         while (jogoAtivo) {
-
             Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
-
             iniciarTurno();
-
             esperarFinalizarTurno();
-
 
             if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
                 jogoAtivo = false;
             }
 
+            if (!jogoAtivo) {
+                break;
+            }
 
             alternarTurno();
         }
 
-        encerrarJogo();
     }
 
     private void esperarFinalizarTurno() {
@@ -403,7 +415,6 @@ public class JogoTela extends JFrame {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-
 
             if (turnoFinalizado) {
                 turnoFinalizado = false;
@@ -417,36 +428,27 @@ public class JogoTela extends JFrame {
         alternarTurno();
     }
 
-    private void encerrarJogo() {
-
-        SwingUtilities.invokeLater(() -> {
-            TelaFinal telaFinal = new TelaFinal();
-            telaFinal.setVisible(true);
-            dispose();
-        });
-    }
-
     private void iniciarTurno() {
+        System.out.println("Iniciando turno...");
         Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
-
-
-        configurarBotoesDeTurno(turnoJogador1);
-
-        verificarEncantamentos();
 
         executarFaseDeCombate(jogadorAtual, turnoJogador1 ? jogador2 : jogador1);
 
-        atualizarInterface();
+        verificarEncantamentos();
+        configurarBotoesDeTurno(turnoJogador1);
+
     }
 
-    private void configurarBotoesDeTurno(boolean turnoJogador1) {
-        btnCompra1.setEnabled(turnoJogador1);
+   public void configurarBotoesDeTurno (boolean turnoJogador1) {
+         btnCompra1.setEnabled(turnoJogador1);
         btnCompra2.setEnabled(!turnoJogador1);
-        btnFinalizarTurno1.setEnabled(turnoJogador1);
-        btnFinalizarTurno2.setEnabled(!turnoJogador1);
+         btnFinalizarTurno1.setEnabled(turnoJogador1);
+         btnFinalizarTurno2.setEnabled(!turnoJogador1);
     }
+
 
     private void alternarTurno() {
+        System.out.println("Alternando turno...");
         turnoJogador1 = !turnoJogador1;
         String jogadorAtualNome = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
         JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtualNome + "!");
@@ -457,21 +459,28 @@ public class JogoTela extends JFrame {
     }
 
     private void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
+        System.out.println("Iniciando fase de combate...");
         List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
         List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);
+
+        if (criaturasAtacantes.isEmpty() && criaturasDefensoras.isEmpty()) {
+            System.out.println("Nenhum ataque pode ser realizado, ambos os jogadores não possuem criaturas.");
+            return; // Sem combate, pode terminar a fase de combate aqui.
+        }
 
         for (Criatura atacante : criaturasAtacantes) {
             if (!criaturasDefensoras.isEmpty()) {
                 Criatura alvo = criaturasDefensoras.get(0);
                 System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
-                gerenciador.atacarCriatura(atacante, alvo);
+                atacarCriatura(atacante, alvo);
 
                 if (alvo.getResistencia() <= 0) {
-                    gerenciador.removerCriaturaDoCampo(jogadorDefensor, alvo);
+                    removerCriaturaDoCampo(jogadorDefensor, alvo);
+                    System.out.println("Removido do campo de batalha");
                 }
             } else {
                 System.out.println(atacante.getNome() + " ataca " + jogadorDefensor.getNome());
-               gerenciador.atacarJogador(atacante, jogadorDefensor);
+                atacarJogador(atacante, jogadorDefensor);
             }
         }
     }
@@ -524,13 +533,13 @@ public class JogoTela extends JFrame {
                 TelaFinal telaFinal = new TelaFinal();
                 telaFinal.setVisible(true);
             });
+
+            jogoAtivo = false;
             return true;
         }
         return false;
     }
 
-    public void atualizarInterface(){
-    }
 
     public void atualizarDescricao(Carta carta){
         textoDescricao.setText(carta.gerarDescricao());
@@ -548,6 +557,19 @@ public class JogoTela extends JFrame {
         infoJogadorPanel.repaint();
 
 }
+
+
+    public void atacarCriatura(Criatura atacante, Criatura alvo) {
+        atacante.atacar(alvo);
+        System.out.println("Ataque");
+
+    }
+
+    public  void atacarJogador(Criatura atacante, Jogador jogador) {
+        atacante.atacarJogador(jogador);
+        System.out.println("Ataque ao jogador");
+
+    }
 
 }
 

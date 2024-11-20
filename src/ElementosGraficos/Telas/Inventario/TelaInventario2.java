@@ -10,16 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TelaInventario2 extends JFrame {
-    private JogadorUI jogadorUi1;
-    private JogadorUI jogadorUi2;
+
     private Jogador jogador1;
     private Jogador jogador2;
 
-    public TelaInventario2(Jogador jogador1, Jogador jogador2, JogadorUI jogadorUi1, JogadorUI jogadorUi2) {
+    public TelaInventario2(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
-        this.jogadorUi1 = jogadorUi1;
-        this.jogadorUi2 = jogadorUi2;
 
 
         this.setTitle("Inventário - "+jogador2.getNome());
@@ -119,7 +116,7 @@ public class TelaInventario2 extends JFrame {
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MenuInicial(jogador1, jogador2, jogadorUi1, jogadorUi2).setVisible(true);
+                new MenuInicial(jogador1, jogador2).setVisible(true);
             }
         });
 
@@ -145,7 +142,7 @@ public class TelaInventario2 extends JFrame {
 
         btnInventarioJogador2.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
             dispose();
-            new TelaInventario1(jogador1, jogador2, jogadorUi1,jogadorUi2).setVisible(true);
+            new TelaInventario1(jogador1, jogador2).setVisible(true);
           }
         });
 

@@ -33,12 +33,12 @@ import java.util.List;
 
         public void atacarCriatura(Criatura atacante, Criatura alvo) {
             atacante.atacar(alvo);
-            SwingUtilities.invokeLater(() -> atualizarInterface());
+
         }
 
         public  void atacarJogador(Criatura atacante, Jogador jogador) {
             atacante.atacarJogador(jogador);
-            SwingUtilities.invokeLater(() -> atualizarInterface());
+
         }
 
         public void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {

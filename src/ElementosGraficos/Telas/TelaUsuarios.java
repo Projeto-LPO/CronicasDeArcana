@@ -46,7 +46,7 @@ public class TelaUsuarios extends JFrame {
 
                 //inicializa a tela de menu inicial ao confirmar
                 dispose();
-                new MenuInicial(jogador1, jogador2, jogadorUi1, jogadorUi2).setVisible(true);
+                new MenuInicial(jogador1, jogador2).setVisible(true);
 
             }
         });

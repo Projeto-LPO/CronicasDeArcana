@@ -34,14 +34,18 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
     @Override
     public void receberDano(int dano) {
         System.out.println(getNome() + " recebeu " + dano + " de dano.");
-        setResistencia(getResistencia() - dano);  // Aplica o dano ao Dragão
 
-        if (getResistencia() <= 0) {
+        // Calcula a nova resistência, garantindo que não fique abaixo de zero
+        int novaResistencia = Math.max(0, getResistencia() - dano);
+        setResistencia(novaResistencia);
+
+        if (novaResistencia == 0) {
             System.out.println(getNome() + " foi derrotado.");
         } else {
-            System.out.println(getNome() + " tem " + getResistencia() + " de vida restante.");
+            System.out.println(getNome() + " tem " + novaResistencia + " de vida restante.");
         }
     }
+
 
     @Override
     public void receberCura(int cura) {
@@ -64,7 +68,7 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
 
     @Override
     public void setPoder(int novoPoder) {
-        this.setPoder(novoPoder);  // Altera o poder do dragão
+        super.setPoder(novoPoder);  // Altera o poder do dragão
         System.out.println(getNome() + " agora tem " + getPoder() + " de poder.");
     }
 
@@ -72,7 +76,7 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
     public void setResistencia(int novaResistencia) {
         // Altera a resistência do dragão
 
-        this.setResistencia(novaResistencia);
+        super.setResistencia(novaResistencia);
         System.out.println(getNome() + " agora tem " + getResistencia() + " de resistência.");
     }
 
