@@ -27,12 +27,9 @@ public class CampodeBatalha {
     }
 
     public void removerCartaDoCampo(Carta carta) {
-        if (campo.remove(carta)) {
-            cemiterio.adicionarCartasNoCemiterio(carta);
-            System.out.println(carta.getNome() + " foi removida do campo de batalha.");
-        } else {
-            System.out.println(carta.getNome() + " não está no campo de batalha.");
-        }
+         campo.remove(carta);
+         System.out.println("Carta removida do campo de batalha");
+
     }
 
     public void comprarCartaCampo() {

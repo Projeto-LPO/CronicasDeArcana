@@ -11,9 +11,22 @@ import java.awt.*;
 import Encantamento.Encantamento;
 
 
-public class CemiterioUI{
+public class CemiterioUI {
+    private JPanel cemiterioPainel;
+    private JPanel campoJogador;
 
-    public void atualizarCemiterio(JPanel cemiterioPainel, Jogador jogador) {
+    // Construtor para receber os painéis
+    public CemiterioUI(JPanel cemiterioPainel, JPanel campoJogador) {
+        this.cemiterioPainel = cemiterioPainel;
+        this.campoJogador = campoJogador;
+    }
+
+    public void atualizarCemiterio(Jogador jogador) {
+        if (cemiterioPainel == null) {
+            System.out.println("Erro: cemiterioPainel não foi inicializado.");
+            return;
+        }
+
         cemiterioPainel.removeAll();
 
         GridBagConstraints c = new GridBagConstraints();
@@ -32,22 +45,25 @@ public class CemiterioUI{
         cemiterioPainel.repaint();
     }
 
-    public void atualizarCampoDeBatalha(JPanel campoJogador, Jogador jogador){
+    public void atualizarCampoDeBatalha(Jogador jogador) {
+        if (campoJogador == null) {
+            System.out.println("Erro: campoJogador não foi inicializado.");
+            return;
+        }
 
-            campoJogador.removeAll();
+        campoJogador.removeAll();
 
-            GridBagConstraints c = new GridBagConstraints();
-            c.gridy = 0;
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 0;
 
-            List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
-            for (int i = 0; i< criaturas.size();i++){
-                Criatura criatura = criaturas.get(i);
-                Component criaturaUI = new CartaUI(criatura, jogador);
+        List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
+        for (int i = 0; i < criaturas.size(); i++) {
+            Criatura criatura = criaturas.get(i);
+            Component criaturaUI = new CartaUI(criatura, jogador);
 
-
-                c.gridx = i;
-                campoJogador.add(criaturaUI, c);
-            }
+            c.gridx = i;
+            campoJogador.add(criaturaUI, c);
+        }
 
         List<Encantamento> encantamentos = jogador.getCampoDeBatalha().getEncantamentosNoCampo();
         for (int i = 0; i < encantamentos.size(); i++) {
@@ -56,13 +72,20 @@ public class CemiterioUI{
 
             c.gridx = criaturas.size() + i;
             campoJogador.add(encantamentoUI, c);
+        }
 
-
-    }
         campoJogador.revalidate();
         campoJogador.repaint();
+    }
 
+    public void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
+        jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
+        jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
 
-}}
+        atualizarCampoDeBatalha(jogador);
+        atualizarCemiterio(jogador);
 
+        System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
+    }
+}
 

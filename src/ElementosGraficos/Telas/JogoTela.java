@@ -16,7 +16,9 @@ import Personagens.Criatura;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import Encantamento.EncantamentoCura;
 
@@ -28,12 +30,13 @@ public class JogoTela extends JFrame {
     private boolean turnoJogador1; //(true para jogador 1, false para jogador 2)
     private JButton btnCompra1;
     private JButton btnCompra2;
-    private JButton cartaUI;
     private JButton btnFinalizarTurno1;
     private JButton btnFinalizarTurno2;
     private GerenciadorDeCombate gerenciador;
-    private JPanel cemiterioPainel;
+   private CemiterioUI cemiterioUI;
     private JLabel textoDescricao;
+    private Map<Jogador, JPanel> mapaCampos;
+    private Map<Jogador, JPanel> mapaCemiterios;
 
 
     public JogoTela(Jogador jogador1, Jogador jogador2, GerenciadorDeCombate gerenciador) {
@@ -42,6 +45,12 @@ public class JogoTela extends JFrame {
         this.gerenciador = gerenciador;
 
         List<Carta> cartasCriadas = InstanciaCartas.gerarCartas();
+
+        mapaCampos = new HashMap<>();
+        mapaCemiterios = new HashMap<>();
+
+
+
 
         // Inicializando decks dos jogadores com as cartas geradas
         this.deckJogador1 = new Decks(cartasCriadas);
@@ -138,21 +147,28 @@ public class JogoTela extends JFrame {
         //adiciona o cemiterio ao painel principal
         gamePanel.add(cemiterioPainel, c);
 
+        mapaCampos.put(jogador1, campoJogador1);
+        mapaCampos.put(jogador2, campoJogador2);
+
+        mapaCemiterios.put(jogador1, cemiterioJogador1);
+        mapaCemiterios.put(jogador2, cemiterioJogador2);
+
+
         //descrição de carta
         JPanel descricaoPainel = new JPanel();
         descricaoPainel.setPreferredSize(new Dimension(200, 250));
         descricaoPainel.setBackground(new Color(255, 228, 181));
         descricaoPainel.setLayout(new BorderLayout());
 
-            //criação da label da descrição
-            textoDescricao = new JLabel();
-            textoDescricao.setHorizontalAlignment(SwingConstants.CENTER);
-            textoDescricao.setForeground(Color.BLACK);
-            textoDescricao.setFont(new Font("Uncial Antiqua", Font.PLAIN, 12));
-            textoDescricao.setBounds(10,10,180,230);
+        //criação da label da descrição
+        textoDescricao = new JLabel();
+        textoDescricao.setHorizontalAlignment(SwingConstants.CENTER);
+        textoDescricao.setForeground(Color.BLACK);
+        textoDescricao.setFont(new Font("Uncial Antiqua", Font.PLAIN, 12));
+        textoDescricao.setBounds(10,10,180,230);
 
         descricaoPainel.add(textoDescricao, BorderLayout.CENTER);
-        
+
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
@@ -199,10 +215,10 @@ public class JogoTela extends JFrame {
                     }
                 });
                 ((CartaUI)(cartaUI)).addMouseMotionListener(new MouseMotionAdapter() {
-                   public void mouseMoved(MouseEvent e) {                                  //funcao para adicionar
-                                                                                           //o escutador de mouse passando
-                       atualizarDescricao(carta);
-                   }
+                    public void mouseMoved(MouseEvent e) {                                  //funcao para adicionar
+                        //o escutador de mouse passando
+                        atualizarDescricao(carta);
+                    }
                 });
             } else {
                 cartaUI = new JButton("Vazio"); //adiciona um botão vazio caso não haja carta na posição i
@@ -439,11 +455,11 @@ public class JogoTela extends JFrame {
 
     }
 
-   public void configurarBotoesDeTurno (boolean turnoJogador1) {
-         btnCompra1.setEnabled(turnoJogador1);
+    public void configurarBotoesDeTurno (boolean turnoJogador1) {
+        btnCompra1.setEnabled(turnoJogador1);
         btnCompra2.setEnabled(!turnoJogador1);
-         btnFinalizarTurno1.setEnabled(turnoJogador1);
-         btnFinalizarTurno2.setEnabled(!turnoJogador1);
+        btnFinalizarTurno1.setEnabled(turnoJogador1);
+        btnFinalizarTurno2.setEnabled(!turnoJogador1);
     }
 
 
@@ -465,7 +481,7 @@ public class JogoTela extends JFrame {
 
         if (criaturasAtacantes.isEmpty() && criaturasDefensoras.isEmpty()) {
             System.out.println("Nenhum ataque pode ser realizado, ambos os jogadores não possuem criaturas.");
-            return; // Sem combate, pode terminar a fase de combate aqui.
+            return;
         }
 
         for (Criatura atacante : criaturasAtacantes) {
@@ -476,13 +492,15 @@ public class JogoTela extends JFrame {
 
                 if (alvo.getResistencia() <= 0) {
                     removerCriaturaDoCampo(jogadorDefensor, alvo);
-                    System.out.println("Removido do campo de batalha");
                 }
             } else {
-                System.out.println(atacante.getNome() + " ataca " + jogadorDefensor.getNome());
+                System.out.println(atacante.getNome() + " ataca diretamente " + jogadorDefensor.getNome());
                 atacarJogador(atacante, jogadorDefensor);
             }
         }
+
+        atualizarCampoDeBatalha(jogadorAtacante);
+        atualizarCampoDeBatalha(jogadorDefensor);
     }
 
     private void verificarEncantamentos() {
@@ -496,11 +514,11 @@ public class JogoTela extends JFrame {
 
     public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
         for(Encantamento encantamento: encantamentos){
-        if (encantamento instanceof EncantamentoDano) {
-            gerenciador.aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
-        } else if (encantamento instanceof EncantamentoCura) {
-            gerenciador.aplicarEncantementoCura(jogador, (EncantamentoCura) encantamento);
-        }
+            if (encantamento instanceof EncantamentoDano) {
+                gerenciador.aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
+            } else if (encantamento instanceof EncantamentoCura) {
+                gerenciador.aplicarEncantementoCura(jogador, (EncantamentoCura) encantamento);
+            }
         }
         for (Encantamento encantamento : encantamentos) {
             encantamento.reduzirDuracao();
@@ -508,8 +526,8 @@ public class JogoTela extends JFrame {
             if (encantamento.getDuracao() <= 0) {
                 jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
                 jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
-                CemiterioUI cemiterioUI = new CemiterioUI();
-                SwingUtilities.invokeLater(()->cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador) );
+               // CemiterioUI cemiterioUI = new CemiterioUI();
+               // SwingUtilities.invokeLater(()->cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador) );
                 System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
             }
         }
@@ -519,8 +537,8 @@ public class JogoTela extends JFrame {
         jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
         jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
 
-        CemiterioUI cemiterioUI = new CemiterioUI();
-        SwingUtilities.invokeLater(()-> cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador));
+        atualizarCampoDeBatalha(jogador);
+        atualizarCemiterio(jogador);
 
         System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
     }
@@ -556,7 +574,7 @@ public class JogoTela extends JFrame {
         infoJogadorPanel.revalidate();
         infoJogadorPanel.repaint();
 
-}
+    }
 
 
     public void atacarCriatura(Criatura atacante, Criatura alvo) {
@@ -571,8 +589,52 @@ public class JogoTela extends JFrame {
 
     }
 
+
+    private void atualizarCampoDeBatalha(Jogador jogador) {
+        JPanel painelCampo = mapaCampos.get(jogador);
+        if (painelCampo == null) return;
+
+        SwingUtilities.invokeLater(() -> {
+            painelCampo.removeAll();
+
+            List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridy = 0;
+
+            for (int i = 0; i < criaturas.size(); i++) {
+                Criatura criatura = criaturas.get(i);
+                Component criaturaUI = new CartaUI(criatura, jogador);
+                c.gridx = i;
+                painelCampo.add(criaturaUI, c);
+            }
+
+            painelCampo.revalidate();
+            painelCampo.repaint();
+        });
+    }
+
+    private void atualizarCemiterio(Jogador jogador) {
+        JPanel painelCemiterio = mapaCemiterios.get(jogador);
+        if (painelCemiterio == null) return;
+
+        SwingUtilities.invokeLater(() -> {
+            painelCemiterio.removeAll();
+
+            List<Carta> cartasNoCemiterio = jogador.getCemiterio().getCartasNoCemiterio();
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridy = 0;
+
+            for (int i = 0; i < cartasNoCemiterio.size(); i++) {
+                Carta carta = cartasNoCemiterio.get(i);
+                Component cartaUI = new CartaUI(carta, jogador);
+                c.gridx = i;
+                painelCemiterio.add(cartaUI, c);
+            }
+
+            painelCemiterio.revalidate();
+            painelCemiterio.repaint();
+        });
+    }
+
+
 }
-
-
-
-
