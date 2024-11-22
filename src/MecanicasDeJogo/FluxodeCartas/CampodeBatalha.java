@@ -56,9 +56,6 @@ public class CampodeBatalha {
         return criaturasNoCampo;
     }
 
-
-
-
     public List<Encantamento> getEncantamentosNoCampo() {
         List<Encantamento> encantamentos = new ArrayList<>();
         for (Carta carta : campo) {

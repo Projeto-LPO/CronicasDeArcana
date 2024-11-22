@@ -1,3 +1,4 @@
+
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
@@ -33,7 +34,7 @@ public class JogoTela extends JFrame {
     private JButton btnFinalizarTurno1;
     private JButton btnFinalizarTurno2;
     private GerenciadorDeCombate gerenciador;
-   private CemiterioUI cemiterioUI;
+    private CemiterioUI cemiterioUI;
     private JLabel textoDescricao;
     private Map<Jogador, JPanel> mapaCampos;
     private Map<Jogador, JPanel> mapaCemiterios;
@@ -404,237 +405,256 @@ public class JogoTela extends JFrame {
 
     public void iniciarJogo() {
         System.out.println("Iniciando o jogo...");
-        while (jogoAtivo) {
-            Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
-            iniciarTurno();
-            esperarFinalizarTurno();
+        // SwingWorker para rodar o jogo em segundo plano
+        SwingWorker<Void, Void> jogoWorker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                while (jogoAtivo) {
+                    Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
-            if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
-                jogoAtivo = false;
+                    // Executa o turno do jogador atual
+                    SwingUtilities.invokeLater(() -> iniciarTurno());
+
+                    // Aguarda o turno ser finalizado
+                    esperarFinalizarTurno();
+
+                    // Verifica condição de vitória
+                    if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
+                        jogoAtivo = false;
+                        break;
+                    }
+
+                    // Alterna o turno
+                    SwingUtilities.invokeLater(() -> alternarTurno());
+                }
+
+                return null;
             }
 
-            if (!jogoAtivo) {
-                break;
+            @Override
+            protected void done() {
+                System.out.println("Jogo finalizado.");
             }
+        };
 
+        jogoWorker.execute();
+    }
+
+        private void esperarFinalizarTurno() {
+            while (!turnoFinalizado) {
+                try {
+                    Thread.sleep(100); // Aguarda brevemente
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+            turnoFinalizado = false; // Reseta para o próximo turno
+        }
+
+        private void finalizarTurno() {
+            turnoFinalizado = true;
             alternarTurno();
         }
 
-    }
+        private void iniciarTurno() {
+            System.out.println("Iniciando turno...");
+            Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
-    private void esperarFinalizarTurno() {
+            executarFaseDeCombate(jogadorAtual, turnoJogador1 ? jogador2 : jogador1);
 
-        while (jogoAtivo) {
-            try {
-                Thread.sleep(100); //
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            verificarEncantamentos();
+          // configurarBotoesDeTurno(turnoJogador1);
 
-            if (turnoFinalizado) {
-                turnoFinalizado = false;
-                break;
-            }
-        }
-    }
-
-    private void finalizarTurno() {
-        turnoFinalizado = true;
-        alternarTurno();
-    }
-
-    private void iniciarTurno() {
-        System.out.println("Iniciando turno...");
-        Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
-
-        executarFaseDeCombate(jogadorAtual, turnoJogador1 ? jogador2 : jogador1);
-
-        verificarEncantamentos();
-        configurarBotoesDeTurno(turnoJogador1);
-
-    }
-
-    public void configurarBotoesDeTurno (boolean turnoJogador1) {
-        btnCompra1.setEnabled(turnoJogador1);
-        btnCompra2.setEnabled(!turnoJogador1);
-        btnFinalizarTurno1.setEnabled(turnoJogador1);
-        btnFinalizarTurno2.setEnabled(!turnoJogador1);
-    }
-
-
-    private void alternarTurno() {
-        System.out.println("Alternando turno...");
-        turnoJogador1 = !turnoJogador1;
-        String jogadorAtualNome = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
-        JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtualNome + "!");
-        jogador1.incrementarMana();
-        jogador2.incrementarMana();
-
-        iniciarTurno();
-    }
-
-    private void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
-        System.out.println("Iniciando fase de combate...");
-        List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
-        List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);
-
-        if (criaturasAtacantes.isEmpty() && criaturasDefensoras.isEmpty()) {
-            System.out.println("Nenhum ataque pode ser realizado, ambos os jogadores não possuem criaturas.");
-            return;
         }
 
-        for (Criatura atacante : criaturasAtacantes) {
-            if (!criaturasDefensoras.isEmpty()) {
-                Criatura alvo = criaturasDefensoras.get(0);
-                System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
-                atacarCriatura(atacante, alvo);
+        public void configurarBotoesDeTurno (boolean turnoJogador1) {
+            btnCompra1.setEnabled(turnoJogador1);
+            btnCompra2.setEnabled(!turnoJogador1);
+            btnFinalizarTurno1.setEnabled(turnoJogador1);
+            btnFinalizarTurno2.setEnabled(!turnoJogador1);
+        }
 
-                if (alvo.getResistencia() <= 0) {
-                    removerCriaturaDoCampo(jogadorDefensor, alvo);
+
+        private void alternarTurno() {
+            System.out.println("Alternando turno...");
+            turnoJogador1 = !turnoJogador1;
+            String jogadorAtualNome = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
+            JOptionPane.showMessageDialog(this, "Agora é a vez de " + jogadorAtualNome + "!");
+            jogador1.incrementarMana();
+            jogador2.incrementarMana();
+
+            iniciarTurno();
+        }
+
+        private void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
+            System.out.println("Iniciando fase de combate...");
+            List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
+            List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);
+
+            if (criaturasAtacantes.isEmpty() && criaturasDefensoras.isEmpty()) {
+                System.out.println("Nenhum ataque pode ser realizado, ambos os jogadores não possuem criaturas.");
+                return;
+            }
+
+            for (Criatura atacante : criaturasAtacantes) {
+                if (!criaturasDefensoras.isEmpty()) {
+                    Criatura alvo = criaturasDefensoras.get(0);
+                    System.out.println(atacante.getNome() + " ataca " + alvo.getNome());
+                    atacarCriatura(atacante, alvo);
+
+                    if (alvo.getResistencia() <= 0) {
+                        removerCriaturaDoCampo(jogadorDefensor, alvo);
+                    }
+                } else {
+                    System.out.println(atacante.getNome() + " ataca diretamente " + jogadorDefensor.getNome());
+                    atacarJogador(atacante, jogadorDefensor);
                 }
-            } else {
-                System.out.println(atacante.getNome() + " ataca diretamente " + jogadorDefensor.getNome());
-                atacarJogador(atacante, jogadorDefensor);
+            }
+
+            atualizarCampoDeBatalha(jogadorAtacante);
+            atualizarCampoDeBatalha(jogadorDefensor);
+        }
+
+        private void verificarEncantamentos() {
+            List<Encantamento> encantamentosJogador1 = jogador1.getCampoDeBatalha().getEncantamentosNoCampo();
+            verificarDuracaoEncantamentos(encantamentosJogador1, jogador1);
+
+            List<Encantamento> encantamentosJogador2 = jogador2.getCampoDeBatalha().getEncantamentosNoCampo();
+            verificarDuracaoEncantamentos(encantamentosJogador2, jogador2);
+        }
+
+
+        public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
+            for(Encantamento encantamento: encantamentos){
+                if (encantamento instanceof EncantamentoDano) {
+                    gerenciador.aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
+                } else if (encantamento instanceof EncantamentoCura) {
+                    gerenciador.aplicarEncantementoCura(jogador, (EncantamentoCura) encantamento);
+                }
+            }
+            for (Encantamento encantamento : encantamentos) {
+                encantamento.reduzirDuracao();
+
+                if (encantamento.getDuracao() <= 0) {
+                    jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
+                    jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
+                    // CemiterioUI cemiterioUI = new CemiterioUI();
+                    //SwingUtilities.invokeLater(()->cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador) );
+                    System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
+                }
             }
         }
 
-        atualizarCampoDeBatalha(jogadorAtacante);
-        atualizarCampoDeBatalha(jogadorDefensor);
-    }
+        private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
+            jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
+            jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
 
-    private void verificarEncantamentos() {
-        List<Encantamento> encantamentosJogador1 = jogador1.getCampoDeBatalha().getEncantamentosNoCampo();
-        verificarDuracaoEncantamentos(encantamentosJogador1, jogador1);
+            atualizarCampoDeBatalha(jogador);
+            atualizarCemiterio(jogador);
 
-        List<Encantamento> encantamentosJogador2 = jogador2.getCampoDeBatalha().getEncantamentosNoCampo();
-        verificarDuracaoEncantamentos(encantamentosJogador2, jogador2);
-    }
-
-
-    public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
-        for(Encantamento encantamento: encantamentos){
-            if (encantamento instanceof EncantamentoDano) {
-                gerenciador.aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
-            } else if (encantamento instanceof EncantamentoCura) {
-                gerenciador.aplicarEncantementoCura(jogador, (EncantamentoCura) encantamento);
-            }
+            System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
         }
-        for (Encantamento encantamento : encantamentos) {
-            encantamento.reduzirDuracao();
 
-            if (encantamento.getDuracao() <= 0) {
-                jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
-                jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
-               // CemiterioUI cemiterioUI = new CemiterioUI();
-               // SwingUtilities.invokeLater(()->cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador) );
-                System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
+        private boolean verificarVitoria(Jogador jogador) {
+        System.out.println("AAAAAaaa");
+            try {
+                if (jogador.getVida() <= 0 || jogador.getDeck().isEmpty()) {
+                    System.out.println(jogador.getNome() + " perdeu o jogo.");
+
+                    SwingUtilities.invokeLater(() -> {
+                        TelaFinal telaFinal = new TelaFinal();
+                        telaFinal.setVisible(true);
+                    });
+
+                    jogoAtivo = false;
+                    return true;
+                }
+            } catch (NullPointerException e) {
+                System.err.println("Erro na verificação de vitória: " + e.getMessage());
+                e.printStackTrace();
             }
+            return false;
         }
-    }
 
-    private void removerCriaturaDoCampo(Jogador jogador, Criatura criatura) {
-        jogador.getCampoDeBatalha().removerCartaDoCampo(criatura);
-        jogador.getCemiterio().adicionarCartasNoCemiterio(criatura);
 
-        atualizarCampoDeBatalha(jogador);
-        atualizarCemiterio(jogador);
+        public void atualizarDescricao(Carta carta){
+            textoDescricao.setText(carta.gerarDescricao());
+        }
 
-        System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
-    }
+        public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
+            infoJogadorPanel.removeAll();
 
-    private boolean verificarVitoria(Jogador jogador) {
-        if (jogador.getVida() <= 0 || jogador.getDeck().isEmpty()) {
-            System.out.println(jogador.getNome() + " perdeu o jogo.");
+            infoJogadorPanel.add(new JLabel("Nome: " + jogador.getNome()));
+            infoJogadorPanel.add(new JLabel(" Vida " + jogador.getVida()));
+            infoJogadorPanel.add(new JLabel("Mana: " + jogador.getNome()));
+            infoJogadorPanel.add(new JLabel(" Nível: " + jogador.getNivel()));
+
+            infoJogadorPanel.revalidate();
+            infoJogadorPanel.repaint();
+
+        }
+
+
+        public void atacarCriatura(Criatura atacante, Criatura alvo) {
+            atacante.atacar(alvo);
+            System.out.println("Ataque");
+
+        }
+
+        public  void atacarJogador(Criatura atacante, Jogador jogador) {
+            atacante.atacarJogador(jogador);
+            System.out.println("Ataque ao jogador");
+
+        }
+
+
+        private void atualizarCampoDeBatalha(Jogador jogador) {
+            JPanel painelCampo = mapaCampos.get(jogador);
+            if (painelCampo == null) return;
 
             SwingUtilities.invokeLater(() -> {
-                TelaFinal telaFinal = new TelaFinal();
-                telaFinal.setVisible(true);
+                painelCampo.removeAll();
+
+                List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
+                GridBagConstraints c = new GridBagConstraints();
+                c.gridy = 0;
+
+                for (int i = 0; i < criaturas.size(); i++) {
+                    Criatura criatura = criaturas.get(i);
+                    Component criaturaUI = new CartaUI(criatura, jogador);
+                    c.gridx = i;
+                    painelCampo.add(criaturaUI, c);
+                }
+
+                painelCampo.revalidate();
+                painelCampo.repaint();
             });
-
-            jogoAtivo = false;
-            return true;
         }
-        return false;
-    }
 
+        private void atualizarCemiterio(Jogador jogador) {
+            JPanel painelCemiterio = mapaCemiterios.get(jogador);
+            if (painelCemiterio == null) return;
 
-    public void atualizarDescricao(Carta carta){
-        textoDescricao.setText(carta.gerarDescricao());
-    }
+            SwingUtilities.invokeLater(() -> {
+                painelCemiterio.removeAll();
 
-    public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
-        infoJogadorPanel.removeAll();
+                List<Carta> cartasNoCemiterio = jogador.getCemiterio().getCartasNoCemiterio();
+                GridBagConstraints c = new GridBagConstraints();
+                c.gridy = 0;
 
-        infoJogadorPanel.add(new JLabel("Nome: " + jogador.getNome()));
-        infoJogadorPanel.add(new JLabel(" Vida " + jogador.getVida()));
-        infoJogadorPanel.add(new JLabel("Mana: " + jogador.getNome()));
-        infoJogadorPanel.add(new JLabel(" Nível: " + jogador.getNivel()));
+                for (int i = 0; i < cartasNoCemiterio.size(); i++) {
+                    Carta carta = cartasNoCemiterio.get(i);
+                    Component cartaUI = new CartaUI(carta, jogador);
+                    c.gridx = i;
+                    painelCemiterio.add(cartaUI, c);
+                }
 
-        infoJogadorPanel.revalidate();
-        infoJogadorPanel.repaint();
+                painelCemiterio.revalidate();
+                painelCemiterio.repaint();
+            });
+        }
 
-    }
-
-
-    public void atacarCriatura(Criatura atacante, Criatura alvo) {
-        atacante.atacar(alvo);
-        System.out.println("Ataque");
-
-    }
-
-    public  void atacarJogador(Criatura atacante, Jogador jogador) {
-        atacante.atacarJogador(jogador);
-        System.out.println("Ataque ao jogador");
 
     }
-
-
-    private void atualizarCampoDeBatalha(Jogador jogador) {
-        JPanel painelCampo = mapaCampos.get(jogador);
-        if (painelCampo == null) return;
-
-        SwingUtilities.invokeLater(() -> {
-            painelCampo.removeAll();
-
-            List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
-            GridBagConstraints c = new GridBagConstraints();
-            c.gridy = 0;
-
-            for (int i = 0; i < criaturas.size(); i++) {
-                Criatura criatura = criaturas.get(i);
-                Component criaturaUI = new CartaUI(criatura, jogador);
-                c.gridx = i;
-                painelCampo.add(criaturaUI, c);
-            }
-
-            painelCampo.revalidate();
-            painelCampo.repaint();
-        });
-    }
-
-    private void atualizarCemiterio(Jogador jogador) {
-        JPanel painelCemiterio = mapaCemiterios.get(jogador);
-        if (painelCemiterio == null) return;
-
-        SwingUtilities.invokeLater(() -> {
-            painelCemiterio.removeAll();
-
-            List<Carta> cartasNoCemiterio = jogador.getCemiterio().getCartasNoCemiterio();
-            GridBagConstraints c = new GridBagConstraints();
-            c.gridy = 0;
-
-            for (int i = 0; i < cartasNoCemiterio.size(); i++) {
-                Carta carta = cartasNoCemiterio.get(i);
-                Component cartaUI = new CartaUI(carta, jogador);
-                c.gridx = i;
-                painelCemiterio.add(cartaUI, c);
-            }
-
-            painelCemiterio.revalidate();
-            painelCemiterio.repaint();
-        });
-    }
-
-
-}
