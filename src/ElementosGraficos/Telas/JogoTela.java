@@ -293,6 +293,7 @@ public class JogoTela extends JFrame {
     private boolean jogoAtivo = true;
     private boolean turnoFinalizado = false;
 
+
     public void iniciarJogo() {
         System.out.println("Iniciando o jogo...");
 
@@ -301,7 +302,12 @@ public class JogoTela extends JFrame {
             @Override
             protected Void doInBackground() throws Exception {
                 while (jogoAtivo) {
+
+
                     Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
+
+                    // Log para acompanhar o fluxo
+                    System.out.println("Turno do jogador atual: " + jogadorAtual.getNome());
 
                     // Executa o turno do jogador atual
                     SwingUtilities.invokeLater(() -> iniciarTurno());
@@ -310,7 +316,12 @@ public class JogoTela extends JFrame {
                     esperarFinalizarTurno();
 
                     // Verifica condição de vitória
-                    if (verificarVitoria(jogador1) || verificarVitoria(jogador2)) {
+                    boolean vitoriaJogador1 = verificarVitoria(jogador1);
+                    boolean vitoriaJogador2 = verificarVitoria(jogador2);
+
+
+                    if (vitoriaJogador1 || vitoriaJogador2) {
+                        System.out.println("Fim do jogo detectado.");
                         jogoAtivo = false;
                         break;
                     }
@@ -354,8 +365,19 @@ public class JogoTela extends JFrame {
 
             executarFaseDeCombate(jogadorAtual, turnoJogador1 ? jogador2 : jogador1);
 
+            boolean vitoriaJogador1 = verificarVitoria(jogador1);
+            boolean vitoriaJogador2 = verificarVitoria(jogador2);
+
+
             verificarEncantamentos();
-          // configurarBotoesDeTurno(turnoJogador1);
+
+            if (vitoriaJogador1 || vitoriaJogador2) {
+                System.out.println("Fim do jogo detectado.");
+                jogoAtivo = false;
+
+            }
+
+            // configurarBotoesDeTurno(turnoJogador1);
 
         }
 
@@ -365,7 +387,6 @@ public class JogoTela extends JFrame {
             btnFinalizarTurno1.setEnabled(turnoJogador1);
             btnFinalizarTurno2.setEnabled(!turnoJogador1);
         }
-
 
         private void alternarTurno() {
             System.out.println("Alternando turno...");
@@ -447,26 +468,34 @@ public class JogoTela extends JFrame {
             System.out.println(criatura.getNome() + " foi removida do campo e adicionada ao cemitério.");
         }
 
-        private boolean verificarVitoria(Jogador jogador) {
-        System.out.println("AAAAAaaa");
-            try {
-                if (jogador.getVida() <= 0 || jogador.getDeck().isEmpty()) {
-                    System.out.println(jogador.getNome() + " perdeu o jogo.");
+    private boolean verificarVitoria(Jogador jogador) {
 
-                    SwingUtilities.invokeLater(() -> {
-                        TelaFinal telaFinal = new TelaFinal();
-                        telaFinal.setVisible(true);
-                    });
-
-                    jogoAtivo = false;
-                    return true;
-                }
-            } catch (NullPointerException e) {
-                System.err.println("Erro na verificação de vitória: " + e.getMessage());
-                e.printStackTrace();
+        try {
+            System.out.println("AAAA");
+            if (jogador.getVida() <= 0) {
+                System.out.println(jogador.getNome() + " perdeu o jogo por ter vida igual ou menor a 0.");
+                encerrarJogo(jogador.getNome());
+                return true;
+            } else if (jogador.getDeck().isEmpty()) {
+                System.out.println(jogador.getNome() + " perdeu o jogo por não ter mais cartas no deck.");
+                encerrarJogo(jogador.getNome());
+                return true;
             }
-            return false;
+        } catch (NullPointerException e) {
+            System.err.println("Erro ao verificar vitória: " + e.getMessage());
+            e.printStackTrace();
         }
+        return false;
+    }
+
+
+    private void encerrarJogo(String perdedor) {
+        jogoAtivo = false;
+        SwingUtilities.invokeLater(() -> {
+            TelaFinal telaFinal = new TelaFinal();
+            telaFinal.setVisible(true);
+        });
+    }
 
 
         public void atualizarDescricao(Carta carta){
@@ -498,7 +527,6 @@ public class JogoTela extends JFrame {
             System.out.println("Ataque ao jogador");
 
         }
-
 
         private void atualizarCampoDeBatalha(Jogador jogador) {
             JPanel painelCampo = mapaCampos.get(jogador);
