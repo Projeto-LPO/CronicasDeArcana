@@ -27,31 +27,28 @@ public class Jogador implements Atacavel {
     private CampodeBatalha campoDeBatalha;
     private int vida;
     private int mana;
+    private int vidaInicial;
     private int manaAtual;
     private Nivel nivel;
-    private GerenciadorDeCombate gerenciador;
+
 
     private static  int MANA_MAXIMA = 10;
 
-    public Jogador(String nome, Decks deck, int vida, int mana) {
+    public Jogador(String nome, Decks deck, int vida, int mana, int vidaInicial) {
         this.nome = nome;
         this.deck = deck;
         this.mao = new Mao();
         this.cemiterio = new Cemiterio();
         this.campoDeBatalha = new CampodeBatalha(mao, cemiterio, deck);
-        this.vida = vida;
+        this.vida = vidaInicial;
         this.mana = mana;
         this.manaAtual = mana;
         this.nivel = new Nivel();
+        this.vidaInicial = vidaInicial;
 
-        // Comprando 3 cartas no início
-        System.out.println(nome + " está comprando cartas iniciais...");
-        for (int i = 0; i < 3; i++) {
-            comprarCartas();
-        }
+
     }
 
-    // Método para comprar uma carta do deck e adicioná-la à mão
     public void comprarCartas() {
 
         if (deck.isEmpty()) {
@@ -155,6 +152,10 @@ public class Jogador implements Atacavel {
         return manaAtual;
     }
 
+    public int getVidaInicial() {
+        return this.vidaInicial;
+    }
+
     @Override
     public void receberDano(int dano) {
         this.vida -= dano;
@@ -168,8 +169,12 @@ public class Jogador implements Atacavel {
 
     @Override
     public void receberCura(int cura) {
-        this.vida += cura;
-        System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
+        if (vida < vidaInicial) { // Permite a cura apenas se a vida for menor que o máximo
+            this.vida = Math.min(this.vida + cura, vidaInicial); // Limita a cura ao valor máximo
+            System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
+        } else {
+            System.out.println(nome + " já está com a vida máxima: " + this.vida);
+        }
     }
 
     public void incrementarMana() {
@@ -177,7 +182,6 @@ public class Jogador implements Atacavel {
             manaAtual++;
         }
     }
-
 
     public CampodeBatalha getCampoDeBatalha() {
         return campoDeBatalha;
@@ -194,9 +198,8 @@ public class Jogador implements Atacavel {
         this.nome = nome;
     }
 
-
-
     public  void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+        System.out.println("Aplicando feitiço cura");
         feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
         for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
@@ -205,6 +208,7 @@ public class Jogador implements Atacavel {
     }
 
     public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
+        System.out.println("Aplicando feitiço de dano");
         feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
         for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
             feitiçoDano.aplicarEfeitoDano(criatura);

@@ -32,8 +32,8 @@ public class CronicasDeArcanaTerminal {
         Mao maoJogador2 = new Mao();
 
         // Cria os jogadores com os nomes, decks, pontos de vida e mana
-        Jogador jogador1 = new Jogador(nomeJogador1, deck1, 50, 20);
-        Jogador jogador2 = new Jogador(nomeJogador2, deck2, 50, 20);
+        Jogador jogador1 = new Jogador(nomeJogador1, deck1, 50, 20, 50);
+        Jogador jogador2 = new Jogador(nomeJogador2, deck2, 50, 20,50);
 
         // Cria o campo de batalha para cada jogador
         CampodeBatalha campoJogador1 = new CampodeBatalha(maoJogador1, jogador1.getCemiterio(), deck1);

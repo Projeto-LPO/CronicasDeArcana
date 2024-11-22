@@ -20,14 +20,9 @@ public class FeitiçoDano extends Feitiço implements Jogavel {
     // Aplicar dano a uma criatura
     @Override
     public void aplicarEfeitoDano(Criatura criatura) {
+        System.out.println("Aderito!!!");
         System.out.println(getNome() + " foi lançado e causou " + getValorDano() + " de dano à criatura " + criatura.getNome());
         criatura.receberDano(getValorDano());
-    }
-
-    // Método para lançar o feitiço e causar dano a uma criatura
-    public void lançarFeitiçoDano(Criatura alvo) {
-        System.out.println(getNome() + " foi lançado e causou " + getValorDano() + " de dano a " + alvo.getNome());
-        alvo.receberDano(getValorDano());
     }
 
     @Override
@@ -38,12 +33,6 @@ public class FeitiçoDano extends Feitiço implements Jogavel {
     @Override
     public void jogar() {
         System.out.println(getNome() + " foi conjurado com o efeito: " + getEfeito());
-    }
-
-    // Método auxiliar para aplicar dano a uma criatura
-    public void aplicarDano(Criatura alvo) {
-        System.out.println(getNome() + " está aplicando " + getValorDano() + " de dano a " + alvo.getNome());
-        lançarFeitiçoDano(alvo);
     }
 
     // Métodos de cura não utilizados, mas obrigatórios por causa da classe abstrata
