@@ -1,4 +1,3 @@
-
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
@@ -45,13 +44,11 @@ public class JogoTela extends JFrame {
         this.jogador2 = jogador2;
         this.gerenciador = gerenciador;
 
-        List<Carta> cartasCriadas = InstanciaCartas.gerarCartas();
-
         mapaCampos = new HashMap<>();
         mapaCemiterios = new HashMap<>();
 
-
-
+        //cria a instancia de cartas geradas
+        List<Carta> cartasCriadas = InstanciaCartas.gerarCartas();
 
         // Inicializando decks dos jogadores com as cartas geradas
         this.deckJogador1 = new Decks(cartasCriadas);
@@ -77,22 +74,63 @@ public class JogoTela extends JFrame {
 
         //---------------------------------------------------------------------------------------------------------------
 
-        //INCIO DAS CONFIGURAÇÕES VISUAIS + BOTOES DE CARTA E COMPRA DE CARTA
+        //funções de inicialização de componentes visuais
 
-        //configuração da tela principal
+        inicializarTela();
+
+        //painel principal
+        JPanel gamePanel = new JPanel(new GridBagLayout());
+        gamePanel.setBackground(new Color(0, 0, 128));
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(10, 10, 10, 10);
+
+        //inicializa os componentes principais
+        JPanel campoDeBatalhaPainel = inicializarCampoDeBatalha();
+        JPanel cemiterioPainel = inicializarCemiterio();
+        JPanel descricaoPainel = inicializarPainelDescricao();
+
+        //adiciona os componentes principais ao painel principal
+        adicionarComponente(gamePanel, campoDeBatalhaPainel, c, 1, 1, 2, 1, GridBagConstraints.BOTH);
+        adicionarComponente(gamePanel, cemiterioPainel, c, 3, 1, 2, 1, GridBagConstraints.CENTER);
+        adicionarComponente(gamePanel, descricaoPainel, c, 0, 1, 1, 1, GridBagConstraints.CENTER);
+
+        //inicializa os painéis dos jogadores
+        JPanel jogador1Painel = inicializarPainelJogador(jogador1, true);
+        JPanel jogador2Painel = inicializarPainelJogador(jogador2, false);
+
+        //adiciona os painéis dos jogadores
+        adicionarComponente(gamePanel, jogador1Painel, c, 1, 2, 2, 1, GridBagConstraints.SOUTH);
+        adicionarComponente(gamePanel, jogador2Painel, c, 1, 0, 2, 1, GridBagConstraints.NORTH);
+
+        this.add(gamePanel);
+        this.revalidate();
+        this.repaint();
+
+
+    } //fim do construtor
+
+    //----------------------------------------------------------------------------------
+
+    //funções de inicialização ui
+
+    private void inicializarTela() {
         this.setTitle("Partida iniciada! | " + this.jogador1.getNome() + " versus " + this.jogador2.getNome());
         this.setResizable(false);
         this.setBounds(100, 100, 1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+    }
 
-        JPanel gamePanel = new JPanel(new GridBagLayout());
-        gamePanel.setBackground(new Color(0, 0, 128));
+    private void adicionarComponente(JPanel painel, JComponent componente, GridBagConstraints c, int x, int y, int largura, int altura, int preenchimento) {
+        c.gridx = x;
+        c.gridy = y;
+        c.gridwidth = largura;
+        c.gridheight = altura;
+        c.fill = preenchimento;
+        painel.add(componente, c);
+    }
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(10, 10, 10, 10);
-
-        // Campo de batalha
+    private JPanel inicializarCampoDeBatalha() {
         JPanel campoDeBatalhaPainel = new JPanel(new BorderLayout());
         campoDeBatalhaPainel.setPreferredSize(new Dimension(500, 400));
         campoDeBatalhaPainel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -112,14 +150,13 @@ public class JogoTela extends JFrame {
         campoDeBatalhaPainel.add(campoJogador1, BorderLayout.SOUTH);
         campoDeBatalhaPainel.add(campoJogador2, BorderLayout.NORTH);
 
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.fill = GridBagConstraints.BOTH;
-        gamePanel.add(campoDeBatalhaPainel, c);
+        mapaCampos.put(jogador1, campoJogador1);
+        mapaCampos.put(jogador2, campoJogador2);
 
-        // Cemitério
+        return campoDeBatalhaPainel;
+    }
+
+    private JPanel inicializarCemiterio() {
         JPanel cemiterioPainel = new JPanel(new BorderLayout());
         cemiterioPainel.setPreferredSize(new Dimension(200, 300));
         cemiterioPainel.setBackground(Color.GRAY);
@@ -139,23 +176,13 @@ public class JogoTela extends JFrame {
         cemiterioPainel.add(cemiterioJogador1, BorderLayout.SOUTH);
         cemiterioPainel.add(cemiterioJogador2, BorderLayout.NORTH);
 
-        c.gridx = 3;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.anchor = GridBagConstraints.CENTER;
-
-        //adiciona o cemiterio ao painel principal
-        gamePanel.add(cemiterioPainel, c);
-
-        mapaCampos.put(jogador1, campoJogador1);
-        mapaCampos.put(jogador2, campoJogador2);
-
         mapaCemiterios.put(jogador1, cemiterioJogador1);
         mapaCemiterios.put(jogador2, cemiterioJogador2);
 
+        return cemiterioPainel;
+    }
 
-        //descrição de carta
+    private JPanel inicializarPainelDescricao() {
         JPanel descricaoPainel = new JPanel();
         descricaoPainel.setPreferredSize(new Dimension(200, 250));
         descricaoPainel.setBackground(new Color(255, 228, 181));
@@ -166,240 +193,103 @@ public class JogoTela extends JFrame {
         textoDescricao.setHorizontalAlignment(SwingConstants.CENTER);
         textoDescricao.setForeground(Color.BLACK);
         textoDescricao.setFont(new Font("Uncial Antiqua", Font.PLAIN, 12));
-        textoDescricao.setBounds(10,10,180,230);
+        textoDescricao.setBounds(10, 10, 180, 230);
 
         descricaoPainel.add(textoDescricao, BorderLayout.CENTER);
 
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.anchor = GridBagConstraints.CENTER;
-        gamePanel.add(descricaoPainel, c);
+        return descricaoPainel;
+    }
 
-        //painel do Jogador 1
-        JPanel jogador1Painel = new JPanel(new BorderLayout());
-        jogador1Painel.setPreferredSize(new Dimension(700, 150));
-        jogador1Painel.setOpaque(false);
+    //
+    private JPanel inicializarPainelJogador(Jogador jogador, boolean turnoJogador1) {
+        JPanel jogadorPainel = new JPanel(new BorderLayout());
+        jogadorPainel.setPreferredSize(new Dimension(700, 150));
+        jogadorPainel.setOpaque(false);
 
-        //painel da MÃO do jogador 1
-        JPanel maoJogador1Painel = new JPanel(new GridBagLayout());
-        maoJogador1Painel.setPreferredSize(new Dimension(350, 150));
-        maoJogador1Painel.setOpaque(false);
-        GridBagConstraints c2 = new GridBagConstraints();
-        c2.insets = new Insets(10, 10, 10, 10);
-        c2.gridy = 0;
+        JPanel maoPainel = criarPainelMao(jogador, turnoJogador1);
 
-        //criação dos slots de carta
-        for (int i = 0; i < 5; i++) {
-            Component cartaUI; //variavel container
-            //verifica se há cartas na mão antes de acessar
-            if (i < jogador1.getMao().getCartas().size()) {
-                Carta carta = jogador1.getMao().getCartas().get(i);
-                cartaUI = new CartaUI(carta, jogador1);
-                ((CartaUI)(cartaUI)).addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (!turnoJogador1) {
-                            System.out.println("Não é o turno do Jogador 1!");
-                            return;
-                        }
-                        try {
-                            jogador1.jogarCartaNoCampo(carta, jogador2);
-                            maoUI.atualizarCampoDeBatalha(campoJogador1, jogador1);
-                            maoUI.atualizarMao(maoJogador1Painel, campoJogador1, jogador1, jogador2);
+        JPanel infoPainel = criarPainelInfo(jogador);
 
-                        } catch (ManaInsuficienteException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        System.out.println("Jogador 1 jogou a carta: " + carta.getNome());
-                    }
-                });
-                ((CartaUI)(cartaUI)).addMouseMotionListener(new MouseMotionAdapter() {
-                    public void mouseMoved(MouseEvent e) {                                  //funcao para adicionar
-                        //o escutador de mouse passando
-                        atualizarDescricao(carta);
-                    }
-                });
-            } else {
-                cartaUI = new JButton("Vazio"); //adiciona um botão vazio caso não haja carta na posição i
-            }
-            //define a posição do componente e adiciona ao painel
-            c2.gridx = i;
-            maoJogador1Painel.add(cartaUI, c2);
-        }
+        JButton btnFinalizarTurno = new JButton("Finalizar Turno");
+        btnFinalizarTurno.setBackground(Color.LIGHT_GRAY);
+        btnFinalizarTurno.setPreferredSize(new Dimension(120, 50));
+        btnFinalizarTurno.addActionListener(e -> alternarTurno());
 
-        //adiciona o painel da MÃO ao painel do jogador1
-        jogador1Painel.add(maoJogador1Painel, BorderLayout.CENTER);
+        jogadorPainel.add(maoPainel, BorderLayout.CENTER);
+        jogadorPainel.add(infoPainel, BorderLayout.WEST);
+        jogadorPainel.add(btnFinalizarTurno, turnoJogador1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
 
-        //painel do DECK do jogador1
-        JPanel deckJogador1Painel = new JPanel(new BorderLayout());
-        deckJogador1Painel.setPreferredSize(new Dimension(100, 150));
-        deckJogador1Painel.setOpaque(false);
-        deckJogador1Painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        return jogadorPainel;
+    }
 
-        JLabel nomeDeck = new JLabel();
-        deckJogador1Painel.add(nomeDeck, BorderLayout.CENTER);
+    private JPanel criarPainelMao(Jogador jogador, boolean turnoJogador1) {
+        JPanel maoPainel = new JPanel(new GridBagLayout());
+        maoPainel.setPreferredSize(new Dimension(350, 150));
+        maoPainel.setOpaque(false);
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(10, 10, 10, 10);
+        c.gridy = 0;
 
-// Botão de deck (compra)
-        JButton btnCompra1 = new JButton("Deck 1");
-        btnCompra1.setBackground(Color.WHITE);
-        btnCompra1.setPreferredSize(new Dimension(100, 150));
-        btnCompra1.setFont(new Font("Uncial Antiqua", Font.BOLD, 10));  // Definindo a fonte
-        btnCompra1.setForeground(Color.BLACK);  // Definindo a cor do texto
-
-        btnCompra1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                jogador1.getMao().adicionarCartasMao(deckJogador1.comprarCarta());
-            }
-        });
-
-// Adiciona o botão de compra ao painel
-        deckJogador1Painel.add(btnCompra1, BorderLayout.CENTER);
-
-// Adiciona o painel do deck no painel de jogador
-        jogador1Painel.add(deckJogador1Painel, BorderLayout.EAST);
-
-        JPanel infoJogador1 = new JPanel(new GridLayout(3, 1));
-        infoJogador1.setPreferredSize(new Dimension(150, 150));
-        infoJogador1.setBackground(Color.CYAN);
-        infoJogador1.add(new JLabel("Nome: " + jogador1.getNome()));
-        infoJogador1.add(new JLabel("Vida: " + jogador1.getVida()));
-        infoJogador1.add(new JLabel("Mana: " + jogador1.getMana()));
-        infoJogador1.add(new JLabel("Nível: " + jogador1.getNivel()));
-
-        jogador1Painel.add(infoJogador1, BorderLayout.WEST);
-
-        //botao de finalizar o turno do jogador 1
-        JButton btnFinalizarTurno1 = new JButton("Finalizar Turno");
-        btnFinalizarTurno1.setBackground(Color.LIGHT_GRAY);
-        btnFinalizarTurno1.setPreferredSize(new Dimension(120, 50));
-        btnFinalizarTurno1.addActionListener(e -> alternarTurno());
-
-        jogador1Painel.add(btnFinalizarTurno1, BorderLayout.SOUTH);
-
-        c.gridx = 1;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.anchor = GridBagConstraints.SOUTH;
-        gamePanel.add(jogador1Painel, c);
-
-
-
-        //painel do Jogador 2
-        JPanel jogador2Painel = new JPanel(new BorderLayout());
-        jogador2Painel.setPreferredSize(new Dimension(500, 150));
-        jogador2Painel.setOpaque(false);
-
-        //painel da MÃO do jogador 2
-        JPanel maoJogador2Painel = new JPanel(new GridBagLayout());
-        maoJogador2Painel.setPreferredSize(new Dimension(350, 150));
-        maoJogador2Painel.setOpaque(false);
-        GridBagConstraints c3 = new GridBagConstraints();
-        c3.insets = new Insets(10, 10, 10, 10);
-        c3.gridy = 0;
-
-        //adicionando as 5 cartas à mão
         for (int i = 0; i < 5; i++) {
             Component cartaUI;
-            if (i < jogador2.getMao().getCartas().size()) {
-                Carta carta = jogador2.getMao().getCartas().get(i);
-                cartaUI = new CartaUI(carta, jogador2);
-                ((CartaUI)(cartaUI)).addActionListener(new ActionListener(){
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (turnoJogador1) {
-                            System.out.println("Não é o turno do Jogador 2!");
-                            return;
-                        }
+            if (i < jogador.getMao().getCartas().size()) {
+                Carta carta = jogador.getMao().getCartas().get(i);
+                cartaUI = new CartaUI(carta, jogador);
+                ((CartaUI) cartaUI).addActionListener(e -> {
+                    if ((turnoJogador1 && this.turnoJogador1) || (!turnoJogador1 && !this.turnoJogador1)) {
                         try {
-                            jogador2.jogarCartaNoCampo(carta, jogador1);
-
-                            maoUI.atualizarCampoDeBatalha(campoJogador2, jogador2);
-                            maoUI.atualizarMao(maoJogador2Painel, campoJogador2, jogador2, jogador1 );
-
+                            jogador.jogarCartaNoCampo(carta, jogador);
                         } catch (ManaInsuficienteException ex) {
                             throw new RuntimeException(ex);
                         }
-                        System.out.println("Jogador 2 jogou a carta: " + carta.getNome());
+                    } else {
+                        System.out.println("Não é o turno de " + jogador.getNome() + "!");
                     }
                 });
-                ((CartaUI)(cartaUI)).addMouseMotionListener(new MouseMotionAdapter() {
+                ((CartaUI) cartaUI).addMouseMotionListener(new MouseMotionAdapter() {
                     public void mouseMoved(MouseEvent e) {
                         atualizarDescricao(carta);
                     }
                 });
-                // Se houver carta, cria CartaUI
             } else {
-                cartaUI = new JButton("Vazio"); // Adiciona um botão vazio caso não haja carta na posição i
+                cartaUI = new JButton("Vazio");
             }
-
-            // Define a posição do componente e adiciona ao painel
-            c3.gridx = i;
-            maoJogador2Painel.add(cartaUI, c3);
+            c.gridx = i;
+            maoPainel.add(cartaUI, c);
         }
 
-        //adiciona o painel da MÃO ao painel do jogador 2
-        jogador2Painel.add(maoJogador2Painel, BorderLayout.CENTER);
-
-        //painel do DECK do jogador2
-        JPanel deckJogador2Painel = new JPanel(new BorderLayout());
-        deckJogador2Painel.setPreferredSize(new Dimension(100, 150));
-        deckJogador2Painel.setOpaque(false);
-        deckJogador2Painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel nomeDeck2 = new JLabel("Deck 2");
-        deckJogador2Painel.add(nomeDeck2, BorderLayout.CENTER);
-
-        // Inicializa o botão de compra
-        btnCompra2 = new JButton("Deck2");
-        btnCompra2.setBackground(Color.WHITE);
-        btnCompra2.setPreferredSize(new Dimension(100, 150));
-        btnCompra2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                jogador2.getMao().adicionarCartasMao(deckJogador2.comprarCarta());
-            }
-        });
-
-        deckJogador2Painel.add(btnCompra2, BorderLayout.CENTER);
-
-        // Adiciona o painel do deck no painel de jogador2
-        jogador2Painel.add(deckJogador2Painel, BorderLayout.EAST);
-
-        // Verifique se o painel de informações foi inicializado corretamente
-        JPanel infoJogador2 = new JPanel(new GridLayout(3, 1));
-        infoJogador2.setPreferredSize(new Dimension(150, 150));
-        infoJogador2.setBackground(Color.CYAN);
-        infoJogador2.add(new JLabel("Nome: " + jogador2.getNome()));
-        infoJogador2.add(new JLabel("Vida: " + jogador2.getVida()));
-        infoJogador2.add(new JLabel("Mana: " + jogador2.getMana()));
-        infoJogador2.add(new JLabel("Nível: "+jogador2.getNivel()));
-
-        jogador2Painel.add(infoJogador2, BorderLayout.WEST);
-
-        // Finalizar turno
-        JButton btnFinalizarTurno2 = new JButton("Finalizar Turno");
-        btnFinalizarTurno2.setBackground(Color.LIGHT_GRAY);
-        btnFinalizarTurno2.setPreferredSize(new Dimension(120, 50));
-        btnFinalizarTurno2.addActionListener(e -> alternarTurno());
-        jogador2Painel.add(btnFinalizarTurno2, BorderLayout.NORTH);
-
-        // Configura o painel na interface
-        c.gridx = 1;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.anchor = GridBagConstraints.NORTH;
-        gamePanel.add(jogador2Painel, c);
-        this.add(gamePanel);
-
-        // Atualiza a interface
-        this.revalidate();
-        this.repaint();
-
+        return maoPainel;
     }
 
+
+    private JPanel criarPainelInfo(Jogador jogador) {
+        JPanel infoPainel = new JPanel(new GridLayout(2, 1));
+        infoPainel.setPreferredSize(new Dimension(150, 100));
+        infoPainel.setBackground(new Color(242, 213, 174));
+
+        JLabel lblNome = new JLabel(jogador.getNome());
+        JLabel lblVida = new JLabel("Vida: " + jogador.getVida());
+        JLabel lblMana = new JLabel("Mana: " + jogador.getManaAtual() + "/" + jogador.getMana());
+        JLabel lblNivel = new JLabel("Nivel: " + jogador.getNivel());
+
+        lblNome.setHorizontalAlignment(SwingConstants.CENTER);
+        lblVida.setHorizontalAlignment(SwingConstants.CENTER);
+        lblMana.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNivel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        infoPainel.add(lblNome);
+        infoPainel.add(lblVida);
+        infoPainel.add(lblMana);
+        infoPainel.add(lblNivel);
+
+        return infoPainel;
+    }
+
+
+
+    //-----------------------------------------------------------------------------------
+
+    //logica de jogo
     private boolean jogoAtivo = true;
     private boolean turnoFinalizado = false;
 
