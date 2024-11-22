@@ -33,7 +33,7 @@ public class JogoTela extends JFrame {
     private JButton btnFinalizarTurno1;
     private JButton btnFinalizarTurno2;
     private GerenciadorDeCombate gerenciador;
-    private CemiterioUI cemiterioUI;
+    private MaoUI maoUI;;
     private JLabel textoDescricao;
     private Map<Jogador, JPanel> mapaCampos;
     private Map<Jogador, JPanel> mapaCemiterios;
@@ -46,79 +46,68 @@ public class JogoTela extends JFrame {
 
         mapaCampos = new HashMap<>();
         mapaCemiterios = new HashMap<>();
+        maoUI = new MaoUI();
 
-        //cria a instancia de cartas geradas
+        // Cria as cartas para os decks
         List<Carta> cartasCriadas = InstanciaCartas.gerarCartas();
 
-        // Inicializando decks dos jogadores com as cartas geradas
+        // Inicializando e embaralhando decks dos jogadores
         this.deckJogador1 = new Decks(cartasCriadas);
         this.deckJogador2 = new Decks(cartasCriadas);
-
-        // Embaralhando os decks dos jogadores
         this.deckJogador1.embaralhar();
         this.deckJogador2.embaralhar();
 
-        MaoUI maoUI = new MaoUI();
-
-        //adiciona as cartas na mão dos jogadores no inicio do jogo
+        // Adiciona cartas iniciais às mãos dos jogadores
         for (int i = 0; i < 5; i++) {
-            jogador1.getMao().adicionarCartasMao(deckJogador1.comprarCarta());
-            jogador2.getMao().adicionarCartasMao(deckJogador2.comprarCarta());
+            adicionarCartaInicial(jogador1, deckJogador1);
+            adicionarCartaInicial(jogador2, deckJogador2);
         }
 
-        //cria a dinamica de turnos
-        Random random = new Random();
-        turnoJogador1 = random.nextBoolean();
+        // Determina qual jogador começa
+        turnoJogador1 = new Random().nextBoolean();
         String primeiroJogador = turnoJogador1 ? jogador1.getNome() : jogador2.getNome();
         JOptionPane.showMessageDialog(this, "O jogador " + primeiroJogador + " começa!");
 
-        //---------------------------------------------------------------------------------------------------------------
-
-        //funções de inicialização de componentes visuais
-
+        // Configura a interface gráfica
         inicializarTela();
+        inicializarComponentes();
+    }
 
-        //painel principal
+    private void adicionarCartaInicial(Jogador jogador, Decks deck) {
+        if (jogador != null && jogador.getMao() != null && deck != null) {
+            Carta carta = deck.comprarCarta();
+            if (carta != null) {
+                jogador.getMao().adicionarCartasMao(carta);
+            }
+        }
+    }
+
+    private void inicializarTela() {
+        setTitle("Partida iniciada! | " + jogador1.getNome() + " versus " + jogador2.getNome());
+        setResizable(false);
+        setBounds(100, 100, 1200, 800);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
+
+    private void inicializarComponentes() {
         JPanel gamePanel = new JPanel(new GridBagLayout());
         gamePanel.setBackground(new Color(0, 0, 128));
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(10, 10, 10, 10);
 
-        //inicializa os componentes principais
-        JPanel campoDeBatalhaPainel = inicializarCampoDeBatalha();
-        JPanel cemiterioPainel = inicializarCemiterio();
-        JPanel descricaoPainel = inicializarPainelDescricao();
+        // Adiciona os componentes principais
+        adicionarComponente(gamePanel, inicializarCampoDeBatalha(), c, 1, 1, 2, 1, GridBagConstraints.BOTH);
+        adicionarComponente(gamePanel, inicializarCemiterio(), c, 3, 1, 2, 1, GridBagConstraints.CENTER);
+        adicionarComponente(gamePanel, inicializarPainelDescricao(), c, 0, 1, 1, 1, GridBagConstraints.CENTER);
 
-        //adiciona os componentes principais ao painel principal
-        adicionarComponente(gamePanel, campoDeBatalhaPainel, c, 1, 1, 2, 1, GridBagConstraints.BOTH);
-        adicionarComponente(gamePanel, cemiterioPainel, c, 3, 1, 2, 1, GridBagConstraints.CENTER);
-        adicionarComponente(gamePanel, descricaoPainel, c, 0, 1, 1, 1, GridBagConstraints.CENTER);
-
-        //inicializa os painéis dos jogadores
-        JPanel jogador1Painel = inicializarPainelJogador(jogador1, true);
-        JPanel jogador2Painel = inicializarPainelJogador(jogador2, false);
-
-        //adiciona os painéis dos jogadores
-        adicionarComponente(gamePanel, jogador1Painel, c, 1, 2, 2, 1, GridBagConstraints.SOUTH);
-        adicionarComponente(gamePanel, jogador2Painel, c, 1, 0, 2, 1, GridBagConstraints.NORTH);
+        // Adiciona os painéis dos jogadores
+        adicionarComponente(gamePanel, inicializarPainelJogador(jogador1, true), c, 1, 2, 2, 1, GridBagConstraints.SOUTH);
+        adicionarComponente(gamePanel, inicializarPainelJogador(jogador2, false), c, 1, 0, 2, 1, GridBagConstraints.NORTH);
 
         this.add(gamePanel);
-        this.revalidate();
-        this.repaint();
-
-
-    } //fim do construtor
-
-    //----------------------------------------------------------------------------------
-
-    //funções de inicialização ui
-
-    private void inicializarTela() {
-        this.setTitle("Partida iniciada! | " + this.jogador1.getNome() + " versus " + this.jogador2.getNome());
-        this.setResizable(false);
-        this.setBounds(100, 100, 1200, 800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
+        revalidate();
+        repaint();
     }
 
     private void adicionarComponente(JPanel painel, JComponent componente, GridBagConstraints c, int x, int y, int largura, int altura, int preenchimento) {
@@ -133,20 +122,16 @@ public class JogoTela extends JFrame {
     private JPanel inicializarCampoDeBatalha() {
         JPanel campoDeBatalhaPainel = new JPanel(new BorderLayout());
         campoDeBatalhaPainel.setPreferredSize(new Dimension(500, 400));
-        campoDeBatalhaPainel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
         campoDeBatalhaPainel.setBackground(new Color(139, 69, 19));
 
-        //campo jogador 1
         JPanel campoJogador1 = new JPanel();
         campoJogador1.setPreferredSize(new Dimension(540, 180));
         campoJogador1.setOpaque(false);
 
-        //campo jogador 2
         JPanel campoJogador2 = new JPanel();
         campoJogador2.setPreferredSize(new Dimension(540, 180));
         campoJogador2.setOpaque(false);
 
-        //adiciona os campos individuais ao campo principal
         campoDeBatalhaPainel.add(campoJogador1, BorderLayout.SOUTH);
         campoDeBatalhaPainel.add(campoJogador2, BorderLayout.NORTH);
 
@@ -160,19 +145,15 @@ public class JogoTela extends JFrame {
         JPanel cemiterioPainel = new JPanel(new BorderLayout());
         cemiterioPainel.setPreferredSize(new Dimension(200, 300));
         cemiterioPainel.setBackground(Color.GRAY);
-        cemiterioPainel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        //cemiterio jogador 1
         JPanel cemiterioJogador1 = new JPanel();
         cemiterioJogador1.setPreferredSize(new Dimension(180, 200));
         cemiterioJogador1.setOpaque(false);
 
-        //cemiterio jogador 2
         JPanel cemiterioJogador2 = new JPanel();
         cemiterioJogador2.setPreferredSize(new Dimension(180, 200));
         cemiterioJogador2.setOpaque(false);
 
-        //adiciona os cemiterios
         cemiterioPainel.add(cemiterioJogador1, BorderLayout.SOUTH);
         cemiterioPainel.add(cemiterioJogador2, BorderLayout.NORTH);
 
@@ -183,69 +164,75 @@ public class JogoTela extends JFrame {
     }
 
     private JPanel inicializarPainelDescricao() {
-        JPanel descricaoPainel = new JPanel();
+        JPanel descricaoPainel = new JPanel(new BorderLayout());
         descricaoPainel.setPreferredSize(new Dimension(200, 250));
         descricaoPainel.setBackground(new Color(255, 228, 181));
-        descricaoPainel.setLayout(new BorderLayout());
 
-        //criação da label da descrição
-        textoDescricao = new JLabel();
+        textoDescricao = new JLabel("Descrição da carta");
         textoDescricao.setHorizontalAlignment(SwingConstants.CENTER);
-        textoDescricao.setForeground(Color.BLACK);
-        textoDescricao.setFont(new Font("Uncial Antiqua", Font.PLAIN, 12));
-        textoDescricao.setBounds(10, 10, 180, 230);
 
         descricaoPainel.add(textoDescricao, BorderLayout.CENTER);
-
         return descricaoPainel;
     }
 
-    //
-    private JPanel inicializarPainelJogador(Jogador jogador, boolean turnoJogador1) {
+    private JPanel inicializarPainelJogador(Jogador jogador, boolean turnoDoJogador) {
         JPanel jogadorPainel = new JPanel(new BorderLayout());
         jogadorPainel.setPreferredSize(new Dimension(700, 150));
         jogadorPainel.setOpaque(false);
 
-        JPanel maoPainel = criarPainelMao(jogador, turnoJogador1);
+        // Painel da mão do jogador
+        JPanel maoPainel = criarPainelMaoGenerico(jogador, turnoDoJogador);
 
+        // Painel de informações do jogador
         JPanel infoPainel = criarPainelInfo(jogador);
 
+        // Botão para finalizar turno
         JButton btnFinalizarTurno = new JButton("Finalizar Turno");
         btnFinalizarTurno.setBackground(Color.LIGHT_GRAY);
         btnFinalizarTurno.setPreferredSize(new Dimension(120, 50));
         btnFinalizarTurno.addActionListener(e -> alternarTurno());
 
+        // Adiciona componentes ao painel do jogador
         jogadorPainel.add(maoPainel, BorderLayout.CENTER);
         jogadorPainel.add(infoPainel, BorderLayout.WEST);
-        jogadorPainel.add(btnFinalizarTurno, turnoJogador1 ? BorderLayout.SOUTH : BorderLayout.NORTH);
+        jogadorPainel.add(btnFinalizarTurno, turnoDoJogador ? BorderLayout.SOUTH : BorderLayout.NORTH);
 
         return jogadorPainel;
     }
 
-    private JPanel criarPainelMao(Jogador jogador, boolean turnoJogador1) {
+    private JPanel criarPainelMaoGenerico(Jogador jogador, boolean turnoDoJogador) {
         JPanel maoPainel = new JPanel(new GridBagLayout());
         maoPainel.setPreferredSize(new Dimension(350, 150));
         maoPainel.setOpaque(false);
+
+        if (jogador == null || jogador.getMao() == null) {
+            return maoPainel; // Retorna painel vazio se o jogador ou a mão forem nulos
+        }
+
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(10, 10, 10, 10);
         c.gridy = 0;
 
         for (int i = 0; i < 5; i++) {
             Component cartaUI;
+
             if (i < jogador.getMao().getCartas().size()) {
                 Carta carta = jogador.getMao().getCartas().get(i);
                 cartaUI = new CartaUI(carta, jogador);
                 ((CartaUI) cartaUI).addActionListener(e -> {
-                    if ((turnoJogador1 && this.turnoJogador1) || (!turnoJogador1 && !this.turnoJogador1)) {
+                    if (turnoDoJogador == turnoJogador1) {
                         try {
-                            jogador.jogarCartaNoCampo(carta, jogador);
+                            jogador.jogarCartaNoCampo(carta, turnoDoJogador ? jogador2 : jogador1);
+                            maoUI.atualizarCampoDeBatalha(mapaCampos.get(jogador), jogador);
+                            maoUI.atualizarMao(maoPainel, mapaCampos.get(jogador), jogador, turnoDoJogador ? jogador2 : jogador1);
                         } catch (ManaInsuficienteException ex) {
-                            throw new RuntimeException(ex);
+                            JOptionPane.showMessageDialog(null, "Mana insuficiente!");
                         }
                     } else {
-                        System.out.println("Não é o turno de " + jogador.getNome() + "!");
+                        JOptionPane.showMessageDialog(null, "Não é o turno do jogador!");
                     }
                 });
+
                 ((CartaUI) cartaUI).addMouseMotionListener(new MouseMotionAdapter() {
                     public void mouseMoved(MouseEvent e) {
                         atualizarDescricao(carta);
@@ -254,12 +241,24 @@ public class JogoTela extends JFrame {
             } else {
                 cartaUI = new JButton("Vazio");
             }
+
             c.gridx = i;
             maoPainel.add(cartaUI, c);
         }
 
         return maoPainel;
     }
+
+
+    private JPanel criarPainelMaoJogador1() {
+        return criarPainelMaoGenerico(jogador1, true);
+    }
+
+    // Método para criar o painel da mão de jogador 2
+    private JPanel criarPainelMaoJogador2() {
+        return criarPainelMaoGenerico(jogador2, false);
+    }
+
 
 
     private JPanel criarPainelInfo(Jogador jogador) {

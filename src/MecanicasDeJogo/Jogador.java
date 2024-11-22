@@ -83,14 +83,14 @@ public class Jogador implements Atacavel {
 
         if (carta instanceof FeitiçoCura) {
             FeitiçoCura feitiçoCura = (FeitiçoCura) carta;
-            gerenciador.aplicarFeitiçoDeCura(feitiçoCura, jogadorAlvo);
+            aplicarFeitiçoDeCura(feitiçoCura, jogadorAlvo);
             cemiterio.adicionarCartasNoCemiterio(feitiçoCura);
 
             System.out.println(nome + " lançou o feitiço de cura: " + carta.getNome());
 
         } else if (carta instanceof FeitiçoDano) {
             FeitiçoDano feitiçoDano = (FeitiçoDano) carta;
-            gerenciador.aplicarFeitiçoDeDano(feitiçoDano, jogadorAlvo);
+            aplicarFeitiçoDeDano(feitiçoDano, jogadorAlvo);
             cemiterio.adicionarCartasNoCemiterio(feitiçoDano);
             System.out.println(nome + " lançou o feitiço de dano: " + carta.getNome());
             //atualizar cemiterio
@@ -196,5 +196,18 @@ public class Jogador implements Atacavel {
 
 
 
+    public  void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+        feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+            feitiçoCura.aplicarEfeitoCura(criatura);
+        }
+    }
+
+    public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
+        feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+            feitiçoDano.aplicarEfeitoDano(criatura);
+        }
+    }
 }
