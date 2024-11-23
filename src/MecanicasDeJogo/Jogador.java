@@ -45,15 +45,13 @@ public class Jogador implements Atacavel {
         this.manaAtual = mana;
         this.nivel = new Nivel();
         this.vidaInicial = vidaInicial;
-
-
     }
 
     public void comprarCartas() {
 
         if (deck.isEmpty()) {
             System.out.println("Não há mais cartas no deck para " + nome + "!");
-            return; // Não faz nada se o deck estiver vazio
+            return;
         }
 
         Carta cartaComprada = deck.comprarCarta();

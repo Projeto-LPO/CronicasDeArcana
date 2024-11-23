@@ -74,7 +74,7 @@ public class GerenciadorDeCombate {
             encantamentoDano.aplicarEfeitoDano(criatura);
         }
     }
-    public  void aplicarEncantementoCura(Jogador jogadorAlvo, Encantamento encantamentoCura){
+    public  void aplicarEncantamentoCura(Jogador jogadorAlvo, Encantamento encantamentoCura){
         for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
             encantamentoCura.aplicarEfeitoCura(criatura);
         }

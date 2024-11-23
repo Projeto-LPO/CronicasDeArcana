@@ -68,6 +68,20 @@ public class InstanciaCartas {
         cartas.add(new FeitiçoCura("Restauração", 4, "Muita Cura", 5));
         cartas.add(new FeitiçoCura("Rejuvenescimento", 3, "Cura", 4));
 
+        // Encantamentos de Incrementar o Dano
+        cartas.add(new EncantamentoDano("Fúria do Lenhador", 4, "Fúria Massiva", 2, 3));
+        cartas.add(new EncantamentoDano("Fúria de Arcana", 5, "Dano aumentado por sombras", 2, 4));
+        cartas.add(new EncantamentoDano("Fúria", 3, "Aumento de Dano", 2, 2));
+        cartas.add(new EncantamentoDano("Fúria do Rei Bárbaro", 6, " Aumento de Dano Massivo", 3, 4));
+        cartas.add(new EncantamentoDano("Trembolona", 5, "Aumento de Dano Brutal", 2, 4));
+
+        // Encantamento de Incrementar a Cura
+        cartas.add(new EncantamentoCura("Aura Divina", 3, "Cura contínua", 4, 3));
+        cartas.add(new EncantamentoCura("Toque da Vida", 4, "Grande aumento de saúde", 6, 4));
+        cartas.add(new EncantamentoCura("Restauração Vital", 2, "Cura gradual", 3, 2));
+        cartas.add(new EncantamentoCura("Fonte Sagrada", 5, "Restauração poderosa", 7, 3));
+        cartas.add(new EncantamentoCura("Bênção dos Anjos", 6, "Cura suprema", 9, 5));
+
 
         return cartas;
     }

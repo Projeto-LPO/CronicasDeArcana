@@ -439,9 +439,9 @@ public class JogoTela extends JFrame {
         public void verificarDuracaoEncantamentos(List<Encantamento> encantamentos, Jogador jogador) {
             for(Encantamento encantamento: encantamentos){
                 if (encantamento instanceof EncantamentoDano) {
-                    gerenciador.aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
+                    aplicarEncantamentoDano(jogador, (EncantamentoDano) encantamento);
                 } else if (encantamento instanceof EncantamentoCura) {
-                    gerenciador.aplicarEncantementoCura(jogador, (EncantamentoCura) encantamento);
+                    aplicarEncantamentoCura(jogador, (EncantamentoCura) encantamento);
                 }
             }
             for (Encantamento encantamento : encantamentos) {
@@ -450,8 +450,10 @@ public class JogoTela extends JFrame {
                 if (encantamento.getDuracao() <= 0) {
                     jogador.getCampoDeBatalha().removerCartaDoCampo(encantamento);
                     jogador.getCemiterio().adicionarCartasNoCemiterio(encantamento);
-                    // CemiterioUI cemiterioUI = new CemiterioUI();
-                    //SwingUtilities.invokeLater(()->cemiterioUI.atualizarCemiterio(cemiterioPainel, jogador) );
+                    atualizarCampoDeBatalha(jogador);
+                    atualizarCemiterio(jogador);
+
+
                     System.out.println("Encantamento " + encantamento.getNome() + " foi movido para o cemitério.");
                 }
             }
@@ -574,4 +576,21 @@ public class JogoTela extends JFrame {
         }
 
 
+
+    public  void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
+        System.out.println("Encantamento de Dano Aplicado");
+        for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+            encantamentoDano.aplicarEfeitoDano(criatura);
+        }
     }
+    public  void aplicarEncantamentoCura(Jogador jogadorAlvo, Encantamento encantamentoCura){
+        System.out.println("Encantamento de Cura Aplicado");
+        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+            encantamentoCura.aplicarEfeitoCura(criatura);
+        }
+
+    }
+
+
+
+}
