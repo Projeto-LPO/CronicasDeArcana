@@ -27,6 +27,13 @@ public abstract class Encantamento extends Carta implements Jogavel {
         this.duracao = duraçãoInicial;
     }
 
+    // efeito em jogadores
+    public  abstract void aplicarEfeitoDano(Jogador Oponente);
+    public  abstract  void aplicarEfeitoCura(Jogador Jogador);
+    // efeito em criaturas
+    public  abstract void aplicarEfeitoDano(Criatura criatura);
+    public  abstract  void aplicarEfeitoCura(Criatura cratura);
+
     @Override
     public void efeito() {
         System.out.println("Efeito contínuo de " + getNome() + ": " + efeitoContínuo);
@@ -36,12 +43,6 @@ public abstract class Encantamento extends Carta implements Jogavel {
     public void jogar() {
         System.out.println(getNome() + " foi colocado no campo de batalha");
     }
-    // efeito em jogadores
-   public  abstract void aplicarEfeitoDano(Jogador Oponente);
-    public  abstract  void aplicarEfeitoCura(Jogador Jogador);
-    // efeito em criaturas
-    public  abstract void aplicarEfeitoDano(Criatura criatura);
-    public  abstract  void aplicarEfeitoCura(Criatura cratura);
 
     public String getEfeitoContínuo() {
         return efeitoContínuo;

@@ -1,6 +1,4 @@
 package ElementosGraficos.Telas;
-
-import ElementosGraficos.UiElements.JogadorUI;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;
@@ -12,8 +10,6 @@ public class TelaUsuarios extends JFrame {
     private JTextField nomeJogador1Field;
     private JTextField nomeJogador2Field;
     private JButton confirmarButton;
-    private JogadorUI jogadorUi1;
-    private JogadorUI jogadorUi2;
     private Jogador jogador1;
     private Jogador jogador2;
 

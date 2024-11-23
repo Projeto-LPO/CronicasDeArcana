@@ -22,6 +22,28 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel   {
         this.voa = voa;
     }
 
+    public abstract void atacar(Criatura alvo);
+
+    @Override
+    public abstract void receberDano(int dano);
+
+    @Override
+    public abstract void receberCura(int cura);
+
+    public abstract void atacarJogador(Jogador jogadorAlvo) ;
+
+    @Override
+    public void efeito() {
+        System.out.println("Habilidade especial de " + getNome() + ": " + habilidadeEspecial);
+    }
+
+    @Override
+    public void jogar() {
+        System.out.println(getNome() + " entrou no campo de batalha.");
+        if (voa) {
+            System.out.println(getNome() + " está voando.");
+        }
+    }
     // Getters
     public int getPoder() {
         return poder;
@@ -42,29 +64,6 @@ public abstract class Criatura extends Carta implements Jogavel , Atacavel   {
     public boolean isVoa() {
         return voa;
     }
-
-    @Override
-    public void efeito() {
-        System.out.println("Habilidade especial de " + getNome() + ": " + habilidadeEspecial);
-    }
-
-    @Override
-    public void jogar() {
-        System.out.println(getNome() + " entrou no campo de batalha.");
-        if (voa) {
-            System.out.println(getNome() + " está voando.");
-        }
-    }
-
-    public abstract void atacar(Criatura alvo);
-
-    @Override
-    public abstract void receberDano(int dano);
-    @Override
-    public abstract void receberCura(int cura);
-
-
-    public abstract void atacarJogador(Jogador jogadorAlvo) ;
 
 
     public void setPoder(int novoPoder) {

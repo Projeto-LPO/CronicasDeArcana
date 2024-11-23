@@ -1,7 +1,7 @@
 package ElementosGraficos.Telas.Inventario;
 
 import ElementosGraficos.Telas.MenuInicial;
-import ElementosGraficos.UiElements.JogadorUI;
+import ElementosGraficos.UiElements.*;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;
@@ -17,8 +17,6 @@ public class TelaInventario1 extends JFrame {
     public TelaInventario1(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
-
-
 
         this.setTitle("Inventário - "+jogador1.getNome());
         this.setSize(1000, 750);

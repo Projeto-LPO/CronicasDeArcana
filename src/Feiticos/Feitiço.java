@@ -10,7 +10,6 @@ public abstract class Feitiço extends Carta implements Jogavel {
     private int valorCura;
     private int valorDano;
 
-
     public Feitiço(String nome, int custoMana, String efeito, int valorDano) {
         super(nome, custoMana);
         this.efeito = efeito;
@@ -18,14 +17,12 @@ public abstract class Feitiço extends Carta implements Jogavel {
         this.valorCura = 0;
     }
 
-
     public Feitiço(String nome, int custoMana, String efeito, int valorCura, boolean cura) {
         super(nome, custoMana);
         this.efeito = efeito;
         this.valorCura = valorCura;
         this.valorDano = 0;
     }
-
 
     public abstract void aplicarEfeitoDano(Jogador alvo);
     public abstract  void aplicarEfeitoDano(Criatura criatura);

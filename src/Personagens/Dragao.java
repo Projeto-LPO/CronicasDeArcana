@@ -28,14 +28,12 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
         } else {
             System.out.println(getNome() + " ataca " + alvo.getNome() + " no chão, causando " + getPoder() + " de dano.");
         }
-        alvo.receberDano(getPoder());  // Aplica o dano ao alvo
+        alvo.receberDano(getPoder());
     }
 
     @Override
     public void receberDano(int dano) {
         System.out.println(getNome() + " recebeu " + dano + " de dano.");
-
-        // Calcula a nova resistência, garantindo que não fique abaixo de zero
         int novaResistencia = Math.max(0, getResistencia() - dano);
         setResistencia(novaResistencia);
 
@@ -45,7 +43,6 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
             System.out.println(getNome() + " tem " + novaResistencia + " de vida restante.");
         }
     }
-
 
     @Override
     public void receberCura(int cura) {
@@ -80,21 +77,4 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
         System.out.println(getNome() + " agora tem " + getResistencia() + " de resistência.");
     }
 
-    public void atacar(List<Criatura> criaturas, Jogador jogadorAlvo) {
-        boolean atacouCriaturaAerea = false;
-
-        for (Criatura criatura : criaturas) {
-            if (criatura.isVoa()) {
-                System.out.println(getNome() + " ataca " + criatura.getNome() + " no ar, causando " + getPoder() + " de dano.");
-                criatura.receberDano(getPoder());
-                atacouCriaturaAerea = true;
-                break;
-            }
-        }
-
-        if (!atacouCriaturaAerea) {
-            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + getPoder() + " de dano.");
-            jogadorAlvo.receberDano(getPoder());
-        }
-    }
 }

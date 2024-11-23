@@ -10,13 +10,11 @@ public class EncantamentoDano extends Encantamento implements Jogavel {
         super(nome, custoMana, efeitoContínuo, aumentoDano, duracaoInicial);
     }
 
-    // Método da interface Jogavel para jogar o encantamento
     @Override
     public void jogar() {
         System.out.println("O encantamento " + getNome() + " foi jogado com o efeito: " + getEfeitoContínuo());
     }
 
-    // Método da interface Jogavel para exibir o efeito do encantamento
     @Override
     public void efeito() {
         System.out.println("Encantamento " + getNome() + " tem o efeito contínuo: " + getEfeitoContínuo());
@@ -33,7 +31,6 @@ public class EncantamentoDano extends Encantamento implements Jogavel {
         System.out.println(criatura.getNome() + " agora causa " + novoDano + " de dano.");
     }
 
-    // Aplicar efeito de dano a um jogador
     @Override
     public void aplicarEfeitoDano(Jogador oponente) {
         System.out.println("O encantamento " + getNome() + " está aumentando o dano ao jogador " + oponente.getNome() + ".");

@@ -1,11 +1,8 @@
 package MecanicasDeJogo;
 
-import ElementosGraficos.UiElements.GerenciadorDeCombate;
-import Feiticos.Feitiço;
 import Feiticos.FeitiçoCura;
 import Feiticos.FeitiçoDano;
 import MecanicasDeJogo.Exceptions.ManaInsuficienteException;
-import MecanicasDeJogo.Exceptions.VidaInsuficienteException;
 import MecanicasDeJogo.FluxodeCartas.CampodeBatalha;
 import MecanicasDeJogo.FluxodeCartas.Cemiterio;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -15,9 +12,6 @@ import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Progressão.Nivel;
 import Personagens.Criatura;
 import Encantamento.Encantamento;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Jogador implements Atacavel {
     private String nome;
@@ -30,7 +24,6 @@ public class Jogador implements Atacavel {
     private int vidaInicial;
     private int manaAtual;
     private Nivel nivel;
-
 
     private static  int MANA_MAXIMA = 10;
 
@@ -45,22 +38,6 @@ public class Jogador implements Atacavel {
         this.manaAtual = mana;
         this.nivel = new Nivel();
         this.vidaInicial = vidaInicial;
-    }
-
-    public void comprarCartas() {
-
-        if (deck.isEmpty()) {
-            System.out.println("Não há mais cartas no deck para " + nome + "!");
-            return;
-        }
-
-        Carta cartaComprada = deck.comprarCarta();
-        if (cartaComprada != null) {
-            mao.adicionarCartasMao(cartaComprada);
-            System.out.println(nome + " comprou a carta: " + cartaComprada.getNome());
-        } else {
-            System.out.println("Não foi possível comprar uma carta.");
-        }
     }
 
     public void jogarCartaNoCampo(Carta carta, Jogador jogadorAlvo) throws ManaInsuficienteException {
@@ -102,6 +79,59 @@ public class Jogador implements Atacavel {
         System.out.println("Mana restante de " + nome + ": " + this.manaAtual);
     }
 
+
+    @Override
+    public void receberDano(int dano) {
+        this.vida -= dano;
+        if (this.vida <= 0) {
+            this.vida = 0;
+            System.out.println(nome + " foi derrotado!");
+        } else {
+            System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
+        }
+    }
+
+    @Override
+    public void receberCura(int cura) {
+        if (vida < vidaInicial) { // Permite a cura apenas se a vida for menor que o máximo
+            this.vida = Math.min(this.vida + cura, vidaInicial); // Limita a cura ao valor máximo
+            System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
+        } else {
+            System.out.println(nome + " já está com a vida máxima: " + this.vida);
+        }
+    }
+
+    public void incrementarMana() {
+        if (manaAtual < MANA_MAXIMA) {
+            manaAtual++;
+        }
+    }
+
+    public CampodeBatalha getCampoDeBatalha() {
+        return campoDeBatalha;
+    }
+
+    public void setVida(int novaVida) {
+        this.vida = novaVida;
+        System.out.println(getNome() + " agora tem " + this.vida + " de vida.");
+    }
+
+    public  void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
+        System.out.println("Aplicando feitiço cura");
+        feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
+
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+            feitiçoCura.aplicarEfeitoCura(criatura);
+        }
+    }
+
+    public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
+        System.out.println("Aplicando feitiço de dano");
+        feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+            feitiçoDano.aplicarEfeitoDano(criatura);
+        }
+    }
 
     public void reiniciarMana() {
         this.manaAtual = 1; }
@@ -154,62 +184,7 @@ public class Jogador implements Atacavel {
         return this.vidaInicial;
     }
 
-    @Override
-    public void receberDano(int dano) {
-        this.vida -= dano;
-        if (this.vida <= 0) {
-            this.vida = 0;
-            System.out.println(nome + " foi derrotado!");
-        } else {
-            System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
-        }
-    }
-
-    @Override
-    public void receberCura(int cura) {
-        if (vida < vidaInicial) { // Permite a cura apenas se a vida for menor que o máximo
-            this.vida = Math.min(this.vida + cura, vidaInicial); // Limita a cura ao valor máximo
-            System.out.println(nome + " foi curado em " + cura + " pontos de vida. Vida atual: " + this.vida);
-        } else {
-            System.out.println(nome + " já está com a vida máxima: " + this.vida);
-        }
-    }
-
-    public void incrementarMana() {
-        if (manaAtual < MANA_MAXIMA) {
-            manaAtual++;
-        }
-    }
-
-    public CampodeBatalha getCampoDeBatalha() {
-        return campoDeBatalha;
-    }
-
-    public void setVida(int novaVida) {
-        this.vida = novaVida;
-        System.out.println(getNome() + " agora tem " + this.vida + " de vida.");
-    }
-
-
-
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public  void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
-        System.out.println("Aplicando feitiço cura");
-        feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
-
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
-            feitiçoCura.aplicarEfeitoCura(criatura);
-        }
-    }
-
-    public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
-        System.out.println("Aplicando feitiço de dano");
-        feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
-            feitiçoDano.aplicarEfeitoDano(criatura);
-        }
     }
 }

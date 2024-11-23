@@ -1,6 +1,5 @@
 package ElementosGraficos.Telas;
-
-import ElementosGraficos.UiElements.JogadorUI;
+import ElementosGraficos.UiElements.*;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package main2;
+package main;
 
 import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import MecanicasDeJogo.FluxodeCartas.InstanciaCartas;
@@ -12,7 +12,6 @@ public class CronicasDeArcana {
     public static void main(String[] args) {
         // Instanciador de Cartas
         InstanciaCartas instanciador = new InstanciaCartas();
-
         // Criação dos decks com base nas cartas geradas
         Decks deckJogador1 = new Decks(instanciador.gerarCartas());
         Decks deckJogador2 = new Decks(instanciador.gerarCartas());

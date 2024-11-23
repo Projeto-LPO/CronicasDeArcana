@@ -2,7 +2,7 @@ package ElementosGraficos.Telas;
 
 import ElementosGraficos.Telas.Inventario.TelaInventario1;
 import ElementosGraficos.UiElements.GerenciadorDeCombate;
-import ElementosGraficos.UiElements.JogadorUI;
+import ElementosGraficos.UiElements.*;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;

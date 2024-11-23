@@ -1,7 +1,7 @@
 package ElementosGraficos.Telas.Inventario;
 
 import ElementosGraficos.Telas.MenuInicial;
-import ElementosGraficos.UiElements.JogadorUI;
+import ElementosGraficos.UiElements.*;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;

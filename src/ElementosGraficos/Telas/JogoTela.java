@@ -37,6 +37,8 @@ public class JogoTela extends JFrame {
     private JLabel textoDescricao;
     private Map<Jogador, JPanel> mapaCampos;
     private Map<Jogador, JPanel> mapaCemiterios;
+    private JPanel painelJogador1;
+    private JPanel painelJogador2;
 
 
     public JogoTela(Jogador jogador1, Jogador jogador2, GerenciadorDeCombate gerenciador) {
@@ -262,14 +264,19 @@ public class JogoTela extends JFrame {
 
 
     private JPanel criarPainelInfo(Jogador jogador) {
+        if (jogador == null) {
+            System.err.println("Jogador é nulo! Verifique a inicialização.");
+            return new JPanel(); // Retorna um painel vazio para evitar erros
+        }
+
         JPanel infoPainel = new JPanel(new GridLayout(2, 1));
         infoPainel.setPreferredSize(new Dimension(150, 100));
         infoPainel.setBackground(new Color(242, 213, 174));
 
-        JLabel lblNome = new JLabel(jogador.getNome());
+        JLabel lblNome = new JLabel("Nome: " + jogador.getNome());
         JLabel lblVida = new JLabel("Vida: " + jogador.getVida());
         JLabel lblMana = new JLabel("Mana: " + jogador.getManaAtual() + "/" + jogador.getMana());
-        JLabel lblNivel = new JLabel("Nivel: " + jogador.getNivel());
+        JLabel lblNivel = new JLabel("Nível: " + jogador.getNivel());
 
         lblNome.setHorizontalAlignment(SwingConstants.CENTER);
         lblVida.setHorizontalAlignment(SwingConstants.CENTER);
@@ -284,8 +291,6 @@ public class JogoTela extends JFrame {
         return infoPainel;
     }
 
-
-
     //-----------------------------------------------------------------------------------
 
     //logica de jogo
@@ -296,17 +301,25 @@ public class JogoTela extends JFrame {
     public void iniciarJogo() {
         System.out.println("Iniciando o jogo...");
 
+        if (jogador1 == null || jogador2 == null) {
+            throw new IllegalStateException("Jogadores não foram inicializados!");
+        }
+
+        // Inicialize os painéis antes do início do jogo
+        painelJogador1 = criarPainelInfo(jogador1);
+        painelJogador2 = criarPainelInfo(jogador2);
+
         // SwingWorker para rodar o jogo em segundo plano
         SwingWorker<Void, Void> jogoWorker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
                 while (jogoAtivo) {
-
-
                     Jogador jogadorAtual = turnoJogador1 ? jogador1 : jogador2;
 
                     // Log para acompanhar o fluxo
                     System.out.println("Turno do jogador atual: " + jogadorAtual.getNome());
+
+
 
                     // Executa o turno do jogador atual
                     SwingUtilities.invokeLater(() -> iniciarTurno());
@@ -318,7 +331,6 @@ public class JogoTela extends JFrame {
                     boolean vitoriaJogador1 = verificarVitoria(jogador1);
                     boolean vitoriaJogador2 = verificarVitoria(jogador2);
 
-
                     if (vitoriaJogador1 || vitoriaJogador2) {
                         System.out.println("Fim do jogo detectado.");
                         jogoAtivo = false;
@@ -328,7 +340,6 @@ public class JogoTela extends JFrame {
                     // Alterna o turno
                     SwingUtilities.invokeLater(() -> alternarTurno());
                 }
-
                 return null;
             }
 
@@ -340,7 +351,6 @@ public class JogoTela extends JFrame {
 
         jogoWorker.execute();
     }
-
         private void esperarFinalizarTurno() {
             while (!turnoFinalizado) {
                 try {
@@ -366,6 +376,15 @@ public class JogoTela extends JFrame {
 
             boolean vitoriaJogador1 = verificarVitoria(jogador1);
             boolean vitoriaJogador2 = verificarVitoria(jogador2);
+
+            painelJogador1 = criarPainelInfo(jogador1);
+            painelJogador2 = criarPainelInfo(jogador2);
+
+
+
+                atualizarPainelDoJogador(painelJogador1, jogador1);
+                atualizarPainelDoJogador(painelJogador2, jogador2);
+
 
 
             verificarEncantamentos();
@@ -503,18 +522,25 @@ public class JogoTela extends JFrame {
             textoDescricao.setText(carta.gerarDescricao());
         }
 
-        public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador){
+    public void atualizarPainelDoJogador(JPanel infoJogadorPanel, Jogador jogador) {
+        System.out.println("BoraBilll!!!");
+        if (infoJogadorPanel == null || jogador == null) {
+            System.err.println("Painel ou jogador está nulo! Verifique a inicialização.");
+            return;
+        }
+
+
             infoJogadorPanel.removeAll();
 
             infoJogadorPanel.add(new JLabel("Nome: " + jogador.getNome()));
-            infoJogadorPanel.add(new JLabel(" Vida " + jogador.getVida()));
-            infoJogadorPanel.add(new JLabel("Mana: " + jogador.getNome()));
-            infoJogadorPanel.add(new JLabel(" Nível: " + jogador.getNivel()));
+            infoJogadorPanel.add(new JLabel("Vida: " + jogador.getVida()));
+            infoJogadorPanel.add(new JLabel("Mana: " + jogador.getManaAtual() + "/" + jogador.getMana()));
+            infoJogadorPanel.add(new JLabel("Nível: " + jogador.getNivel()));
 
             infoJogadorPanel.revalidate();
             infoJogadorPanel.repaint();
 
-        }
+    }
 
 
         public void atacarCriatura(Criatura atacante, Criatura alvo) {

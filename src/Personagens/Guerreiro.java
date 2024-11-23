@@ -49,33 +49,32 @@ public class Guerreiro extends Criatura implements Jogavel, Atacavel {
 
     @Override
     public void atacarJogador(Jogador jogador) {
-        verificarFuria();  // Verifica se a fúria deve ser ativada
-        int danoFinal = (int) (getPoder() * furia);  // Calcula o dano com o multiplicador de fúria
+        verificarFuria();
+        int danoFinal = (int) (getPoder() * furia);
         System.out.println(getNome() + " ataca o jogador " + jogador.getNome() + ", causando " + danoFinal + " de dano.");
-        jogador.receberDano(danoFinal);  // Causa dano ao jogador
+        jogador.receberDano(danoFinal);
     }
 
     @Override
     public void setPoder(int novoPoder) {
-        super.setPoder(novoPoder);  // Chama o método da superclasse
-        System.out.println(getNome() + " agora tem " + novoPoder + " de poder.");  // Mensagem personalizada
+        super.setPoder(novoPoder);
+        System.out.println(getNome() + " agora tem " + novoPoder + " de poder.");
     }
 
     @Override
     public void setResistencia(int novaVida) {
-        super.setResistencia(novaVida);  // Chama o método da superclasse
-        System.out.println(getNome() + " agora tem " + novaVida + " de resistência.");  // Mensagem personalizada
+        super.setResistencia(novaVida);
+        System.out.println(getNome() + " agora tem " + novaVida + " de resistência.");
     }
 
     @Override
     public void receberDano(int dano) {
+
         System.out.println(getNome() + " recebeu " + dano + " de dano.");
 
-        // Calcula a nova resistência, garantindo que não fique abaixo de zero
         int novaResistencia = Math.max(0, getResistencia() - dano);
         setResistencia(novaResistencia);
 
-        // Verifica se a fúria deve ser ativada após receber dano
         verificarFuria();
 
         if (novaResistencia == 0) {

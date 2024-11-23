@@ -10,12 +10,10 @@ public class EncantamentoCura extends Encantamento implements Jogavel {
         super(nome, custoMana, efeitoContínuo, aumentoCura, duracaoInicial);
     }
 
-
     @Override
     public void jogar() {
         System.out.println("O encantamento " + getNome() + " foi jogado com o efeito: " + getEfeitoContínuo());
     }
-
 
     @Override
     public void efeito() {
@@ -33,7 +31,6 @@ public class EncantamentoCura extends Encantamento implements Jogavel {
         System.out.println(criatura.getNome() + " agora tem " + novaVida + " de vida.");
     }
 
-
     @Override
     public void aplicarEfeitoCura(Jogador jogador) {
         System.out.println("O encantamento " + getNome() + " está aumentando a cura do jogador " + jogador.getNome() + " em " + getAumentoCura() + ".");
@@ -43,7 +40,6 @@ public class EncantamentoCura extends Encantamento implements Jogavel {
         jogador.setVida(novaVida);
         System.out.println(jogador.getNome() + " agora tem " + novaVida + " de vida.");
     }
-
 
     @Override
     public void aplicarEfeitoDano(Criatura criatura) {
