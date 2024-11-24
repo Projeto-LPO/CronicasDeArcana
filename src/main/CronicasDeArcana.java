@@ -28,8 +28,6 @@ public class CronicasDeArcana {
             TelaUsuarios telaUsuarios = new TelaUsuarios(jogador1, jogador2);
             telaUsuarios.setVisible(true);
 
-            JogoTela jogoTela = new JogoTela(jogador1, jogador2, gerenciador);
-            jogoTela.iniciarJogo();
         });
     }
 }

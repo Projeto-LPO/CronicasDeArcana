@@ -25,6 +25,7 @@ import java.util.Random;
 public class JogoUI extends Component {
     private Jogador jogador1;
     private Jogador jogador2;
+    private Jogador vencedor;
     private boolean turnoJogador1;
     private GerenciadorDeCombate gerenciadorDeCombate;
     private Decks deckJogador1;
@@ -96,7 +97,7 @@ public class JogoUI extends Component {
             System.out.println(jogador.getNome() + " perdeu o jogo.");
 
             SwingUtilities.invokeLater(() -> {
-                TelaFinal telaFinal = new TelaFinal();
+                TelaFinal telaFinal = new TelaFinal(jogador1, jogador2, vencedor);
                 telaFinal.setVisible(true);
             });
             return true;
