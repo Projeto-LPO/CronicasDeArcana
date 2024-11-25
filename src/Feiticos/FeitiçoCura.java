@@ -4,6 +4,8 @@ import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
+import javax.swing.*;
+
 public class FeitiçoCura extends Feitiço implements Jogavel {
 
     public FeitiçoCura(String nome, int custoMana, String efeito, int valorCura) {
@@ -26,12 +28,14 @@ public class FeitiçoCura extends Feitiço implements Jogavel {
     public void aplicarEfeitoCura(Criatura criatura) {
         System.out.println(getNome() + " foi lançado e curou " + getValorCura() + " pontos de vida de " + criatura.getNome());
         criatura.receberCura(getValorCura());
+        JOptionPane.showMessageDialog(null, getNome() + " foi lançado e curou " + getValorCura() + " pontos de vida de " + criatura.getNome());
     }
 
     @Override
     public void aplicarEfeitoCura(Jogador alvo) {
         System.out.println(getNome() + " foi lançado e curou " + getValorCura() + " pontos de vida de " + alvo.getNome());
         alvo.receberCura(getValorCura());
+        JOptionPane.showMessageDialog(null, getNome() + " foi lançado e curou " + getValorCura() + " pontos de vida de " + alvo.getNome());
     }
 
     @Override
@@ -43,6 +47,7 @@ public class FeitiçoCura extends Feitiço implements Jogavel {
     public void jogar(Jogador alvo) {
         System.out.println(getNome() + " foi conjurado e restaurou " + getValorCura() + " pontos de resistência de " + alvo.getNome());
         aplicarEfeitoCura(alvo);  // Cura o jogador alvo
+        JOptionPane.showMessageDialog(null, getNome() + " foi conjurado e restaurou " + getValorCura() + " pontos de resistência de " + alvo.getNome());
     }
 
     //metodo sobrescrito de geração de descrição do feitiço de cura

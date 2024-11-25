@@ -4,6 +4,8 @@ import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
+import javax.swing.*;
+
 public class FeitiçoDano extends Feitiço implements Jogavel {
 
     public FeitiçoDano(String nome, int custoMana, String efeito, int valorDano) {
@@ -15,6 +17,7 @@ public class FeitiçoDano extends Feitiço implements Jogavel {
     public void aplicarEfeitoDano(Jogador alvo) {
         System.out.println(getNome() + " foi lançado e causou " + getValorDano() + " de dano ao jogador " + alvo.getNome());
         alvo.receberDano(getValorDano());
+        JOptionPane.showMessageDialog(null,getNome() + " foi lançado e causou " + getValorDano() + " de dano ao jogador " + alvo.getNome());
     }
 
     // Aplicar dano a uma criatura
@@ -23,6 +26,7 @@ public class FeitiçoDano extends Feitiço implements Jogavel {
         System.out.println("Aderito!!!");
         System.out.println(getNome() + " foi lançado e causou " + getValorDano() + " de dano à criatura " + criatura.getNome());
         criatura.receberDano(getValorDano());
+        JOptionPane.showMessageDialog(null,getNome() + " foi lançado e causou " + getValorDano() + " de dano à criatura " + criatura.getNome());
     }
 
     @Override

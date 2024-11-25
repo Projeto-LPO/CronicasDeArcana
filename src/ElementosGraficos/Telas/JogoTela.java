@@ -41,7 +41,6 @@ public class JogoTela extends JFrame {
     private JPanel painelJogador1;
     private JPanel painelJogador2;
 
-
     public JogoTela(Jogador jogador1, Jogador jogador2, GerenciadorDeCombate gerenciador) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;

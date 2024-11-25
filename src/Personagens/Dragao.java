@@ -4,6 +4,7 @@ import java.util.List;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
+import javax.swing.*;
 
 public class Dragao extends Criatura implements Jogavel, Atacavel {
 
@@ -19,28 +20,28 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
     @Override
     public void atacar(Criatura alvo) {
         if (alvo == null) {
-            System.out.println(getNome() + " não encontrou nenhuma criatura para atacar.");
+            JOptionPane.showMessageDialog(null, getNome() + " não encontrou nenhuma criatura para atacar.");
             return;
         }
 
         if (alvo.isVoa()) {
-            System.out.println(getNome() + " ataca " + alvo.getNome() + " no ar, causando " + getPoder() + " de dano.");
+            JOptionPane.showMessageDialog(null,getNome() + " ataca " + alvo.getNome() + " no ar, causando " + getPoder() + " de dano.");
         } else {
-            System.out.println(getNome() + " ataca " + alvo.getNome() + " no chão, causando " + getPoder() + " de dano.");
+            JOptionPane.showMessageDialog(null,getNome() + " ataca " + alvo.getNome() + " no chão, causando " + getPoder() + " de dano.");
         }
         alvo.receberDano(getPoder());
     }
 
     @Override
     public void receberDano(int dano) {
-        System.out.println(getNome() + " recebeu " + dano + " de dano.");
+        JOptionPane.showMessageDialog(null,getNome() + " recebeu " + dano + " de dano.");
         int novaResistencia = Math.max(0, getResistencia() - dano);
         setResistencia(novaResistencia);
 
         if (novaResistencia == 0) {
-            System.out.println(getNome() + " foi derrotado.");
+            JOptionPane.showMessageDialog(null,getNome() + " foi derrotado.");
         } else {
-            System.out.println(getNome() + " tem " + novaResistencia + " de vida restante.");
+            JOptionPane.showMessageDialog(null,getNome() + " tem " + novaResistencia + " de vida restante.");
         }
     }
 
@@ -50,15 +51,15 @@ public class Dragao extends Criatura implements Jogavel, Atacavel {
         if (getResistencia() > getResistenciaInicial()) {
             setResistencia(getResistenciaInicial());  // Garante que a resistência não ultrapasse a resistência inicial
         }
-        System.out.println(getNome() + " foi curado. Vida atual: " + getResistencia());
+        JOptionPane.showMessageDialog(null,getNome() + " foi curado. Vida atual: " + getResistencia());
     }
 
     @Override
     public void atacarJogador(Jogador jogadorAlvo) {
         if (isVoa()) {
-            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + getPoder() + " de dano.");
+            JOptionPane.showMessageDialog(null,getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + " pelo ar, causando " + getPoder() + " de dano.");
         } else {
-            System.out.println(getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + getPoder() + " de dano.");
+            JOptionPane.showMessageDialog(null,getNome() + " ataca diretamente o jogador " + jogadorAlvo.getNome() + ", causando " + getPoder() + " de dano.");
         }
         jogadorAlvo.receberDano(getPoder());
     }
