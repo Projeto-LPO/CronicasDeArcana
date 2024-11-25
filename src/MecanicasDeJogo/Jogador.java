@@ -20,9 +20,10 @@ public class Jogador implements Atacavel {
     private Cemiterio cemiterio;
     private CampodeBatalha campoDeBatalha;
     private int vida;
-    private int mana;
     private int vidaInicial;
+    private int mana;
     private int manaAtual;
+    private int manaInicial = 10;
     private Nivel nivel;
 
     private static  int MANA_MAXIMA = 10;
@@ -34,7 +35,7 @@ public class Jogador implements Atacavel {
         this.cemiterio = new Cemiterio();
         this.campoDeBatalha = new CampodeBatalha(mao, cemiterio, deck);
         this.vida = vidaInicial;
-        this.mana = mana;
+        this.mana = manaInicial;
         this.manaAtual = mana;
         this.nivel = new Nivel();
         this.vidaInicial = vidaInicial;
@@ -52,6 +53,7 @@ public class Jogador implements Atacavel {
 
         usarMana(carta.getCustoMana());
         mao.removerCartaMao(carta);
+
 
         if (carta instanceof FeitiçoCura) {
             FeitiçoCura feitiçoCura = (FeitiçoCura) carta;
@@ -131,6 +133,12 @@ public class Jogador implements Atacavel {
         for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
             feitiçoDano.aplicarEfeitoDano(criatura);
         }
+    }
+
+    public void reiniciarAtributos(){
+        this.vida= vidaInicial;
+        this.mana= manaInicial;
+        this.manaAtual= manaInicial;
     }
 
     public void reiniciarMana() {

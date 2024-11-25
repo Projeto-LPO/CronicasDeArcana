@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class GerenciadorDeCombate {
+
     public void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
         List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
         List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);

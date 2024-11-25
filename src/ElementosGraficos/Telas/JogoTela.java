@@ -320,8 +320,6 @@ public class JogoTela extends JFrame {
                     // Log para acompanhar o fluxo
                     System.out.println("Turno do jogador atual: " + jogadorAtual.getNome());
 
-
-
                     // Executa o turno do jogador atual
                     SwingUtilities.invokeLater(() -> iniciarTurno());
 
@@ -520,9 +518,6 @@ public class JogoTela extends JFrame {
 
         return false; // Retorna falso caso o jogo não tenha terminado
     }
-
-
-
 
     private void encerrarJogo(Jogador vencedor) {
         jogoAtivo = false;

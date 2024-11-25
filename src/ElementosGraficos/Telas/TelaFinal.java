@@ -63,6 +63,8 @@ public class TelaFinal extends JFrame {
         menuButton.addActionListener(e -> {
             // Instanciando o Menu Inicial
             new MenuInicial(jogador1, jogador2).setVisible(true);
+            jogador1.reiniciarAtributos();
+            jogador2.reiniciarAtributos();
             dispose(); // Fecha a TelaFinal
         });
         buttonsPanel.add(menuButton);
