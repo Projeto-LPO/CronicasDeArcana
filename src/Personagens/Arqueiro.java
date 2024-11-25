@@ -4,6 +4,8 @@ import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 
+import javax.swing.*;
+
 public class Arqueiro extends Criatura implements Jogavel, Atacavel {
 
     public Arqueiro(String nome, int custoMana, int poder, int resistencia) {
@@ -14,12 +16,14 @@ public class Arqueiro extends Criatura implements Jogavel, Atacavel {
     public void atacar(Criatura alvo) {
         if (alvo == null) {
             System.out.println(getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador.");
+            JOptionPane.showMessageDialog(null,getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador.");
             return;  // Se não houver alvo, não faz nada
         }
 
         // Verifica se o alvo é uma criatura que voa
         if (alvo.isVoa()) {
             System.out.println(getNome() + " usa sua habilidade especial e dispara uma flecha no ar, atacando " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
+            JOptionPane.showMessageDialog(null, getNome() + " usa sua habilidade especial e dispara uma flecha no ar, atacando " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
         } else {
             System.out.println(getNome() + " ataca " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
         }

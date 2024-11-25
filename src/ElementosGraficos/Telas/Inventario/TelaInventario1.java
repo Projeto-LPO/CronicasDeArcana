@@ -24,9 +24,9 @@ public class TelaInventario1 extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        // painel principal com GridBagLayout
+        // painel principal
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         mainPanel.setBackground(new Color(0, 74, 173));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);

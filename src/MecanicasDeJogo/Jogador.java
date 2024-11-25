@@ -13,6 +13,8 @@ import MecanicasDeJogo.Progressão.Nivel;
 import Personagens.Criatura;
 import Encantamento.Encantamento;
 
+import java.util.List;
+
 public class Jogador implements Atacavel {
     private String nome;
     private Decks deck;
@@ -21,17 +23,20 @@ public class Jogador implements Atacavel {
     private CampodeBatalha campoDeBatalha;
     private int vida;
     private int vidaInicial;
+    private List<Carta> cartasExtras;
     private int mana;
     private int manaAtual;
     private int manaInicial = 10;
     private Nivel nivel;
 
+    private static final int MAXIMO_DECK = 30;
     private static  int MANA_MAXIMA = 10;
 
-    public Jogador(String nome, Decks deck, int vida, int mana, int vidaInicial) {
+    public Jogador(String nome, Decks deck, List<Carta> cartasExtras, int vida, int mana, int vidaInicial) {
         this.nome = nome;
         this.deck = deck;
         this.mao = new Mao();
+        this.cartasExtras = cartasExtras;
         this.cemiterio = new Cemiterio();
         this.campoDeBatalha = new CampodeBatalha(mao, cemiterio, deck);
         this.vida = vidaInicial;
@@ -146,6 +151,43 @@ public class Jogador implements Atacavel {
 
 
 
+    //função para adicionar cartas ao DECK da tela de inventário dos jogadores (cartas disponiveis --> deck)
+    public boolean adicionarCartaAoDeck(Carta carta) {
+        if (deck.getTamanho() >= MAXIMO_DECK) {
+            return false; // Limite de cartas no deck alcançado
+        }
+        if (cartasExtras.contains(carta)) {
+            cartasExtras.remove(carta);
+            deck.adicionarCarta(carta);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removerCartaDoDeck(Carta carta) {
+        if (deck.getCartas().contains(carta)) {
+            deck.getCartas().remove(carta);
+            cartasExtras.add(carta);
+            return true;
+        }
+        return false;
+    }
+
+    //função para salvar alterações no deck na tela de inventário
+    public void salvarDeck() {
+        System.out.println("Deck salvo com sucesso para o jogador " + nome);
+        // Adicionar lógica de persistência se necessário
+    }
+
+
+    //função que descarta as alterações e adiciona todas as cartas para o painel de cartas disponiveis
+    public void descartarDeck() {
+        cartasExtras.addAll(deck.getCartas());
+        deck = new Decks();
+        System.out.println("Alterações descartadas para o jogador " + nome);
+    }
+
+
     public void reiniciarMana() {
         this.manaAtual = 1; }
 
@@ -171,6 +213,10 @@ public class Jogador implements Atacavel {
 
     public Decks getDeck() {
         return deck;
+    }
+
+    public List<Carta> getCartasExtras() {
+        return cartasExtras;
     }
 
     public Mao getMao() {
