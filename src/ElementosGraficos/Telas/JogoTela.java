@@ -413,8 +413,8 @@ public class JogoTela extends JFrame {
 
     private void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
         System.out.println("Iniciando fase de combate...");
-        List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
-        List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);
+        List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo();
+        List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo();
 
         if (criaturasAtacantes.isEmpty() && criaturasDefensoras.isEmpty()) {
             System.out.println("Nenhum ataque pode ser realizado, ambos os jogadores não possuem criaturas.");
@@ -571,7 +571,7 @@ public class JogoTela extends JFrame {
         SwingUtilities.invokeLater(() -> {
             painelCampo.removeAll();
 
-            List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
+            List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo();
             GridBagConstraints c = new GridBagConstraints();
             c.gridy = 0;
 
@@ -612,16 +612,21 @@ public class JogoTela extends JFrame {
 
     public  void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
         System.out.println("Encantamento de Dano Aplicado");
-        for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+        for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()){
             encantamentoDano.aplicarEfeitoDano(criatura);
         }
     }
     public  void aplicarEncantamentoCura(Jogador jogadorAlvo, Encantamento encantamentoCura){
         System.out.println("Encantamento de Cura Aplicado");
-        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()){
             encantamentoCura.aplicarEfeitoCura(criatura);
         }
 
     }
+
+
+
+
+
 
 }

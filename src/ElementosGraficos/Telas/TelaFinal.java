@@ -1,6 +1,7 @@
 package ElementosGraficos.Telas;
 
 import MecanicasDeJogo.Jogador;
+import Personagens.Criatura;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,6 +66,9 @@ public class TelaFinal extends JFrame {
             new MenuInicial(jogador1, jogador2).setVisible(true);
             jogador1.reiniciarAtributos();
             jogador2.reiniciarAtributos();
+            jogador1.getCampoDeBatalha().limpar();
+            jogador2.getCampoDeBatalha().limpar();
+
             dispose(); // Fecha a TelaFinal
         });
         buttonsPanel.add(menuButton);
@@ -78,4 +82,7 @@ public class TelaFinal extends JFrame {
         // Adicionando o painel final na janela
         this.add(mainFinalPanel);
     }
-}
+
+
+    }
+

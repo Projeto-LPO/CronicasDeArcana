@@ -16,8 +16,8 @@ import java.util.List;
 public class GerenciadorDeCombate {
 
     public void executarFaseDeCombate(Jogador jogadorAtacante, Jogador jogadorDefensor) {
-        List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo(jogadorAtacante);
-        List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo(jogadorDefensor);
+        List<Criatura> criaturasAtacantes = jogadorAtacante.getCampoDeBatalha().getCriaturasNoCampo();
+        List<Criatura> criaturasDefensoras = jogadorDefensor.getCampoDeBatalha().getCriaturasNoCampo();
 
         for (Criatura atacante : criaturasAtacantes) {
             if (!criaturasDefensoras.isEmpty()) {
@@ -51,14 +51,14 @@ public class GerenciadorDeCombate {
     public  void aplicarFeitiçoDeCura(FeitiçoCura feitiçoCura, Jogador jogadorAlvo) {
         feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()) {
             feitiçoCura.aplicarEfeitoCura(criatura);
         }
     }
 
     public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
         feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()) {
             feitiçoDano.aplicarEfeitoDano(criatura);
         }
     }
@@ -71,12 +71,12 @@ public class GerenciadorDeCombate {
     }
 
     public  void aplicarEncantamentoDano(Jogador jogadorAlvo, EncantamentoDano encantamentoDano){
-        for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+        for (Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()){
             encantamentoDano.aplicarEfeitoDano(criatura);
         }
     }
     public  void aplicarEncantamentoCura(Jogador jogadorAlvo, Encantamento encantamentoCura){
-        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)){
+        for(Criatura criatura: jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()){
             encantamentoCura.aplicarEfeitoCura(criatura);
         }
 

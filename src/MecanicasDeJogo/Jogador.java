@@ -122,7 +122,7 @@ public class Jogador implements Atacavel {
         System.out.println("Aplicando feitiço cura");
         feitiçoCura.aplicarEfeitoCura(jogadorAlvo);
 
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()) {
             feitiçoCura.aplicarEfeitoCura(criatura);
         }
     }
@@ -130,7 +130,7 @@ public class Jogador implements Atacavel {
     public  void aplicarFeitiçoDeDano(FeitiçoDano feitiçoDano, Jogador jogadorAlvo){
         System.out.println("Aplicando feitiço de dano");
         feitiçoDano.aplicarEfeitoDano(jogadorAlvo);
-        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo(jogadorAlvo)) {
+        for (Criatura criatura : jogadorAlvo.getCampoDeBatalha().getCriaturasNoCampo()) {
             feitiçoDano.aplicarEfeitoDano(criatura);
         }
     }
@@ -139,7 +139,12 @@ public class Jogador implements Atacavel {
         this.vida= vidaInicial;
         this.mana= manaInicial;
         this.manaAtual= manaInicial;
+
     }
+
+
+
+
 
     public void reiniciarMana() {
         this.manaAtual = 1; }

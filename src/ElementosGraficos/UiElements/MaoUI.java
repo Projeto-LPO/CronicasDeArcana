@@ -71,7 +71,7 @@ public class MaoUI {
         c.gridy = 0;
 
         // Adiciona cada criatura ativa no campo de batalha do jogador ao painel
-        List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo(jogador);
+        List<Criatura> criaturas = jogador.getCampoDeBatalha().getCriaturasNoCampo();
         for (int i = 0; i < criaturas.size(); i++) {
             Criatura criatura = criaturas.get(i);
             Component criaturaUI = new CartaUI(criatura, jogador);

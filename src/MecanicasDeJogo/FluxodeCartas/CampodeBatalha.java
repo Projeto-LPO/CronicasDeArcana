@@ -4,6 +4,7 @@ import MecanicasDeJogo.Abstract.*;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import Encantamento.Encantamento;
@@ -13,12 +14,15 @@ public class CampodeBatalha {
     private Cemiterio cemiterio;
     private Decks deck;
 
+
     public CampodeBatalha(Mao mao, Cemiterio cemiterio, Decks deck) {
         this.campo = new ArrayList<>();
         this.mao = mao;
         this.cemiterio = cemiterio;
         this.deck = deck;
     }
+
+
 
     public void adicionarCartasAoCampo(Carta carta) {
         campo.add(carta);
@@ -46,7 +50,7 @@ public class CampodeBatalha {
         return campo;
     }
 
-    public List<Criatura> getCriaturasNoCampo(Jogador jogador) {
+    public List<Criatura> getCriaturasNoCampo() {
         List<Criatura> criaturasNoCampo = new ArrayList<>();
         for (Carta carta : campo) {
             if (carta instanceof Criatura) {
@@ -65,4 +69,9 @@ public class CampodeBatalha {
         }
         return encantamentos;
     }
+
+    public void limpar() {
+        campo.clear(); // Remove todas as cartas do campo
+    }
+
 }
