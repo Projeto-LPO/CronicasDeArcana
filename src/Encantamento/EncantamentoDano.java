@@ -4,6 +4,8 @@ import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
+import javax.swing.*;
+
 public class EncantamentoDano extends Encantamento implements Jogavel {
 
     public EncantamentoDano(String nome, int custoMana, String efeitoContínuo, int aumentoDano, int duracaoInicial) {
@@ -24,7 +26,7 @@ public class EncantamentoDano extends Encantamento implements Jogavel {
     @Override
     public void aplicarEfeitoDano(Criatura criatura) {
         System.out.println("O encantamento " + getNome() + " está multiplicando o dano da criatura " + criatura.getNome() + " por " + getAumentoDano() + ".");
-
+        JOptionPane.showMessageDialog(null, "O encantamento " + getNome() + " está multiplicando o dano da criatura " + criatura.getNome() + " por " + getAumentoDano() + ".");
         int danoAtual = criatura.getPoder();
         int novoDano = danoAtual * getAumentoDano();
         criatura.setPoder(novoDano);

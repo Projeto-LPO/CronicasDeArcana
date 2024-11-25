@@ -4,8 +4,6 @@ import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 
-import javax.swing.*;
-
 public class Arqueiro extends Criatura implements Jogavel, Atacavel {
 
     public Arqueiro(String nome, int custoMana, int poder, int resistencia) {
@@ -16,17 +14,14 @@ public class Arqueiro extends Criatura implements Jogavel, Atacavel {
     public void atacar(Criatura alvo) {
         if (alvo == null) {
             System.out.println(getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador.");
-            JOptionPane.showMessageDialog(null,getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador.");
             return;  // Se não houver alvo, não faz nada
         }
 
         // Verifica se o alvo é uma criatura que voa
         if (alvo.isVoa()) {
             System.out.println(getNome() + " usa sua habilidade especial e dispara uma flecha no ar, atacando " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
-            JOptionPane.showMessageDialog(null, getNome() + " usa sua habilidade especial e dispara uma flecha no ar, atacando " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
         } else {
             System.out.println(getNome() + " ataca " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
-            JOptionPane.showMessageDialog(null, getNome() + " ataca " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
         }
         alvo.receberDano(getPoder());  // Aplica o dano ao alvo
     }
@@ -34,7 +29,6 @@ public class Arqueiro extends Criatura implements Jogavel, Atacavel {
     @Override
     public void atacarJogador(Jogador jogador) {
         System.out.println(getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador " + jogador.getNome() + ", causando " + getPoder() + " de dano.");
-        JOptionPane.showMessageDialog(null, getNome() + " não encontra criaturas para atacar e direciona sua flecha ao jogador " + jogador.getNome() + ", causando " + getPoder() + " de dano.");
         jogador.receberDano(getPoder());  // Aplica o dano ao jogador
     }
 
@@ -42,20 +36,17 @@ public class Arqueiro extends Criatura implements Jogavel, Atacavel {
     public void setPoder(int novoPoder) {
         super.setPoder(novoPoder);  // Chama o método da superclasse
         System.out.println(getNome() + " agora tem " + novoPoder + " de poder.");  // Mensagem personalizada
-        JOptionPane.showMessageDialog(null,getNome() + " agora tem " + novoPoder + " de poder.");
     }
 
     @Override
     public void setResistencia(int novaVida) {
         super.setResistencia(novaVida);  // Chama o método da superclasse
         System.out.println(getNome() + " agora tem " + novaVida + " de resistência.");  // Mensagem personalizada
-        JOptionPane.showMessageDialog(null, getNome() + " agora tem " + novaVida + " de resistência.");
     }
 
     @Override
     public void receberDano(int dano) {
         System.out.println(getNome() + " recebeu " + dano + " de dano.");
-        JOptionPane.showMessageDialog(null,getNome() + " recebeu " + dano + " de dano.");
 
         // Calcula a nova resistência, garantindo que não fique abaixo de zero
         int novaResistencia = Math.max(0, getResistencia() - dano);
@@ -63,12 +54,11 @@ public class Arqueiro extends Criatura implements Jogavel, Atacavel {
 
         if (novaResistencia == 0) {
             System.out.println(getNome() + " foi derrotado.");
-            JOptionPane.showMessageDialog(null,getNome() + " foi derrotado.");
         } else {
             System.out.println(getNome() + " tem " + novaResistencia + " de vida restante.");
-            JOptionPane.showMessageDialog(null, getNome() + " tem " + novaResistencia + " de vida restante.");
         }
     }
+
 
     @Override
     public void receberCura(int cura) {
@@ -77,8 +67,6 @@ public class Arqueiro extends Criatura implements Jogavel, Atacavel {
             setResistencia(getResistenciaInicial());  // Garante que a resistência não ultrapasse a resistência inicial
         }
         System.out.println(getNome() + " foi curado. Vida atual: " + getResistencia());
-        JOptionPane.showMessageDialog(null,getNome() + " foi curado. Vida atual: " + getResistencia());
-
     }
 
     @Override

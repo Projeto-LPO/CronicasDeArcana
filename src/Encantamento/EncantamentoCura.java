@@ -4,6 +4,8 @@ import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 import Personagens.Criatura;
 
+import javax.swing.*;
+
 public class EncantamentoCura extends Encantamento implements Jogavel {
 
     public EncantamentoCura(String nome, int custoMana, String efeitoContínuo, int aumentoCura, int duracaoInicial) {
@@ -24,7 +26,7 @@ public class EncantamentoCura extends Encantamento implements Jogavel {
     @Override
     public void aplicarEfeitoCura(Criatura criatura) {
         System.out.println("O encantamento " + getNome() + " está aumentando a vida da criatura " + criatura.getNome() + " em " + getAumentoCura() + ".");
-
+        JOptionPane.showMessageDialog(null,"O encantamento " + getNome() + " está aumentando a vida da criatura " + criatura.getNome() + " em " + getAumentoCura() + ".");
         int vidaAtual = criatura.getResistencia();
         int novaVida = vidaAtual + getAumentoCura();
         criatura.setResistencia(novaVida);

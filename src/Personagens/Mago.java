@@ -3,7 +3,7 @@ package Personagens;
 import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
-
+import javax.swing.*;
 public class Mago extends Criatura implements Jogavel, Atacavel {
     private boolean escudoMagicoAtivo;
 
@@ -62,12 +62,15 @@ public class Mago extends Criatura implements Jogavel, Atacavel {
     @Override
     public void atacar(Criatura alvo) {
         System.out.println(getNome() + " lança um feitiço em " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
+        JOptionPane.showMessageDialog(null,getNome() + " lança um feitiço em " + alvo.getNome() + ", causando " + getPoder() + " de dano.");
+
         alvo.receberDano(getPoder());
     }
 
     // Método para atacar diretamente o jogador
     public void atacarJogador(Jogador jogador) {
         System.out.println(getNome() + " não encontra criaturas para atacar e lança um feitiço diretamente no jogador " + jogador.getNome() + ", causando " + getPoder() + " de dano.");
+        JOptionPane.showMessageDialog(null,getNome() + " não encontra criaturas para atacar e lança um feitiço diretamente no jogador " + jogador.getNome() + ", causando " + getPoder() + " de dano.");
         jogador.receberDano(getPoder());
     }
 

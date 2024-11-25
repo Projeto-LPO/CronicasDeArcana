@@ -4,6 +4,8 @@ import MecanicasDeJogo.Interfaces.Atacavel;
 import MecanicasDeJogo.Interfaces.Jogavel;
 import MecanicasDeJogo.Jogador;
 
+import javax.swing.*;
+
 public class Guerreiro extends Criatura implements Jogavel, Atacavel {
     private double furia;  // Atributo para definir o aumento de dano
     private boolean furiaAtivada;
@@ -41,8 +43,10 @@ public class Guerreiro extends Criatura implements Jogavel, Atacavel {
         verificarFuria();  // Verifica se a fúria deve ser ativada
         int danoFinal = (int) (getPoder() * furia);  // Calcula o dano com o multiplicador de fúria
 
+
         if (alvo != null) {
             System.out.println(getNome() + " ataca " + alvo.getNome() + ", causando " + danoFinal + " de dano.");
+            JOptionPane.showMessageDialog(null, getNome() + " ataca " + alvo.getNome() + ", causando " + danoFinal + " de dano.");
             alvo.receberDano(danoFinal);  // Causa dano ao alvo
         }
     }
@@ -52,6 +56,7 @@ public class Guerreiro extends Criatura implements Jogavel, Atacavel {
         verificarFuria();
         int danoFinal = (int) (getPoder() * furia);
         System.out.println(getNome() + " ataca o jogador " + jogador.getNome() + ", causando " + danoFinal + " de dano.");
+        JOptionPane.showMessageDialog(null, getNome() + " ataca o jogador " + jogador.getNome() + ", causando " + danoFinal + " de dano." );
         jogador.receberDano(danoFinal);
     }
 
