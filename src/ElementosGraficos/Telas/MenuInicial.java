@@ -4,6 +4,7 @@ import ElementosGraficos.Telas.Inventario.TelaInventario1;
 import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import ElementosGraficos.UiElements.*;
 import MecanicasDeJogo.Jogador;
+import Soundtrack.Sons;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +15,14 @@ public class MenuInicial extends JFrame {
     private Jogador jogador1;
     private Jogador jogador2;
 
+    Sons sons = new Sons();
+
     private GerenciadorDeCombate gerenciador;
 
     public MenuInicial(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
+
 
         //painel principal
         this.setTitle("Cronicas de Arcana");
@@ -115,4 +119,15 @@ public class MenuInicial extends JFrame {
 
         this.add(menuInicial);
     }
+
+    public void playMusica(int i){
+        sons.setFile(i);
+        sons.play();
+        sons.loop();
+    }
+
+    public void pararMusica(int i){
+        sons.stop();
+    }
+
 }

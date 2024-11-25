@@ -1,5 +1,6 @@
 package ElementosGraficos.Telas;
 import MecanicasDeJogo.Jogador;
+import Soundtrack.Sons;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,8 +43,8 @@ public class TelaUsuarios extends JFrame {
 
                 //inicializa a tela de menu inicial ao confirmar
                 dispose();
-                new MenuInicial(jogador1, jogador2).setVisible(true);
-
+                MenuInicial menuInicial = new MenuInicial(jogador1, jogador2);
+                menuInicial.playMusica(0);
             }
         });
         add(new JLabel("Nome do Jogador 1:"));
