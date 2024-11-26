@@ -96,7 +96,10 @@ public class MenuInicial extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Iniciando o jogo...");
                 dispose();
-                new JogoTela(jogador1, jogador2, gerenciador).setVisible(true);
+                JogoTela jogoTela = new JogoTela(jogador1, jogador2, gerenciador);
+                jogoTela.setVisible(true);
+                jogoTela.iniciarJogo();
+
             }
         });
 

@@ -17,8 +17,8 @@ public class CronicasDeArcana {
         Decks deckJogador2 = new Decks(instanciador.gerarCartas());
 
         // Criação dos jogadores
-        Jogador jogador1 = new Jogador("Jogador 1", deckJogador1, 10, 10, 10);
-        Jogador jogador2 = new Jogador("Jogador 2", deckJogador2, 10, 10, 10);
+        Jogador jogador1 = new Jogador("Jogador 1", deckJogador1, 0, 10, 10);
+        Jogador jogador2 = new Jogador("Jogador 2", deckJogador2, 0, 10, 10);
 
 
         GerenciadorDeCombate gerenciador = new GerenciadorDeCombate();

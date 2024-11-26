@@ -1,153 +1,228 @@
 package ElementosGraficos.Telas.Inventario;
 
 import ElementosGraficos.Telas.MenuInicial;
-import ElementosGraficos.UiElements.*;
+import MecanicasDeJogo.Abstract.Carta;
 import MecanicasDeJogo.Jogador;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 
 public class TelaInventario1 extends JFrame {
-
     private Jogador jogador1;
     private Jogador jogador2;
+
+    private JPanel painelCartasDisponiveis;
+    private JPanel painelCartasDeck;
 
     public TelaInventario1(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
 
-        this.setTitle("Inventário - "+jogador1.getNome());
-        this.setSize(1000, 750);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        setTitle("Inventário - " + jogador1.getNome());
+        setSize(1000, 750);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
 
-        // painel principal
-        JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
-        mainPanel.setBackground(new Color(0, 74, 173));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        JPanel painelPrincipal = new JPanel(new BorderLayout());
+        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        painelPrincipal.setBackground(new Color(0, 74, 173));
 
-        // painel esquerdo (Cartas Disponíveis)
-        JPanel painelPrincipalInventario = new JPanel(new BorderLayout());
-        painelPrincipalInventario.setOpaque(false);
-        painelPrincipalInventario.setPreferredSize(new Dimension(300, 600));
+        // Painel superior com informações
+        JPanel painelSuperior = criarPainelSuperior();
+        painelPrincipal.add(painelSuperior, BorderLayout.NORTH);
 
-        JPanel cartasDisponiveis = new JPanel(new BorderLayout());
-        cartasDisponiveis.setBackground(new Color(242, 213, 174));
+        // Painéis centrais com cartas
+        JPanel painelCentral = criarPainelCentral();
+        painelPrincipal.add(painelCentral, BorderLayout.CENTER);
 
-        JLabel tituloCartasDisponiveis = new JLabel("Cartas disponíveis", JLabel.CENTER);
-        tituloCartasDisponiveis.setFont(new Font("Uncial Antiqua", Font.BOLD, 17));
-        cartasDisponiveis.add(tituloCartasDisponiveis, BorderLayout.NORTH);
+        // Painel inferior com botões
+        JPanel painelInferior = criarPainelInferior();
+        painelPrincipal.add(painelInferior, BorderLayout.SOUTH);
 
-        JScrollPane scrollPainel = new JScrollPane(cartasDisponiveis);
-        painelPrincipalInventario.add(scrollPainel, BorderLayout.CENTER);
+        add(painelPrincipal);
+    }
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridheight = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.3;
-        gbc.weighty = 1;
-        mainPanel.add(painelPrincipalInventario, gbc);
+    private JPanel criarPainelSuperior() {
+        JPanel painelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        painelSuperior.setBackground(new Color(242, 213, 174));
+        painelSuperior.setPreferredSize(new Dimension(1000, 50));
 
-        // painel central (Deck)
-        JPanel deckPainelPrincipal = new JPanel(new BorderLayout());
-        JPanel deckCartasPainel = new JPanel(new BorderLayout());
+        JLabel lblInfoJogador = new JLabel("Jogador: " + jogador1.getNome() + " | Nível: " + jogador1.getNivel());
+        lblInfoJogador.setFont(new Font("Arial", Font.BOLD, 18));
+        painelSuperior.add(lblInfoJogador);
 
-        deckPainelPrincipal.setPreferredSize(new Dimension(400, 600));
-        deckPainelPrincipal.setOpaque(false);
-        deckCartasPainel.setBackground(new Color(149, 124, 90));
-        deckPainelPrincipal.add(deckCartasPainel, BorderLayout.CENTER);
+        return painelSuperior;
+    }
 
-        //painel inferior - botoes salvar e descartar
-        JPanel painelInferior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        painelInferior.setOpaque(false);
+    private JPanel criarPainelCentral() {
+        JPanel painelCentral = new JPanel(new GridLayout(1, 2, 20, 0));
+        painelCentral.setBackground(new Color(0, 74, 173));
 
-        JButton btnSalvar = new JButton("Salvar deck");
-        btnSalvar.setBackground(new Color(242, 213, 174));
+        // Painel de cartas disponíveis (com grade 8x5 fixa)
+        painelCartasDisponiveis = new JPanel(new GridLayout(8, 5, 5, 5));
+        painelCartasDisponiveis.setBackground(new Color(242, 213, 174));
+        inicializarPainelCartasDisponiveis();
 
-        JButton btnDescartar = new JButton("Descartar deck");
-        btnDescartar.setBackground(new Color(242, 213, 174));
+        JScrollPane scrollDisponiveis = new JScrollPane(painelCartasDisponiveis);
+        scrollDisponiveis.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollDisponiveis.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollDisponiveis.setBorder(BorderFactory.createTitledBorder("Cartas Disponíveis"));
+        painelCentral.add(scrollDisponiveis);
 
+        // Painel de cartas no deck (com grade 6x5 fixa)
+        painelCartasDeck = new JPanel(new GridLayout(6, 5, 5, 5));
+        painelCartasDeck.setBackground(new Color(149, 124, 90));
+        atualizarPainelCartasDeck();
+
+        JScrollPane scrollDeck = new JScrollPane(painelCartasDeck);
+        scrollDeck.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollDeck.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollDeck.setBorder(BorderFactory.createTitledBorder("Deck Atual"));
+        painelCentral.add(scrollDeck);
+
+        return painelCentral;
+    }
+
+    private JPanel criarPainelInferior() {
+        JPanel painelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        painelInferior.setBackground(new Color(242, 213, 174));
+
+        JButton btnSalvar = new JButton("Salvar Deck");
+        btnSalvar.addActionListener(e -> {
+            jogador1.salvarDeck();
+            JOptionPane.showMessageDialog(this, "Deck salvo com sucesso!");
+        });
         painelInferior.add(btnSalvar);
+
+        JButton btnDescartar = new JButton("Descartar Alterações");
+        btnDescartar.addActionListener(e -> atualizarPainel());
         painelInferior.add(btnDescartar);
-        deckPainelPrincipal.add(painelInferior, BorderLayout.SOUTH);
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridheight = 1;
-        gbc.weightx = 0.7;
-        gbc.weighty = 1;
-        mainPanel.add(deckPainelPrincipal, gbc);
+        JButton btnTrocarJogador = new JButton("Trocar Jogador");
+        btnTrocarJogador.addActionListener(e -> {
+            dispose();
+            new TelaInventario1(jogador2, jogador1).setVisible(true);
+        });
+        painelInferior.add(btnTrocarJogador);
 
-        //painel superior - informações do jogador
-
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        topPanel.setBackground(new Color(242, 213, 174));
-        topPanel.setPreferredSize(new Dimension(200, 100));
-
-        JPanel playerInfoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        playerInfoPanel.setOpaque(false);
-
-        JLabel playerInfoLabel = new JLabel("Nome: "+jogador1.getNome()+" | Nível: "+jogador1.getNivel());
-        playerInfoLabel.setFont(new Font("Uncial Antiqua", Font.BOLD, 20));
-        playerInfoPanel.add(playerInfoLabel);
-
-        topPanel.add(playerInfoPanel);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
-        gbc.weighty = 0.1;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.EAST;
-        mainPanel.add(topPanel, gbc);
-
-        //botão Voltar
         JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setFont(new Font("Uncial Antiqua", Font.PLAIN, 20));
-        btnVoltar.setBackground(new Color(242, 213, 174));
-        btnVoltar.setPreferredSize(new Dimension(200, 40));
-        btnVoltar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                new MenuInicial(jogador1, jogador2).setVisible(true);
+        btnVoltar.addActionListener(e -> {
+            new MenuInicial(jogador1, jogador2).setVisible(true);
+            this.dispose();
+        });
+        painelInferior.add(btnVoltar);
+
+        return painelInferior;
+    }
+
+    private void inicializarPainelCartasDisponiveis() {
+        painelCartasDisponiveis.removeAll();
+
+        for (int i = 0; i < 40; i++) {
+            JButton btnVazio = criarBotaoVazio();
+            painelCartasDisponiveis.add(btnVazio);
+        }
+
+        painelCartasDisponiveis.revalidate();
+        painelCartasDisponiveis.repaint();
+    }
+
+    private void atualizarPainelCartasDisponiveis() {
+        painelCartasDisponiveis.removeAll();
+
+        List<Carta> cartasDisponiveis = jogador1.getCartasDisponiveis();
+        if (cartasDisponiveis == null) {
+            cartasDisponiveis = List.of();
+        }
+
+        int index = 0;
+        for (Carta carta : cartasDisponiveis) {
+            JButton btnCarta = criarBotaoCarta(carta, true);
+            painelCartasDisponiveis.add(btnCarta);
+            index++;
+        }
+
+        for (int i = index; i < 40; i++) {
+            JButton btnVazio = criarBotaoVazio();
+            painelCartasDisponiveis.add(btnVazio);
+        }
+
+        painelCartasDisponiveis.revalidate();
+        painelCartasDisponiveis.repaint();
+    }
+
+    private void atualizarPainelCartasDeck() {
+        painelCartasDeck.removeAll();
+
+        List<Carta> cartasDeck = jogador1.getDeck().getCartas();
+        if (cartasDeck == null) {
+            cartasDeck = List.of();
+        }
+
+        int index = 0;
+        for (Carta carta : cartasDeck) {
+            JButton btnCarta = criarBotaoCarta(carta, false);
+            painelCartasDeck.add(btnCarta);
+            index++;
+        }
+
+        for (int i = index; i < 30; i++) {
+            JButton btnVazio = criarBotaoVazio();
+            painelCartasDeck.add(btnVazio);
+        }
+
+        painelCartasDeck.revalidate();
+        painelCartasDeck.repaint();
+    }
+
+    private JButton criarBotaoVazio() {
+        JButton btnVazio = new JButton();
+        btnVazio.setPreferredSize(new Dimension(70, 50));
+        btnVazio.setBackground(new Color(242, 213, 174));
+        btnVazio.setEnabled(false);
+        return btnVazio;
+    }
+
+    private JButton criarBotaoCarta(Carta carta, boolean disponivel) {
+        JButton btnCarta = new JButton("<html><center>" + carta.getNome() + "</center></html>");
+        btnCarta.setToolTipText("Custo de Mana: " + carta.getCustoMana());
+
+        // Ajuste no layout do botão
+        btnCarta.setPreferredSize(new Dimension(70, 50)); // Tamanho fixo do botão
+        btnCarta.setBackground(new Color(143, 116, 84));
+        btnCarta.setForeground(Color.WHITE);
+        btnCarta.setFont(new Font("Arial", Font.PLAIN, 12)); // Fonte reduzida para melhor adaptação
+        btnCarta.setFocusPainted(false);
+        btnCarta.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+        // Alinha o texto no centro e permite múltiplas linhas
+        btnCarta.setHorizontalAlignment(SwingConstants.CENTER);
+        btnCarta.setVerticalAlignment(SwingConstants.CENTER);
+
+        btnCarta.addActionListener(e -> {
+            if (disponivel) {
+                if (jogador1.getDeck().getTamanho() < 30) {
+                    jogador1.getDeck().adicionarCarta(carta);
+                    jogador1.getCartasDisponiveis().remove(carta);
+                    atualizarPainel();
+                } else {
+                    JOptionPane.showMessageDialog(this, "O deck já contém 30 cartas!");
+                }
+            } else {
+                jogador1.getDeck().getCartas().remove(carta);
+                jogador1.getCartasDisponiveis().add(carta);
+                atualizarPainel();
             }
         });
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
-        gbc.weighty = 0.1;
-        gbc.anchor = GridBagConstraints.EAST;
-        mainPanel.add(btnVoltar, gbc);
+        return btnCarta;
+    }
 
-        //botão de troca de inventario (jogador 1 ---> jogador 2)
-        JButton btnInventarioJogador2 = new JButton("Inventário do Jogador 2");
-        btnInventarioJogador2.setBackground(new Color(242, 213, 174));
-        btnInventarioJogador2.setPreferredSize(new Dimension(50, 50));
 
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
-        gbc.weighty = 0.1;
-        gbc.anchor = GridBagConstraints.EAST;
-
-        btnInventarioJogador2.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-            dispose();
-            new TelaInventario2(jogador1, jogador2).setVisible(true);
-        }
-        });
-
-        mainPanel.add(btnInventarioJogador2, gbc);
-
-        //adiciona o painel ao frame
-        this.add(mainPanel);
+    private void atualizarPainel() {
+        atualizarPainelCartasDisponiveis();
+        atualizarPainelCartasDeck();
     }
 }
