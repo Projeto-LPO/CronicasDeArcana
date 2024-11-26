@@ -1,8 +1,6 @@
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.UiElements.CartaUI;
-import ElementosGraficos.UiElements.CemiterioUI;
-import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import ElementosGraficos.UiElements.MaoUI;
 import Encantamento.Encantamento;
 import Encantamento.EncantamentoDano;
@@ -28,12 +26,7 @@ public class JogoTela extends JFrame {
     private Jogador vencedor;
     private Decks deckJogador1;
     private Decks deckJogador2;
-    private boolean turnoJogador1; //(true para jogador 1, false para jogador 2)
-    private JButton btnCompra1;
-    private JButton btnCompra2;
-    private JButton btnFinalizarTurno1;
-    private JButton btnFinalizarTurno2;
-    private GerenciadorDeCombate gerenciador;
+    private boolean turnoJogador1;
     private MaoUI maoUI;;
     private JLabel textoDescricao;
     private Map<Jogador, JPanel> mapaCampos;
@@ -41,10 +34,10 @@ public class JogoTela extends JFrame {
     private JPanel painelJogador1;
     private JPanel painelJogador2;
 
-    public JogoTela(Jogador jogador1, Jogador jogador2, GerenciadorDeCombate gerenciador) {
+    public JogoTela(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
-        this.gerenciador = gerenciador;
+
 
         mapaCampos = new HashMap<>();
         mapaCemiterios = new HashMap<>();
@@ -361,10 +354,7 @@ public class JogoTela extends JFrame {
         turnoFinalizado = false; // Reseta para o próximo turno
     }
 
-    private void finalizarTurno() {
-        turnoFinalizado = true;
-        alternarTurno();
-    }
+
 
     private void iniciarTurno() {
         System.out.println("Iniciando turno...");
@@ -389,16 +379,11 @@ public class JogoTela extends JFrame {
 
         }
 
-        // configurarBotoesDeTurno(turnoJogador1);
+
 
     }
 
-    public void configurarBotoesDeTurno (boolean turnoJogador1) {
-        btnCompra1.setEnabled(turnoJogador1);
-        btnCompra2.setEnabled(!turnoJogador1);
-        btnFinalizarTurno1.setEnabled(turnoJogador1);
-        btnFinalizarTurno2.setEnabled(!turnoJogador1);
-    }
+
 
     private void alternarTurno() {
         System.out.println("Alternando turno...");

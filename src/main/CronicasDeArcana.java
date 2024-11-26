@@ -1,6 +1,5 @@
 package main;
 
-import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import MecanicasDeJogo.FluxodeCartas.InstanciaCartas;
 import MecanicasDeJogo.Jogador;
 import MecanicasDeJogo.FluxodeCartas.Decks;
@@ -21,7 +20,7 @@ public class CronicasDeArcana {
         Jogador jogador2 = new Jogador("Jogador 2", deckJogador2, 0, 10, 10);
 
 
-        GerenciadorDeCombate gerenciador = new GerenciadorDeCombate();
+
 
         // Inicializar a interface gráfica
         javax.swing.SwingUtilities.invokeLater(() -> {

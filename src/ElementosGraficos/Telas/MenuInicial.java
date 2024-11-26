@@ -1,7 +1,6 @@
 package ElementosGraficos.Telas;
 
 import ElementosGraficos.Telas.Inventario.TelaInventario1;
-import ElementosGraficos.UiElements.GerenciadorDeCombate;
 import ElementosGraficos.UiElements.*;
 import MecanicasDeJogo.Jogador;
 import Soundtrack.Sons;
@@ -16,8 +15,6 @@ public class MenuInicial extends JFrame {
     private Jogador jogador2;
 
     Sons sons = new Sons();
-
-    private GerenciadorDeCombate gerenciador;
 
     public MenuInicial(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
@@ -96,9 +93,11 @@ public class MenuInicial extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Iniciando o jogo...");
                 dispose();
-                JogoTela jogoTela = new JogoTela(jogador1, jogador2, gerenciador);
-                jogoTela.setVisible(true);
+
+                new JogoTela(jogador1, jogador2).setVisible(true);
+                JogoTela jogoTela = new JogoTela(jogador1, jogador2);
                 jogoTela.iniciarJogo();
+
 
             }
         });
